@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viaggi magici – Amici di Lollo</title>
+<meta name="description" content="Questo Natale sostenete il servizio Lollo 23 regalando viaggi magici: ogni pacchetto accompagna i bambini da casa all'ospedale per le loro terapie.">
+<meta name="theme-color" content="#13284a">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Amici di Lollo">
+<meta property="og:title" content="Viaggi magici – Amici di Lollo">
+<meta property="og:description" content="Questo Natale regalate viaggi magici: ogni pacchetto accompagna i bambini alle loro terapie con il servizio Lollo 23.">
+<meta property="og:image" content="https://lollo23-viaggi-magici.vercel.app/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Montserrat:wght@400;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#13284a; --giallo:#ffe01b; --rosso:#c8102e; --rosso2:#e8263c;
+    --azzurro:#1f6fb5; --celeste:#dde9f6; --card:#f3f7fc; --testo:#2b3445; --grigio:#5b6577; --bordo:#d5dce6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#fff;color:var(--testo);font-family:'Montserrat',Arial,Helvetica,sans-serif;font-size:16px;line-height:1.65;-webkit-text-size-adjust:100%}
+  img{max-width:100%;height:auto;display:block}
+  h1,h2,h3,.h{font-family:'Fredoka','Montserrat',Arial,sans-serif;font-weight:600;line-height:1.2}
+  a{color:var(--azzurro)}
+  :focus-visible{outline:3px solid var(--giallo);outline-offset:3px;box-shadow:0 0 0 6px var(--navy)}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+  .kicker{font-size:12px;letter-spacing:3px;font-weight:700;color:var(--azzurro);text-transform:uppercase;margin:0 0 6px}
+  section{padding:48px 0}
+  h2{font-size:28px;color:var(--navy);margin:0 0 18px}
+  strong{color:var(--navy)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+  /* sezioni navy con lucine e stelline */
+  .navy{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+  .navy strong{color:var(--giallo)}
+  .lucine{height:38px;background:url(img/lucine.png) repeat-x left top/auto 38px}
+  .stella{position:absolute;color:var(--giallo);font-size:20px;line-height:1;pointer-events:none}
+  .puntino{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffffff99}
+
+  /* HERO */
+  .hero{padding:0;text-align:center}
+  .scintille{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .hero>:not(.scintille){position:relative;z-index:1}
+  .hero .top{display:flex;align-items:center;gap:12px;justify-content:center;padding:22px 20px 6px}
+  .hero .top img{width:56px}
+  .hero .top div{text-align:left;font-size:13px;line-height:1.4;color:#cfd9e8}
+  .hero .top b{display:block;font-family:'Fredoka',sans-serif;font-weight:600;color:#fff;font-size:17px}
+  .tag{display:inline-block;background:var(--rosso);color:#fff;font-weight:700;font-size:13px;letter-spacing:4px;padding:7px 16px;border-radius:8px;margin:26px 0 14px}
+  .hero h1{color:var(--giallo);font-size:clamp(30px,8vw,48px);margin:0 auto 14px;max-width:640px}
+  .hero p.sub{max-width:560px;margin:0 auto 6px;color:#e8eef7;font-size:16px}
+  /* la strada della foto è trasparente e qui sotto c'è quella in CSS, che continua ai lati sugli schermi larghi.
+     Misure in proporzione alla foto (1200×349): strada da y 254 a 345, trattini 28px ogni 52px a y 297-301 */
+  .scena{position:relative;margin:22px auto 0;max-width:900px;width:100%;container-type:inline-size}
+  .scena img{position:relative;z-index:1;width:100%}
+  /* 4.3333cqw = 52px della foto (passo dei trattini); 50vw allinea i trattini al bordo della foto */
+  .strada{position:absolute;left:-50vw;right:-50vw;top:72.78%;height:26.07%;background:#5c6574;overflow:hidden}
+  .strada::before{content:"";position:absolute;top:47.25%;height:5.49%;left:0;right:0;
+    background:linear-gradient(90deg,#f5fbff 0 53.85%,transparent 53.85% 100%) 50vw 0/4.3333cqw 100% repeat-x}
+  /* neve ai lati della foto, alla stessa altezza dei bordi della foto */
+  .scena::before,.scena::after{content:"";position:absolute;bottom:0;width:50vw;z-index:0}
+  .scena::before{right:100%;top:42.41%;background:linear-gradient(#1c2430 0 .5%,#fff .5% 24.4%,#e9f3fb 24.4% 52.2%,#4c5560 52.2% 52.7%,transparent 52.7% 98%,#8c939b 98% 98.5%,#eef6fd 98.5%)}
+  .scena::after{left:100%;top:33.52%;background:linear-gradient(#1c2430 0 .45%,#fff .45% 26.3%,#e9f3fb 26.3% 58.6%,#4c5560 58.6% 59.05%,transparent 59.05% 98.3%,#8c969e 98.3% 98.7%,#eef6fd 98.7%)}
+  .btn{display:inline-block;font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px;background:var(--rosso);color:#fff;text-decoration:none;border:0;border-radius:30px;padding:15px 32px;cursor:pointer;line-height:1.2;text-align:center}
+  .btn:hover{background:#a50d26}
+  .btn.giallo{background:var(--giallo);color:var(--navy)}
+  .btn.giallo:hover{background:#f5d400}
+  .btn.ghost{background:transparent;color:var(--navy);border:2px solid var(--navy);font-size:16px;padding:10px 20px}
+
+  /* PACCHETTI */
+  .pacchetti{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+  .pacc{background:var(--navy);border-radius:18px;padding:28px 12px;text-align:center;color:#fff}
+  .cuori{color:var(--rosso2);font-size:16px;letter-spacing:2px;line-height:1.3;word-break:break-all}
+  .pacc .nome{display:block;font-family:'Fredoka',sans-serif;font-weight:600;color:var(--giallo);font-size:26px;margin-top:4px}
+  .pacc .prezzo{font-family:'Fredoka',sans-serif;font-size:24px}
+  .stepper{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:14px}
+  .stepper button{flex:0 0 44px;height:44px;border-radius:50%;border:0;background:var(--giallo);color:var(--navy);font-family:'Fredoka',sans-serif;font-size:24px;line-height:1;cursor:pointer}
+  .stepper button:hover{background:#f5d400}
+  .stepper input[type=number]{width:72px;text-align:center;font-family:'Fredoka',sans-serif;font-size:22px;font-weight:600;color:var(--navy);padding:6px 4px;-moz-appearance:textfield}
+  .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+  /* BONIFICO */
+  .bonifico{background:var(--navy);color:#fff;border-radius:22px;padding:0 0 26px;overflow:hidden;position:relative}
+  .bonifico .in{padding:20px 22px 0}
+  .bonifico h2{color:var(--giallo)}
+  .bonifico dl{margin:0;display:grid;gap:14px}
+  .bonifico dt{font-size:12px;letter-spacing:2px;font-weight:700;color:#aebfd8;text-transform:uppercase}
+  .bonifico dd{margin:2px 0 0;font-weight:600}
+  .iban{font-family:'Fredoka',sans-serif;font-size:clamp(19px,5.4vw,28px);color:var(--giallo);letter-spacing:1px;word-break:break-word}
+  .copia{margin-top:8px;font-size:15px;padding:9px 18px}
+  .bonifico .nota{margin:20px 0 0;padding:14px 16px;background:#ffffff14;border-radius:12px;font-size:15px}
+
+  /* FORM */
+  form{display:grid;gap:18px}
+  fieldset{border:0;margin:0;padding:0;min-width:0}
+  legend{font-family:'Fredoka',sans-serif;font-size:20px;color:var(--navy);margin:0 0 10px;padding:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .campo{display:grid;gap:4px}
+  label{font-weight:600;font-size:14px;color:var(--navy)}
+  .facolt{font-weight:400;color:var(--grigio)}
+  input[type=text],input[type=email],input[type=tel],input[type=number],textarea{width:100%;font:inherit;font-size:16px;color:var(--testo);background:#fff;border:2px solid var(--bordo);border-radius:12px;padding:11px 13px}
+  input:focus,textarea:focus{border-color:var(--azzurro)}
+  textarea{min-height:90px;resize:vertical}
+  .err-campo{border-color:var(--rosso)!important}
+  .custom-row{display:flex;align-items:flex-end;gap:8px;margin-bottom:10px}
+  .custom-row .campo{flex:1}
+  .custom-row .per{padding-bottom:12px;font-weight:700;color:var(--navy)}
+  .rimuovi{flex:0 0 44px;height:48px;border:2px solid var(--bordo);background:#fff;border-radius:12px;font-size:20px;color:var(--rosso);cursor:pointer}
+  .radio{display:flex;gap:10px;flex-wrap:wrap}
+  .radio label{display:flex;align-items:center;gap:8px;border:2px solid var(--bordo);border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:600}
+  .radio input{width:20px;height:20px;accent-color:var(--navy)}
+  .check{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--testo);font-size:15px}
+  .check input{width:22px;height:22px;flex:0 0 22px;margin-top:2px;accent-color:var(--navy)}
+  .linkbtn{background:none;border:0;padding:0;font:inherit;color:var(--azzurro);text-decoration:underline;cursor:pointer}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .riepilogo{background:var(--navy);color:#fff;border-radius:18px;padding:18px 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+  .riepilogo span{display:block;font-size:12px;letter-spacing:1px;color:#aebfd8;text-transform:uppercase;font-weight:700}
+  .riepilogo b{font-family:'Fredoka',sans-serif;font-size:26px;font-weight:600}
+  .riepilogo .tot b{color:var(--giallo)}
+  .errori{background:#fdecee;border:2px solid var(--rosso);color:#8a0b20;border-radius:12px;padding:12px 16px;font-weight:600}
+  .errori ul{margin:6px 0 0;padding-left:20px;font-weight:400}
+  form .btn{width:100%}
+  .esito{border-radius:18px;padding:26px 22px;text-align:center}
+  .esito.ok{background:var(--card)}
+  .esito.ko{background:#fdecee;border:2px solid var(--rosso)}
+  .esito h3{font-size:24px;color:var(--navy);margin:0 0 10px}
+  .esito .codice{font-family:'Fredoka',sans-serif;font-size:24px;color:var(--rosso);letter-spacing:1px}
+  .esito .btn{margin-top:14px}
+
+  /* MODAL */
+  dialog{border:0;border-radius:18px;padding:0;max-width:560px;width:calc(100% - 32px);color:var(--testo)}
+  dialog::backdrop{background:#13284acc}
+  dialog .in{padding:24px 22px}
+  dialog h3{color:var(--navy);font-size:22px;margin:0 0 10px}
+  dialog p{font-size:15px;margin:0 0 10px}
+
+  /* GRAZIE */
+  .grazie{position:fixed;inset:0;z-index:90;background:var(--navy);color:#fff;overflow-y:auto;text-align:center;opacity:0;transition:opacity .35s}
+  .grazie.vis{opacity:1}
+  .grazie .in{max-width:560px;margin:0 auto;padding:18px 20px 30px;position:relative}
+  .grazie .logo{width:64px;margin:6px auto 0}
+  .grazie .kicker{color:var(--giallo);margin-top:16px}
+  .grazie h2{color:var(--giallo);font-size:clamp(30px,8vw,40px);margin:4px 0 12px}
+  .grazie p{margin:0 0 12px;color:#e8eef7}
+  .grazie strong{color:var(--giallo)}
+  .grazie .codice-g{display:inline-block;background:var(--rosso);color:#fff;font-family:'Fredoka',sans-serif;font-size:20px;letter-spacing:1px;padding:6px 16px;border-radius:10px;margin:4px 0 14px}
+  .grazie .passo{background:#fff;color:var(--testo);border-radius:18px;padding:20px 18px;margin:18px 0 0;text-align:left}
+  .grazie .passo h3{color:var(--navy);font-size:20px;margin:0 0 10px}
+  .grazie .passo dl{margin:0 0 14px;display:grid;gap:8px}
+  .grazie .passo dt{font-size:11px;letter-spacing:2px;font-weight:700;color:var(--grigio);text-transform:uppercase}
+  .grazie .passo dd{margin:0;font-weight:600;color:var(--navy);word-break:break-word}
+  .grazie .passo .imp{font-family:'Fredoka',sans-serif;font-size:26px;color:var(--rosso)}
+  .grazie .passo p{color:var(--testo);font-size:14px}
+  .grazie .passo .btn{width:100%;font-size:16px}
+  .grazie .auto{width:100%;margin-top:22px;border-radius:12px}
+  .grazie .chiudi{margin-top:18px;background:transparent;border:2px solid #fff;color:#fff;font-size:16px;padding:10px 26px}
+  .grazie .chiudi:hover{background:#ffffff1f}
+  .coriandoli{position:fixed;inset:0;z-index:95;pointer-events:none;transition:opacity 1s}
+
+  /* VIAGGIO: barra in basso con la mini auto che avanza verso il traguardo */
+  body{padding-bottom:46px}
+  .viaggio{position:fixed;left:0;right:0;bottom:0;height:46px;z-index:80;background:var(--navy);box-shadow:0 -4px 14px #13284a40;pointer-events:none}
+  .v-strada{position:absolute;left:0;right:0;bottom:0;height:12px;background:#5c6574 linear-gradient(90deg,#f5fbff 0 10px,transparent 10px 20px) 0 5px/20px 2px repeat-x}
+  .v-traguardo{position:absolute;right:8px;bottom:4px;width:40px;height:40px;z-index:1}
+  .v-auto{position:absolute;left:6px;bottom:5px;width:52px;height:28px;z-index:2;transition:transform .8s cubic-bezier(.4,.1,.3,1)}
+  .v-auto svg,.v-traguardo svg{display:block;width:100%;height:100%;overflow:visible}
+  .v-ruota{transform-box:fill-box;transform-origin:center}
+  .v-auto.va .v-ruota{animation:gira-dx .45s linear infinite}
+  @keyframes gira-dx{to{transform:rotate(360deg)}}
+  .sipario{position:fixed;inset:0;z-index:100;pointer-events:none;width:100%;height:100%}
+
+  /* FOOTER */
+  footer.navy{padding:0 0 34px;font-size:14px;line-height:1.8}
+  footer .row{display:flex;gap:16px;align-items:center;padding-top:22px}
+  footer .row img{width:62px;flex:0 0 62px}
+  footer a{color:#fff}
+  footer .h{font-size:18px}
+
+  @media (max-width:560px){
+    section{padding:40px 0}
+    .grid2{grid-template-columns:1fr}
+    .pacchetti{gap:10px}
+    .pacc{padding:22px 6px}
+    .pacc .nome{font-size:20px}
+    .pacc .prezzo{font-size:20px}
+    .stepper{gap:4px}
+    .stepper button{flex-basis:38px;height:38px}
+    .stepper input[type=number]{width:56px;font-size:20px}
+    .cuori{font-size:13px;letter-spacing:1px}
+    .riepilogo b{font-size:21px}
+    footer .row{align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<!-- INTESTAZIONE -->
+<header class="navy hero">
+  <canvas class="scintille" id="scintille" aria-hidden="true"></canvas>
+  <div class="lucine" aria-hidden="true"></div>
+  <div class="top">
+    <img src="img/logo.png" alt="Logo Amici di Lollo" width="56" height="52">
+    <div><b>Associazione Amici di Lollo ODV</b>Lissone (MB) · Natale 2026</div>
+  </div>
+  <div class="wrap" style="position:relative">
+    <span class="stella" style="top:34px;left:6%" aria-hidden="true">✦</span>
+    <span class="stella" style="top:14px;right:8%;font-size:26px" aria-hidden="true">✦</span>
+    <span class="puntino" style="top:62px;right:20%" aria-hidden="true"></span>
+    <div class="tag">VIAGGI MAGICI</div>
+    <h1>Ordinate i vostri pacchetti</h1>
+    <p class="sub">Scegliete i pacchetti e inviate l'ordine: scaricherete subito un PDF con l'importo esatto e il codice da inserire nella causale del bonifico.</p>
+  </div>
+  <div class="scena" aria-hidden="true">
+    <div class="strada"></div>
+    <img src="img/auto-strada.webp" alt="" width="1200" height="349">
+  </div>
+</header>
+
+<main>
+<!-- FORM -->
+<section id="ordina">
+  <div class="wrap">
+    <div id="area-form">
+    <form id="form-ordine" novalidate>
+      <fieldset>
+        <legend>1. Scegliete i pacchetti</legend>
+        <div class="pacchetti">
+          <div class="pacc">
+            <div class="cuori" aria-hidden="true">♥♥♥♥♥</div>
+            <label for="q5" class="nome">5 viaggi magici</label>
+            <div class="prezzo"><span data-prezzo="5">25</span> €</div>
+            <div class="stepper">
+              <button type="button" data-step="q5" data-d="-1" aria-label="Un pacchetto da 5 viaggi in meno">−</button>
+              <input type="number" id="q5" name="q5" min="0" max="1000" step="1" value="0" inputmode="numeric">
+              <button type="button" data-step="q5" data-d="1" aria-label="Un pacchetto da 5 viaggi in più">+</button>
+            </div>
+          </div>
+          <div class="pacc">
+            <div class="cuori" aria-hidden="true">♥♥♥♥♥<wbr>♥♥♥♥♥</div>
+            <label for="q10" class="nome">10 viaggi magici</label>
+            <div class="prezzo"><span data-prezzo="10">50</span> €</div>
+            <div class="stepper">
+              <button type="button" data-step="q10" data-d="-1" aria-label="Un pacchetto da 10 viaggi in meno">−</button>
+              <input type="number" id="q10" name="q10" min="0" max="1000" step="1" value="0" inputmode="numeric">
+              <button type="button" data-step="q10" data-d="1" aria-label="Un pacchetto da 10 viaggi in più">+</button>
+            </div>
+          </div>
+        </div>
+        <p style="margin:20px 0 8px;font-weight:600;color:var(--navy);font-size:15px">Pacchetti su misura <span class="facolt">(facoltativo, <span data-prezzo="1">5</span> € a viaggio)</span></p>
+        <div id="custom-list"></div>
+        <button type="button" class="btn ghost" id="aggiungi">+ aggiungi</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. I vostri dati</legend>
+        <div class="grid2">
+          <div class="campo" style="grid-column:1/-1"><label for="azienda">Nome azienda *</label><input type="text" id="azienda" name="azienda" required maxlength="120" autocomplete="organization"></div>
+          <div class="campo"><label for="nome">Nome referente *</label><input type="text" id="nome" name="nome" required maxlength="60" autocomplete="given-name"></div>
+          <div class="campo"><label for="cognome">Cognome referente *</label><input type="text" id="cognome" name="cognome" required maxlength="60" autocomplete="family-name"></div>
+          <div class="campo"><label for="email">Email *</label><input type="email" id="email" name="email" required maxlength="160" autocomplete="email" inputmode="email"></div>
+          <div class="campo"><label for="telefono">Telefono <span class="facolt">(facoltativo)</span></label><input type="tel" id="telefono" name="telefono" maxlength="40" autocomplete="tel"></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Consegna</legend>
+        <div class="radio" role="radiogroup">
+          <label><input type="radio" name="consegna" value="mano" checked> A mano</label>
+          <label><input type="radio" name="consegna" value="spedizione"> Spedizione</label>
+        </div>
+        <div class="campo" id="campo-indirizzo" hidden style="margin-top:12px">
+          <label for="indirizzo">Indirizzo di spedizione *</label>
+          <textarea id="indirizzo" name="indirizzo" maxlength="300" autocomplete="street-address" placeholder="Via, numero civico, CAP, città, provincia"></textarea>
+        </div>
+      </fieldset>
+
+      <div class="campo"><label for="note">Note <span class="facolt">(facoltativo)</span></label><textarea id="note" name="note" maxlength="1000"></textarea></div>
+
+      <div class="hp" aria-hidden="true"><label for="sito_web">Lascia vuoto questo campo</label><input type="text" id="sito_web" name="sito_web" tabindex="-1" autocomplete="off"></div>
+
+      <label class="check"><input type="checkbox" id="privacy" name="privacy" required>
+        <span>Ho letto l'<button type="button" class="linkbtn" id="apri-privacy">informativa privacy</button> e acconsento al trattamento dei dati per la gestione dell'ordine. *</span></label>
+
+      <div class="riepilogo" aria-live="polite">
+        <div><span>Pacchetti</span><b id="r-pacchetti">0</b></div>
+        <div><span>Viaggi</span><b id="r-viaggi">0</b></div>
+        <div class="tot"><span>Totale</span><b id="r-totale">0 €</b></div>
+      </div>
+
+      <div class="errori" id="errori" role="alert" hidden></div>
+
+      <button type="submit" class="btn" id="invia">Invia l'ordine e scarica i dati per il bonifico</button>
+      <p style="margin:0;font-size:13px;color:var(--grigio);text-align:center">* campi obbligatori</p>
+    </form>
+    </div>
+  </div>
+</section>
+
+<!-- BONIFICO -->
+<section id="bonifico" style="padding-top:0">
+  <div class="wrap">
+    <div class="bonifico">
+      <div class="lucine" aria-hidden="true"></div>
+      <span class="stella" style="top:60px;right:22px" aria-hidden="true">✦</span>
+      <div class="in">
+        <h2>Dati per il bonifico</h2>
+        <dl>
+          <div><dt>Intestatario</dt><dd id="b-intestatario">…</dd></div>
+          <div><dt>IBAN</dt><dd><span class="iban" id="b-iban">…</span><br>
+            <button type="button" class="btn giallo copia" id="copia-iban">Copia IBAN</button>
+            <span id="copia-esito" role="status" style="margin-left:8px;font-size:14px"></span></dd></div>
+          <div><dt>Banca</dt><dd id="b-banca">…</dd></div>
+          <div id="b-bic-row" hidden><dt>BIC</dt><dd id="b-bic"></dd></div>
+          <div><dt>Causale suggerita</dt><dd><span id="b-causale">Dono solidale Lollo 23</span> – [codice ordine] – [nome azienda]</dd></div>
+        </dl>
+        <p class="nota">Il codice ordine e l'importo esatto li trovate nel PDF che scaricate inviando l'ordine.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- 8. FOOTER -->
+<footer class="navy">
+  <div class="lucine" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="row">
+      <img src="img/logo.png" alt="" width="62" height="58">
+      <div>
+        <div class="h">Associazione Amici di Lollo ODV</div>
+        Via Nazario Sauro 1, 20851 Lissone (MB) · C.F. 94625800159<br>
+        <a href="mailto:info@amicidilollo.it">info@amicidilollo.it</a> · <a href="https://www.amicidilollo.it">www.amicidilollo.it</a><br>
+        <a href="https://www.instagram.com/amici_di_lollo/">Instagram @amici_di_lollo</a> · <a href="https://www.facebook.com/search/top?q=Associazione%20Amici%20di%20Lollo">Facebook Associazione Amici di Lollo</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="grazie" id="grazie" role="dialog" aria-modal="true" aria-labelledby="grazie-titolo" hidden>
+  <div class="lucine" aria-hidden="true"></div>
+  <div class="in">
+    <img class="logo" src="img/logo.png" alt="" width="64" height="60">
+    <p class="kicker">Grazie di cuore</p>
+    <h2 id="grazie-titolo" tabindex="-1">Grazie per il vostro dono solidale</h2>
+    <div class="codice-g" id="g-codice"></div>
+    <p id="g-testo"></p>
+    <div class="passo">
+      <h3>Ultimo passo: il bonifico</h3>
+      <dl>
+        <div><dt>Importo</dt><dd class="imp" id="g-importo"></dd></div>
+        <div><dt>IBAN</dt><dd id="g-iban"></dd></div>
+        <div><dt>Causale</dt><dd id="g-causale"></dd></div>
+      </dl>
+      <p>Trovate tutti i dati nel PDF appena scaricato. Dopo l'accredito vi mandiamo la ricevuta della donazione e prepariamo le confezioni regalo.</p>
+      <button type="button" class="btn" id="g-pdf">Scarica di nuovo il PDF</button>
+    </div>
+    <img class="auto" src="img/auto-fiocco.jpg" alt="" width="1200" height="349">
+    <p style="margin-top:16px">Se vi fa piacere, raccontatelo sui social taggando <strong>@amici_di_lollo</strong>.</p>
+    <button type="button" class="btn chiudi" id="g-chiudi">Chiudi</button>
+  </div>
+</div>
+<div class="coriandoli" id="coriandoli" aria-hidden="true" hidden></div>
+
+<div class="viaggio" id="viaggio" role="progressbar" aria-label="Avanzamento del vostro ordine" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+  <div class="v-strada"></div>
+  <div class="v-traguardo" aria-hidden="true">
+    <svg viewBox="0 0 40 40">
+      <rect x="3" y="5" width="2.4" height="35" fill="#e9eef5"/><rect x="34.6" y="5" width="2.4" height="35" fill="#e9eef5"/>
+      <circle cx="4.2" cy="4.5" r="2.2" fill="#e8263c"/><circle cx="35.8" cy="4.5" r="2.2" fill="#e8263c"/>
+      <path d="M5.4 7q7.3 2 14.6 0t14.6 0v11q-7.3 2-14.6 0t-14.6 0z" fill="#fff"/>
+      <text x="20" y="15.2" text-anchor="middle" font-family="Fredoka,Montserrat,sans-serif" font-weight="600" font-size="6" fill="#13284a">ARRIVO</text>
+    </svg>
+  </div>
+  <div class="v-auto" id="v-auto" aria-hidden="true">
+    <svg viewBox="0 0 64 34">
+      <path d="M3 27V15q0-6 6-6h29l9 6h8q5 0 5 5v7z" fill="#fff" stroke="#0d1d38" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M9 11.5h12v5.5H9zM23 11.5h13l6 5.5H23z" fill="#bfe0f5"/>
+      <path d="M3.7 18q4-2.5 7.3 1.5V27H3.7z" fill="#7ac142"/>
+      <circle cx="31" cy="21.5" r="3" fill="#f6a800"/>
+      <rect x="57" y="18" width="3" height="2.4" rx="1" fill="#ffe01b"/>
+      <g fill="#c8102e"><ellipse cx="19.5" cy="5.5" rx="4" ry="2.6" transform="rotate(-20 19.5 5.5)"/><ellipse cx="28.5" cy="5.5" rx="4" ry="2.6" transform="rotate(20 28.5 5.5)"/><circle cx="24" cy="7.4" r="1.9"/></g>
+      <g class="v-ruota"><circle cx="15" cy="27" r="5" fill="#1e2430"/><circle cx="15" cy="27" r="2.6" fill="#c3cad4"/><path d="M15 24.4v5.2M12.4 27h5.2" stroke="#1e2430" stroke-width=".9"/></g>
+      <g class="v-ruota"><circle cx="50" cy="27" r="5" fill="#1e2430"/><circle cx="50" cy="27" r="2.6" fill="#c3cad4"/><path d="M50 24.4v5.2M47.4 27h5.2" stroke="#1e2430" stroke-width=".9"/></g>
+    </svg>
+  </div>
+</div>
+
+<dialog id="dlg-privacy" aria-labelledby="privacy-titolo">
+  <div class="in">
+    <h3 id="privacy-titolo">Informativa privacy</h3>
+    <p><strong>Titolare del trattamento:</strong> Associazione Amici di Lollo ODV, Via Nazario Sauro 1, 20851 Lissone (MB), C.F. 94625800159, <a href="mailto:info@amicidilollo.it">info@amicidilollo.it</a>.</p>
+    <p><strong>Dati e finalità:</strong> i dati inseriti nel form (azienda, referente, email, telefono, indirizzo e note) sono usati solo per gestire il vostro ordine: ricontattarvi se serve, abbinare il bonifico, preparare e consegnare le confezioni, emettere la ricevuta della donazione.</p>
+    <p><strong>Base giuridica e conservazione:</strong> esecuzione della vostra richiesta e obblighi di legge. I dati non sono ceduti a terzi né usati per altre comunicazioni, e sono conservati per il tempo necessario a questi scopi e agli obblighi contabili.</p>
+    <p><strong>I vostri diritti:</strong> potete chiedere accesso, rettifica o cancellazione dei dati scrivendo a info@amicidilollo.it.</p>
+    <button type="button" class="btn" id="chiudi-privacy" style="margin-top:6px">Ho capito</button>
+  </div>
+</dialog>
+
+<script src="bonifico.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function () {
+  var B = null;          // dati bonifico da bonifico.js
+  var PREZZO = 5;        // € a viaggio (sovrascritto da bonifico.js)
+  var ultimoPdf = null;  // { blob, nome } per "Scarica di nuovo"
+  var $ = function (id) { return document.getElementById(id); };
+  var euro = function (n) { return n.toLocaleString('it-IT') + ' €'; };
+
+  // ---- dati bonifico ----
+  var bonificoPronto = Promise.resolve(window.BONIFICO)
+    .then(function (d) {
+      if (!d || !d.iban) throw new Error('bonifico.js mancante');
+      B = d;
+      PREZZO = Number(d.prezzo_viaggio) || 5;
+      $('b-intestatario').textContent = d.intestatario;
+      $('b-iban').textContent = d.iban;
+      $('b-banca').textContent = d.banca;
+      $('b-causale').textContent = d.causale_prefisso;
+      if (d.bic) { $('b-bic').textContent = d.bic; $('b-bic-row').hidden = false; }
+      document.querySelectorAll('[data-prezzo]').forEach(function (el) {
+        el.textContent = (Number(el.getAttribute('data-prezzo')) * PREZZO).toLocaleString('it-IT');
+      });
+      aggiorna();
+    })
+    .catch(function () {
+      $('b-iban').textContent = 'Dati non disponibili: scriveteci a info@amicidilollo.it';
+    });
+
+  $('copia-iban').addEventListener('click', function () {
+    if (!B) return;
+    var iban = B.iban.replace(/\s+/g, '');
+    var fatto = function () { $('copia-esito').textContent = 'IBAN copiato!'; setTimeout(function () { $('copia-esito').textContent = ''; }, 2500); };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(iban).then(fatto, fallback);
+    } else fallback();
+    function fallback() {
+      var t = document.createElement('textarea');
+      t.value = iban; t.setAttribute('readonly', ''); t.style.position = 'absolute'; t.style.left = '-9999px';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); fatto(); } catch (e) { $('copia-esito').textContent = 'Copiate a mano: ' + iban; }
+      document.body.removeChild(t);
+    }
+  });
+
+  // ---- privacy ----
+  var dlg = $('dlg-privacy');
+  $('apri-privacy').addEventListener('click', function () {
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  });
+  $('chiudi-privacy').addEventListener('click', function () {
+    if (dlg.close) dlg.close(); else dlg.removeAttribute('open');
+  });
+
+  // ---- pacchetti su misura ----
+  var nCustom = 0;
+  function aggiungiRiga() {
+    nCustom++;
+    var row = document.createElement('div');
+    row.className = 'custom-row';
+    row.innerHTML =
+      '<div class="campo"><label for="cp' + nCustom + '">N. pacchetti</label>' +
+      '<input type="number" id="cp' + nCustom + '" class="c-pacchetti" min="1" max="1000" step="1" inputmode="numeric"></div>' +
+      '<span class="per" aria-hidden="true">×</span>' +
+      '<div class="campo"><label for="cv' + nCustom + '">N. viaggi</label>' +
+      '<input type="number" id="cv' + nCustom + '" class="c-viaggi" min="1" max="100" step="1" inputmode="numeric"></div>' +
+      '<button type="button" class="rimuovi" aria-label="Rimuovi questa riga">×</button>';
+    row.querySelector('.rimuovi').addEventListener('click', function () { row.remove(); aggiorna(); });
+    $('custom-list').appendChild(row);
+    row.querySelector('input').focus();
+  }
+  $('aggiungi').addEventListener('click', aggiungiRiga);
+
+  // ---- bottoni − / + sui pacchetti ----
+  document.querySelectorAll('[data-step]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var input = $(b.getAttribute('data-step'));
+      var n = (parseInt(input.value, 10) || 0) + Number(b.getAttribute('data-d'));
+      input.value = Math.max(0, Math.min(1000, n));
+      aggiorna();
+    });
+  });
+
+  // ---- consegna ----
+  document.querySelectorAll('input[name=consegna]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      $('campo-indirizzo').hidden = valoreConsegna() !== 'spedizione';
+    });
+  });
+  function valoreConsegna() { return document.querySelector('input[name=consegna]:checked').value; }
+
+  // ---- calcolo ----
+  function intero(v) { var n = Number(v); return Number.isInteger(n) ? n : NaN; }
+  function leggiOrdine() {
+    var q5 = intero($('q5').value || 0), q10 = intero($('q10').value || 0);
+    var custom = [];
+    document.querySelectorAll('.custom-row').forEach(function (row) {
+      var p = row.querySelector('.c-pacchetti').value, v = row.querySelector('.c-viaggi').value;
+      if (p === '' && v === '') return;
+      custom.push({ pacchetti: intero(p), viaggi: intero(v) });
+    });
+    var pacchetti = (q5 || 0) + (q10 || 0), viaggi = (q5 || 0) * 5 + (q10 || 0) * 10;
+    custom.forEach(function (c) {
+      if (c.pacchetti > 0 && c.viaggi > 0) { pacchetti += c.pacchetti; viaggi += c.pacchetti * c.viaggi; }
+    });
+    return { q5: q5, q10: q10, custom: custom, pacchetti: pacchetti, viaggi: viaggi, totale: viaggi * PREZZO };
+  }
+  function aggiorna() {
+    var o = leggiOrdine();
+    $('r-pacchetti').textContent = o.pacchetti.toLocaleString('it-IT');
+    $('r-viaggi').textContent = o.viaggi.toLocaleString('it-IT');
+    $('r-totale').textContent = euro(o.totale);
+  }
+  $('form-ordine').addEventListener('input', aggiorna);
+
+  // ---- validazione ----
+  function valida(o) {
+    var err = [];
+    document.querySelectorAll('.err-campo').forEach(function (el) { el.classList.remove('err-campo'); el.removeAttribute('aria-invalid'); });
+    function segna(id, msg) { var el = typeof id === 'string' ? $(id) : id; el.classList.add('err-campo'); el.setAttribute('aria-invalid', 'true'); err.push({ el: el, msg: msg }); }
+    if (!$('azienda').value.trim()) segna('azienda', 'Inserite il nome dell\'azienda.');
+    if (!$('nome').value.trim()) segna('nome', 'Inserite il nome del referente.');
+    if (!$('cognome').value.trim()) segna('cognome', 'Inserite il cognome del referente.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim())) segna('email', 'Inserite un indirizzo email valido.');
+    if (!(o.q5 >= 0 && o.q5 <= 1000)) segna('q5', 'Il numero di pacchetti da 5 viaggi deve essere un numero intero da 0 a 1000.');
+    if (!(o.q10 >= 0 && o.q10 <= 1000)) segna('q10', 'Il numero di pacchetti da 10 viaggi deve essere un numero intero da 0 a 1000.');
+    document.querySelectorAll('.custom-row').forEach(function (row) {
+      var p = row.querySelector('.c-pacchetti'), v = row.querySelector('.c-viaggi');
+      if (p.value === '' && v.value === '') return;
+      var pn = intero(p.value), vn = intero(v.value);
+      if (!(pn >= 1 && pn <= 1000)) segna(p, 'Pacchetti su misura: indicate quanti pacchetti (da 1 a 1000).');
+      if (!(vn >= 1 && vn <= 100)) segna(v, 'Pacchetti su misura: indicate quanti viaggi per pacchetto (da 1 a 100).');
+    });
+    if (!err.length && o.pacchetti < 1) segna('q5', 'Scegliete almeno 1 pacchetto.');
+    if (valoreConsegna() === 'spedizione' && !$('indirizzo').value.trim()) segna('indirizzo', 'Inserite l\'indirizzo di spedizione.');
+    if (!$('privacy').checked) segna('privacy', 'Confermate di aver letto l\'informativa privacy.');
+    return err;
+  }
+  function mostraErrori(err) {
+    var box = $('errori');
+    if (!err.length) { box.hidden = true; box.innerHTML = ''; return; }
+    box.innerHTML = 'Controllate questi campi:<ul>' + err.map(function (e) { return '<li>' + e.msg + '</li>'; }).join('') + '</ul>';
+    box.hidden = false;
+    err[0].el.focus();
+  }
+
+  // ---- codice ordine ----
+  function codiceOrdine() {
+    var d = new Date(), ch = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', s = '';
+    var buf = new Uint32Array(4); crypto.getRandomValues(buf);
+    for (var i = 0; i < 4; i++) s += ch[buf[i] % ch.length];
+    return 'L23-' + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '-' + s;
+  }
+  function causale(codice, azienda) {
+    var c = B.causale_prefisso + ' – ' + codice + ' – ' + azienda;
+    return c.length > 140 ? c.slice(0, 139) + '…' : c;
+  }
+
+  // ---- PDF ----
+  function caricaLogo() {
+    return fetch('img/logo.png').then(function (r) { return r.blob(); }).then(function (b) {
+      return new Promise(function (ok) { var fr = new FileReader(); fr.onload = function () { ok(fr.result); }; fr.readAsDataURL(b); });
+    }).catch(function () { return null; });
+  }
+  function creaPdf(dati, logo) {
+    var doc = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4' });
+    var NAVY = [19, 40, 74], GIALLO = [255, 224, 27], ROSSO = [200, 16, 46], TESTO = [43, 52, 69], GRIGIO = [91, 101, 119], CARD = [243, 247, 252];
+    var W = 210, M = 16, y;
+    var colori = [[232, 38, 60], [255, 224, 27], [122, 193, 66], [79, 182, 242]];
+
+    // intestazione navy con lucine
+    doc.setFillColor.apply(doc, NAVY); doc.rect(0, 0, W, 44, 'F');
+    doc.setDrawColor(190, 200, 215); doc.setLineWidth(0.3);
+    for (var i = 0; i < 14; i++) {
+      var x = 4 + i * 15.5;
+      doc.line(x - 7.7, 3, x, 5.5); doc.line(x, 5.5, x + 7.7, 3);
+      doc.setFillColor.apply(doc, colori[i % 4]); doc.ellipse(x, 7, 1.4, 2, 'F');
+    }
+    if (logo) doc.addImage(logo, 'PNG', M, 13, 26, 24.3);
+    doc.setTextColor.apply(doc, GIALLO); doc.setFont('helvetica', 'bold'); doc.setFontSize(17);
+    doc.text('Dati per il bonifico –', M + 32, 23);
+    doc.text('Viaggi magici Lollo 23', M + 32, 31);
+    doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+    doc.text('Associazione Amici di Lollo ODV · Natale 2026', M + 32, 38);
+
+    // codice e data
+    y = 56;
+    doc.setTextColor.apply(doc, GRIGIO); doc.setFontSize(9); doc.text('CODICE ORDINE', M, y);
+    doc.text('DATA', 130, y);
+    doc.setTextColor.apply(doc, ROSSO); doc.setFont('helvetica', 'bold'); doc.setFontSize(18); doc.text(dati.codice, M, y + 8);
+    doc.setTextColor.apply(doc, TESTO); doc.setFontSize(12); doc.text(dati.dataIt, 130, y + 8);
+
+    // dati azienda
+    y = 78;
+    doc.setTextColor.apply(doc, NAVY); doc.setFontSize(12); doc.text('Dati dell\'ordine', M, y);
+    doc.setFontSize(10);
+    var righe = [['Azienda', dati.azienda], ['Referente', dati.nome + ' ' + dati.cognome], ['Email', dati.email]];
+    if (dati.telefono) righe.push(['Telefono', dati.telefono]);
+    righe.push(['Consegna', dati.consegna === 'spedizione' ? 'Spedizione: ' + dati.indirizzo.replace(/\s*\n\s*/g, ', ') : 'A mano']);
+    y += 7;
+    righe.forEach(function (r) {
+      doc.setFont('helvetica', 'bold'); doc.setTextColor.apply(doc, GRIGIO); doc.text(r[0], M, y);
+      doc.setFont('helvetica', 'normal'); doc.setTextColor.apply(doc, TESTO);
+      var t = doc.splitTextToSize(r[1], W - M * 2 - 30); doc.text(t, M + 30, y); y += 5.5 * t.length;
+    });
+
+    // tabella pacchetti
+    y += 5;
+    var cx = [M, 112, 140, W - M];
+    doc.setFillColor.apply(doc, NAVY); doc.rect(M, y, W - M * 2, 8, 'F');
+    doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5);
+    doc.text('Pacchetto', cx[0] + 3, y + 5.5); doc.text('Quantità', cx[1], y + 5.5);
+    doc.text('Viaggi', cx[2], y + 5.5); doc.text('Importo', cx[3] - 3, y + 5.5, { align: 'right' });
+    y += 8;
+    doc.setFont('helvetica', 'normal'); doc.setTextColor.apply(doc, TESTO);
+    var tab = [];
+    if (dati.q5) tab.push(['Pacchetto da 5 viaggi magici', dati.q5, dati.q5 * 5]);
+    if (dati.q10) tab.push(['Pacchetto da 10 viaggi magici', dati.q10, dati.q10 * 10]);
+    dati.custom.forEach(function (c) { tab.push(['Pacchetto su misura da ' + c.viaggi + ' viaggi', c.pacchetti, c.pacchetti * c.viaggi]); });
+    tab.forEach(function (r, k) {
+      if (k % 2) { doc.setFillColor.apply(doc, CARD); doc.rect(M, y, W - M * 2, 7, 'F'); }
+      doc.text(r[0], cx[0] + 3, y + 4.8); doc.text(String(r[1]), cx[1], y + 4.8);
+      doc.text(String(r[2]), cx[2], y + 4.8); doc.text(euro(r[2] * PREZZO), cx[3] - 3, y + 4.8, { align: 'right' });
+      y += 7;
+    });
+    doc.setDrawColor.apply(doc, NAVY); doc.setLineWidth(0.5); doc.line(M, y, W - M, y);
+    doc.setFont('helvetica', 'bold'); doc.setTextColor.apply(doc, NAVY);
+    doc.text('Totale', cx[0] + 3, y + 5.5); doc.text(String(dati.pacchetti), cx[1], y + 5.5);
+    doc.text(String(dati.viaggi), cx[2], y + 5.5); doc.text(euro(dati.totale), cx[3] - 3, y + 5.5, { align: 'right' });
+    y += 9;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor.apply(doc, GRIGIO);
+    doc.text('1 viaggio = ' + euro(PREZZO), M, y + 2);
+
+    // box bonifico
+    y += 8;
+    var caus = doc.splitTextToSize(dati.causale, W - M * 2 - 16);
+    var h = 74 + (B.bic ? 9 : 0) + (caus.length - 1) * 5.5;
+    doc.setFillColor.apply(doc, NAVY); doc.roundedRect(M, y, W - M * 2, h, 4, 4, 'F');
+    var bx = M + 8, by = y + 11;
+    doc.setTextColor.apply(doc, GIALLO); doc.setFont('helvetica', 'bold'); doc.setFontSize(13);
+    doc.text('Dati per il bonifico', bx, by);
+    function voce(et, val, grande) {
+      by += 9;
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5); doc.setTextColor(174, 191, 216); doc.text(et.toUpperCase(), bx, by);
+      doc.setFontSize(grande ? 14 : 10.5); doc.setTextColor.apply(doc, grande ? GIALLO : [255, 255, 255]);
+      if (Array.isArray(val)) { doc.text(val, bx, by + 5.5); by += (val.length - 1) * 5.5; }
+      else doc.text(val, bx, by + 5.5);
+      by += 2;
+    }
+    voce('Intestatario', B.intestatario);
+    voce('IBAN', B.iban, true);
+    voce('Banca', B.banca);
+    if (B.bic) voce('BIC', B.bic);
+    voce('Importo esatto', euro(dati.totale), true);
+    voce('Causale', caus);
+    y += h + 10;
+
+    // nota e contatti
+    doc.setTextColor.apply(doc, TESTO); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+    doc.text('Riceverete la ricevuta della donazione da Amici di Lollo dopo l\'accredito.', M, y);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
+    doc.text(doc.splitTextToSize('Indicate sempre il codice ordine nella causale: ci serve per abbinare il bonifico al vostro ordine. Dopo l\'accredito prepariamo le confezioni regalo e ve le consegniamo.', W - M * 2), M, y + 6);
+
+    doc.setFillColor.apply(doc, NAVY); doc.rect(0, 272, W, 25, 'F');
+    doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
+    doc.text('Associazione Amici di Lollo ODV', M, 280);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5);
+    doc.text('Via Nazario Sauro 1, 20851 Lissone (MB) · C.F. 94625800159', M, 285);
+    doc.text('info@amicidilollo.it · www.amicidilollo.it · Instagram @amici_di_lollo', M, 290);
+    return doc;
+  }
+
+  function scaricaPdf() {
+    if (!ultimoPdf) return;
+    var url = URL.createObjectURL(ultimoPdf.blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = ultimoPdf.nome;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+  }
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+  function mostraEsito(tipo, html) {
+    $('area-form').innerHTML = '<div class="esito ' + tipo + '" role="status" tabindex="-1">' + html +
+      '<br><button type="button" class="btn" id="riscarica">Scarica di nuovo il PDF</button></div>';
+    $('riscarica').addEventListener('click', scaricaPdf);
+    var box = $('area-form').firstChild;
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' }); box.focus({ preventScroll: true });
+  }
+
+  // ---- il viaggio: la mini auto avanza scorrendo la pagina (40%) e compilando i campi obbligatori (60%) ----
+  var riduciMovimento = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var vAuto = $('v-auto'), vBarra = $('viaggio'), vTraguardo = document.querySelector('.v-traguardo');
+  var arrivato = false, ultimoP = -1, vaTimer = 0, vRaf = 0;
+  function progressoScroll() {
+    var b = $('invia'); if (!b) return 1;
+    var fine = b.getBoundingClientRect().bottom + window.scrollY - window.innerHeight + 80;
+    return fine <= 0 ? 1 : Math.max(0, Math.min(1, window.scrollY / fine));
+  }
+  function progressoDati() {
+    if (!$('form-ordine')) return 1;
+    var o = leggiOrdine();
+    var fatti = [o.pacchetti >= 1, !!$('azienda').value.trim(), !!$('nome').value.trim(), !!$('cognome').value.trim(),
+      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim()), $('privacy').checked];
+    if (valoreConsegna() === 'spedizione') fatti.push(!!$('indirizzo').value.trim());
+    return fatti.filter(Boolean).length / fatti.length;
+  }
+  function posizionaAuto(p, durata) {
+    var max = vTraguardo.offsetLeft + 20 - vAuto.offsetLeft - vAuto.offsetWidth;
+    if (Math.abs(p - ultimoP) > 0.002) {
+      vAuto.classList.add('va'); clearTimeout(vaTimer);
+      vaTimer = setTimeout(function () { vAuto.classList.remove('va'); }, durata || 800);
+    }
+    ultimoP = p;
+    vAuto.style.transform = 'translateX(' + Math.max(0, max * p).toFixed(1) + 'px)';
+    vBarra.setAttribute('aria-valuenow', Math.round(p * 100));
+  }
+  function aggiornaViaggio() {
+    if (!vAuto || arrivato) return;
+    // prima dell'invio l'auto si ferma al 90%: l'ultimo tratto lo fa quando si preme "Invia"
+    posizionaAuto(0.9 * (0.4 * progressoScroll() + 0.6 * progressoDati()));
+  }
+  function guidaAlTraguardo() {
+    arrivato = true;
+    if (riduciMovimento) { posizionaAuto(1); return Promise.resolve(); }
+    vAuto.style.transition = 'transform 2s cubic-bezier(.45,.05,.35,1)';
+    posizionaAuto(1, 2000);
+    return new Promise(function (ok) { setTimeout(ok, 2000); });
+  }
+  function tornaIndietro() {
+    arrivato = false; vAuto.style.transition = ''; aggiornaViaggio();
+  }
+  window.addEventListener('scroll', function () {
+    if (!vRaf) vRaf = requestAnimationFrame(function () { vRaf = 0; aggiornaViaggio(); });
+  }, { passive: true });
+  window.addEventListener('resize', aggiornaViaggio);
+  $('form-ordine').addEventListener('input', aggiornaViaggio);
+  $('form-ordine').addEventListener('change', aggiornaViaggio);
+  $('form-ordine').addEventListener('click', function () { setTimeout(aggiornaViaggio, 0); });
+
+  // ---- sipario di coriandoli: copre tutto lo schermo, poi scivola via e scopre la pagina di ringraziamento ----
+  function sipario(quandoCoperto) {
+    return new Promise(function (fine) {
+      var cv = document.createElement('canvas');
+      cv.className = 'sipario'; cv.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(cv);
+      var W = window.innerWidth, H = window.innerHeight;
+      cv.width = W; cv.height = H;
+      var ctx = cv.getContext('2d');
+      // quanti coriandoli e quanto grandi per coprire lo schermo mentre la fascia (alta 2 schermi) lo attraversa
+      var n = Math.min(5000, Math.max(1500, Math.round(W * H / 50)));
+      var area = 5 * W * 2 * H / n, lw = Math.sqrt(area * 1.5), lh = Math.sqrt(area / 1.5);
+      var COLORI = ['#e8263c', '#ffe01b', '#7ac142', '#4fb6f2', '#ffffff', '#1f6fb5'];
+      var v = 3 * H / 1.9; // px al secondo: la fascia attraversa tutto in ~1,9 s
+      var pz = [];
+      for (var i = 0; i < n; i++) {
+        pz.push({
+          x: Math.random() * W, y: -Math.random() * 2 * H - lh, v: v * (0.93 + Math.random() * 0.14),
+          w: lw * (0.7 + Math.random() * 0.6), h: lh * (0.7 + Math.random() * 0.6),
+          r: Math.random() * 6.28, vr: (Math.random() - 0.5) * 8, f: Math.random() * 6.28, vf: 4 + Math.random() * 6,
+          sx: (Math.random() - 0.5) * 30, c: COLORI[i % COLORI.length]
+        });
+      }
+      var t0 = performance.now(), coperto = false;
+      function frame(now) {
+        var t = (now - t0) / 1000, vivi = 0;
+        ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < pz.length; i++) {
+          var p = pz[i], y = p.y + p.v * t;
+          if (y - p.h > H) continue;
+          vivi++;
+          if (y + p.h < 0) continue;
+          var a = p.r + p.vr * t, c = Math.cos(a), s = Math.sin(a), fl = Math.cos(p.f + p.vf * t);
+          ctx.setTransform(c, s, -s * fl, c * fl, p.x + Math.sin(t * 3 + p.f) * p.sx, y);
+          ctx.fillStyle = p.c;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        }
+        if (!coperto && t >= 1.45 * H / v) { coperto = true; quandoCoperto(); }
+        if (vivi) requestAnimationFrame(frame);
+        else { cv.remove(); fine(); }
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  // ---- schermata di ringraziamento con coriandoli ----
+  var lottiePronto = null;
+  function caricaLottie() {
+    if (!lottiePronto) {
+      lottiePronto = new Promise(function (ok, ko) {
+        var sc = document.createElement('script');
+        sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js';
+        sc.onload = function () { ok(window.lottie); }; sc.onerror = ko;
+        document.head.appendChild(sc);
+      });
+    }
+    return lottiePronto;
+  }
+  function lanciaCoriandoli() {
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var box = $('coriandoli');
+    Promise.all([caricaLottie(), fetch('coriandoli.json').then(function (r) { return r.json(); })]).then(function (res) {
+      box.innerHTML = ''; box.style.opacity = '1'; box.hidden = false;
+      var anim = res[0].loadAnimation({
+        container: box, renderer: 'svg', loop: true, autoplay: true, animationData: res[1],
+        rendererSettings: { preserveAspectRatio: 'xMidYMid slice' }
+      });
+      setTimeout(function () { box.style.opacity = '0'; }, 5000);
+      setTimeout(function () { anim.destroy(); box.hidden = true; }, 6000);
+    }).catch(function () { /* i coriandoli sono solo decorativi */ });
+  }
+  function mostraGrazie(dati, subito) {
+    $('g-codice').textContent = 'Ordine ' + dati.codice;
+    $('g-testo').innerHTML = 'Grazie a <strong>' + esc(dati.azienda) + '</strong>: con i vostri <strong>' + dati.viaggi +
+      ' viaggi magici</strong> i bambini di Lollo 23 potranno raggiungere i luoghi delle loro cure.';
+    $('g-importo').textContent = euro(dati.totale);
+    $('g-iban').textContent = B.iban;
+    $('g-causale').textContent = dati.causale;
+    var g = $('grazie');
+    g.hidden = false; document.body.style.overflow = 'hidden';
+    if (subito) g.classList.add('vis');
+    else requestAnimationFrame(function () { g.classList.add('vis'); });
+    $('grazie-titolo').focus({ preventScroll: true });
+  }
+  function chiudiGrazie() {
+    var g = $('grazie');
+    g.classList.remove('vis'); document.body.style.overflow = '';
+    setTimeout(function () { g.hidden = true; }, 350);
+    var esito = $('area-form').firstChild; if (esito && esito.focus) esito.focus();
+  }
+  $('g-chiudi').addEventListener('click', chiudiGrazie);
+  $('g-pdf').addEventListener('click', scaricaPdf);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('grazie').hidden) chiudiGrazie(); });
+
+  // ---- invio ----
+  $('form-ordine').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var o = leggiOrdine();
+    var err = valida(o);
+    mostraErrori(err);
+    if (err.length) return;
+    var btn = $('invia');
+    btn.disabled = true; btn.textContent = 'Invio in corso…';
+    var arrivo = guidaAlTraguardo();
+
+    Promise.all([bonificoPronto, caricaLogo()]).then(function (res) {
+      if (!B || !window.jspdf) throw new Error('setup');
+      var logo = res[1];
+      var codice = codiceOrdine();
+      var dati = {
+        codice: codice,
+        dataIt: new Date().toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+        azienda: $('azienda').value.trim(), nome: $('nome').value.trim(), cognome: $('cognome').value.trim(),
+        email: $('email').value.trim(), telefono: $('telefono').value.trim(),
+        q5: o.q5 || 0, q10: o.q10 || 0,
+        custom: o.custom.filter(function (c) { return c.pacchetti > 0 && c.viaggi > 0; }),
+        pacchetti: o.pacchetti, viaggi: o.viaggi, totale: o.totale,
+        consegna: valoreConsegna(), indirizzo: $('indirizzo').value.trim(), note: $('note').value.trim()
+      };
+      dati.causale = causale(codice, dati.azienda);
+      var doc = creaPdf(dati, logo);
+      var nome = 'Lollo23_' + codice + '.pdf';
+      ultimoPdf = { blob: doc.output('blob'), nome: nome };
+      scaricaPdf();
+
+      var pdfBase64 = doc.output('datauristring').split(',')[1];
+      var payload = {
+        codice: codice, azienda: dati.azienda, nome: dati.nome, cognome: dati.cognome, email: dati.email,
+        telefono: dati.telefono, q5: dati.q5, q10: dati.q10, custom: dati.custom, consegna: dati.consegna,
+        indirizzo: dati.consegna === 'spedizione' ? dati.indirizzo : '', note: dati.note,
+        privacy: $('privacy').checked, sito_web: $('sito_web').value, pdf: pdfBase64
+      };
+      var c = esc(codice);
+      return fetch('/api/ordine', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        .then(function (r) { return r.json().catch(function () { return { ok: false }; }).then(function (j) { return { status: r.status, j: j }; }); })
+        .then(function (r) {
+          if (!r.j.ok) throw new Error('api');
+          function rivela() {
+            mostraEsito('ok', '<h3>Grazie! Ordine <span class="codice">' + c + '</span> inviato.</h3>' +
+              '<p>Abbiamo ricevuto il vostro ordine. Nel PDF appena scaricato trovate l\'importo esatto e i dati per il bonifico: ricordatevi di inserire il codice ordine in causale.</p>');
+            mostraGrazie(dati, true);
+          }
+          // l'auto arriva al traguardo, poi i coriandoli coprono lo schermo e scoprono il ringraziamento
+          return arrivo.then(function () {
+            if (riduciMovimento) { rivela(); return; }
+            return sipario(rivela).then(lanciaCoriandoli);
+          });
+        }, function () { throw new Error('api'); })
+        .catch(function () {
+          tornaIndietro();
+          mostraEsito('ko', '<h3>L\'ordine non è stato inviato</h3>' +
+            '<p>Il PDF con i dati per il bonifico è stato scaricato, ma il nostro sistema non ha ricevuto l\'ordine. ' +
+            'Scriveteci a <a href="mailto:info@amicidilollo.it?subject=' + encodeURIComponent('Ordine ' + codice) + '">info@amicidilollo.it</a> citando il codice <span class="codice">' + c + '</span>.</p>');
+        });
+    }).catch(function () {
+      tornaIndietro();
+      btn.disabled = false; btn.textContent = 'Invia l\'ordine e scarica i dati per il bonifico';
+      mostraErrori([{ el: btn, msg: 'Non riusciamo a preparare il PDF. Ricaricate la pagina o scriveteci a info@amicidilollo.it.' }]);
+    });
+  });
+
+  // ---- scintille nel cielo dell'intestazione, dietro l'auto ----
+  (function scintille() {
+    var cv = $('scintille');
+    if (!cv || !cv.getContext || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    var ctx = cv.getContext('2d'), hero = cv.parentNode;
+    var OPT = { amount: 5000, speed: 0.05, lifetime: 200, dir: { x: -0.5, y: 1 }, size: 2, maxopacity: 1, acceleration: [5, 40], perFrame: 4 };
+    var COLORI = ['255,255,255', '255,224,27', '79,182,242', '232,38,60', '122,193,66'];
+    var sparks = [], W = 0, H = 0, attivo = true, raf = 0;
+    function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function misura() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = hero.clientWidth; H = hero.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function aggiungi() {
+      sparks.push({
+        x: rand(-200, W + 200), y: rand(-200, H + 200), age: 0,
+        acc: rand(OPT.acceleration[0], OPT.acceleration[1]),
+        color: COLORI[rand(0, COLORI.length - 1)], opacity: OPT.maxopacity
+      });
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      for (var n = 0; n < OPT.perFrame && sparks.length < OPT.amount; n++) aggiungi();
+      for (var i = sparks.length - 1; i >= 0; i--) {
+        var sp = sparks[i];
+        if (sp.opacity <= 0) { sparks.splice(i, 1); continue; }
+        ctx.fillStyle = 'rgba(' + sp.color + ',' + sp.opacity + ')';
+        ctx.fillRect(sp.x, sp.y, OPT.size, OPT.size);
+        sp.x += OPT.speed * OPT.dir.x * sp.acc / 2;
+        sp.y += OPT.speed * OPT.dir.y * sp.acc / 2;
+        sp.opacity = OPT.maxopacity - ++sp.age / OPT.lifetime;
+      }
+      raf = attivo ? requestAnimationFrame(draw) : 0;
+    }
+    window.addEventListener('resize', misura);
+    misura();
+    // si ferma quando l'intestazione non è sullo schermo
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) {
+        attivo = e[0].isIntersecting;
+        if (attivo && !raf) raf = requestAnimationFrame(draw);
+      }).observe(hero);
+    }
+    raf = requestAnimationFrame(draw);
+  })();
+
+  aggiorna();
+  aggiornaViaggio();
+})();
+</script>
+</body>
+</html>
