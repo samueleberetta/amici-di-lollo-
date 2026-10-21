@@ -61,7 +61,7 @@ Vercel → progetto → **Settings → Environment Variables**, per l'ambiente *
 |---|---|
 | `RESEND_API_KEY` | la chiave API di Resend (resend.com → API Keys) |
 | `ORDER_TO_EMAIL` | dove arrivano gli ordini: l'email del vostro account Resend |
-| `FROM_EMAIL` | `Amici di Lollo <onboarding@resend.dev>` |
+| `FROM_EMAIL` | facoltativa: se manca si usa `Amici di Lollo <onboarding@resend.dev>` |
 | `KV_REST_API_URL`, `KV_REST_API_TOKEN` | le aggiunge Vercel da solo quando collegate il contatore Upstash (vedi sotto) |
 
 Dopo aver cambiato le variabili serve un nuovo deploy.
