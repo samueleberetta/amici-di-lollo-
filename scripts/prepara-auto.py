@@ -1,5 +1,6 @@
 # Prepara le immagini dell'auto per l'intestazione animata, partendo da public/img/auto-fiocco.jpg (1200x349):
 #   auto-strada.webp  cielo e strada trasparenti (dietro ci sono le scintille e la strada in CSS, che continua ai lati)
+#   auto-mini.webp    solo l'auto, scontornata e girata verso destra, per la barra del viaggio in basso
 # Uso: python3 scripts/prepara-auto.py   (serve Pillow: pip install pillow)
 from pathlib import Path
 from PIL import Image, ImageDraw
@@ -41,4 +42,39 @@ for seme in [(0, 320), (w - 1, 320), (600, 330), (300, 280), (950, 280)]:
 
 auto.save(IMG / 'auto-strada.webp', quality=82, method=6)
 
+# 4. solo l'auto per la barra in basso: tolgo neve e colline attorno, poi la giro verso destra
+mini = auto.crop((345, 35, 855, 305))
+mw, mh = mini.size
+mpx = mini.load()
+for x in (0, mw - 1):
+    for y in range(mh):
+        if mpx[x, y][3]:
+            ImageDraw.floodfill(mini, (x, y), (0, 0, 0, 0), thresh=14)
+# via i contorni sottili delle colline rimasti attaccati all'auto (righe spesse 1-2 px)
+for _ in range(2):
+    sottili = [(x, y) for y in range(2, mh - 2) for x in range(mw)
+               if mpx[x, y][3] and not mpx[x, y - 2][3] and not mpx[x, y + 2][3]]
+    for x, y in sottili:
+        mpx[x, y] = (0, 0, 0, 0)
+# tengo solo il pezzo più grande (l'auto), senza puntini sparsi
+visti, pezzi = set(), []
+for y in range(mh):
+    for x in range(mw):
+        if mpx[x, y][3] and (x, y) not in visti:
+            pila, pezzo = [(x, y)], []
+            visti.add((x, y))
+            while pila:
+                cx, cy = pila.pop(); pezzo.append((cx, cy))
+                for nx, ny in ((cx + 1, cy), (cx - 1, cy), (cx, cy + 1), (cx, cy - 1)):
+                    if 0 <= nx < mw and 0 <= ny < mh and (nx, ny) not in visti and mpx[nx, ny][3]:
+                        visti.add((nx, ny)); pila.append((nx, ny))
+            pezzi.append(pezzo)
+pezzi.sort(key=len)
+for pezzo in pezzi[:-1]:
+    for x, y in pezzo:
+        mpx[x, y] = (0, 0, 0, 0)
+mini = mini.crop(mini.getbbox()).transpose(Image.FLIP_LEFT_RIGHT)
+mini.thumbnail((200, 200), Image.LANCZOS)
+mini.save(IMG / 'auto-mini.webp', quality=88, method=6)
+print('auto-mini', mini.size)
 print('ok')

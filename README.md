@@ -8,13 +8,11 @@ Landing per le aziende che vogliono regalare i "pacchetti di viaggi magici" dell
 public/
   index.html        la pagina (CSS e JS inline, PDF generato nel browser con jsPDF)
   bonifico.js       dati del bonifico e prezzo per viaggio (unica fonte, letta da pagina e funzione)
-  coriandoli.json   animazione Lottie dei coriandoli nella schermata di ringraziamento
   img/              logo, lucine, auto col fiocco (auto-strada.webp con cielo e strada trasparenti), og.jpg, favicon
 api/
   ordine.js         funzione Vercel: ricontrolla l'ordine e ve lo invia via email con Resend
 scripts/
   estrai-immagini.js  estrae le immagini base64 dalla mail in public/img/
-  genera-coriandoli.js  rigenera public/coriandoli.json (colori dei coriandoli)
   prepara-auto.py     rigenera auto-strada.webp dalla foto auto-fiocco.jpg
 vercel.json
 ```
