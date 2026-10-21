@@ -918,8 +918,9 @@
   // ---- schermata di ringraziamento ----
   function mostraGrazie(dati, dissolvenza) {
     $('g-codice').textContent = 'Ordine ' + dati.codice;
-    $('g-testo').innerHTML = 'Grazie <strong>' + esc(dati.azienda) + '</strong>: con i vostri <strong>' + dati.viaggi +
-      ' viaggi magici</strong> i bambini di Lollo 23 potranno raggiungere i luoghi delle loro cure.';
+    $('g-testo').innerHTML = 'Grazie <strong>' + esc(dati.azienda) + '</strong>! Scegliere di donare anche un solo ' +
+      '<strong>“viaggio magico”</strong> ci aiuta a continuare a offrire un servizio gratuito ai bimbi che devono affrontare ' +
+      'le terapie e alle loro famiglie.';
     $('g-importo').textContent = euro(dati.totale);
     $('g-iban').textContent = B.iban;
     $('g-causale').textContent = dati.causale;
