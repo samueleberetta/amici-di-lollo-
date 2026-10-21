@@ -1,10 +1,11 @@
-// Riceve l'ordine dalla landing e lo invia via email (Resend) all'associazione (ORDER_TO_EMAIL).
-// Al cliente non parte nessuna email: i dati per il bonifico sono nel PDF che scarica dalla pagina.
+// Riceve l'ordine dalla landing, gli assegna il numero progressivo (Lollo23-26001, 26002…) con il contatore
+// su Upstash Redis e lo invia via email (Resend) all'associazione (ORDER_TO_EMAIL). Restituisce il codice alla
+// pagina, che crea il PDF per il bonifico. Al cliente non parte nessuna email.
 const BONIFICO = require('../public/bonifico.js');
 
 const PREZZO = Number(BONIFICO.prezzo_viaggio) || 5;
-const MAX_PDF_BYTES = 2 * 1024 * 1024;
 const RESEND_URL = 'https://api.resend.com/emails';
+const MAX_ORDINI = 999;
 
 const C = {
   navy: '#13284a', rosso: '#c8102e', testo: '#2b3445', grigio: '#5b6577',
@@ -33,9 +34,12 @@ function intero(v, min, max) {
 
 function valida(b) {
   const e = [];
+  const tipo = b.tipo === 'azienda' || b.tipo === 'privato' ? b.tipo : '';
+  if (!tipo) e.push('Tipo di cliente mancante (azienda o privato)');
   const o = {
-    codice: typeof b.codice === 'string' ? b.codice : '',
-    azienda: testo(b.azienda, 120, true, 'Azienda', e),
+    tipo,
+    azienda: testo(tipo === 'azienda' ? b.azienda : '', 120, tipo === 'azienda', 'Ragione sociale', e),
+    sede: testo(tipo === 'azienda' ? b.sede : '', 300, tipo === 'azienda', 'Sede legale', e),
     nome: testo(b.nome, 60, true, 'Nome', e),
     cognome: testo(b.cognome, 60, true, 'Cognome', e),
     email: testo(b.email, 160, true, 'Email', e),
@@ -44,7 +48,8 @@ function valida(b) {
     indirizzo: testo(b.indirizzo, 300, false, 'Indirizzo', e),
     note: testo(b.note, 1000, false, 'Note', e),
   };
-  if (!/^L23-\d{4}-[A-Z0-9]{4}$/.test(o.codice)) e.push('Codice ordine non valido');
+  // per i privati il nome dell'ordine (causale, oggetto dell'email) è "Nome Cognome"
+  if (tipo === 'privato') o.azienda = `${o.nome} ${o.cognome}`.trim();
   if (o.email && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/.test(o.email)) e.push('Email non valida');
   if (o.consegna === 'spedizione' && !o.indirizzo) e.push('Indirizzo di spedizione mancante');
   if (o.consegna === 'mano') o.indirizzo = '';
@@ -71,14 +76,30 @@ function valida(b) {
   o.totale = o.viaggi * PREZZO;
   if (o.pacchetti < 1) e.push('Serve almeno un dono solidale');
 
-  o.pdf = typeof b.pdf === 'string' ? b.pdf.replace(/\s/g, '') : '';
-  if (!o.pdf || !/^[A-Za-z0-9+/]+=*$/.test(o.pdf)) e.push('PDF mancante');
-  else if (Buffer.byteLength(o.pdf, 'base64') > MAX_PDF_BYTES) e.push('PDF troppo grande');
-
-  let causale = `${BONIFICO.causale_prefisso} – ${o.codice} – ${o.azienda}`;
-  if (causale.length > 140) causale = causale.slice(0, 139) + '…';
-  o.causale = causale;
   return { o, errori: e };
+}
+
+function causale(codice, azienda) {
+  const c = `${BONIFICO.causale_prefisso} – ${codice} – ${azienda}`;
+  return c.length > 140 ? c.slice(0, 139) + '…' : c;
+}
+
+// Contatore degli ordini su Upstash Redis (INCR è atomico: due ordini insieme non prendono mai lo stesso numero).
+// Una chiave per anno: lollo23:ordini:26 → Lollo23-26001, 26002… fino a 26999.
+async function prossimoCodice() {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+  const anno = new Date().toLocaleString('it-IT', { timeZone: 'Europe/Rome', year: '2-digit' });
+  const r = await fetch(`${url.replace(/\/+$/, '')}/incr/lollo23:ordini:${anno}`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || !Number.isInteger(j.result)) {
+    throw new Error(`Contatore non disponibile (${r.status}): ${JSON.stringify(j)}`);
+  }
+  if (j.result > MAX_ORDINI) return null;
+  return `Lollo23-${anno}${String(j.result).padStart(3, '0')}`;
 }
 
 function righePacchetti(o) {
@@ -114,8 +135,9 @@ function emailInterna(o) {
 <tr><td style="font-family:${FONT};font-size:16px;color:${C.testo};padding-bottom:16px;"><strong>${esc(o.azienda)}</strong> ha ordinato <strong>${o.pacchetti} ${o.pacchetti === 1 ? 'dono solidale' : 'doni solidali'}</strong> per un totale di <strong>${o.viaggi} viaggi</strong>, cioè <strong>${euro(o.totale)}</strong> da ricevere con bonifico.</td></tr>
 <tr><td><table role="presentation" cellpadding="0" cellspacing="0">
 ${riga('Codice', `<strong style="color:${C.rosso};">${esc(o.codice)}</strong>`)}
-${riga('Azienda', esc(o.azienda))}
-${riga('Referente', esc(o.nome + ' ' + o.cognome))}
+${o.tipo === 'azienda'
+    ? riga('Cliente', 'Azienda') + riga('Ragione sociale', esc(o.azienda)) + riga('Sede legale', br(o.sede)) + riga('Referente', esc(o.nome + ' ' + o.cognome))
+    : riga('Cliente', 'Privato') + riga('Nome', esc(o.nome + ' ' + o.cognome))}
 ${riga('Email', `<a href="mailto:${esc(o.email)}">${esc(o.email)}</a>`)}
 ${riga('Telefono', o.telefono ? esc(o.telefono) : '—')}
 ${riga('Doni solidali', String(o.pacchetti))}
@@ -126,7 +148,7 @@ ${riga('Note', o.note ? br(o.note) : '—')}
 ${riga('Causale attesa', esc(o.causale))}
 </table></td></tr>
 <tr><td style="padding-top:18px;">${tabellaPacchetti(o)}</td></tr>
-<tr><td style="padding-top:16px;font-family:${FONT};font-size:12px;color:${C.grigio};">In allegato il PDF con i dati per il bonifico, lo stesso che ha scaricato il cliente. Rispondendo a questa email scrivete direttamente al referente.</td></tr>
+<tr><td style="padding-top:16px;font-family:${FONT};font-size:12px;color:${C.grigio};">Rispondendo a questa email scrivete direttamente al referente.</td></tr>
 </table></body></html>`;
 }
 
@@ -169,10 +191,24 @@ module.exports = async function handler(req, res) {
   }
 
   const { RESEND_API_KEY, ORDER_TO_EMAIL, FROM_EMAIL } = process.env;
-  if (!RESEND_API_KEY || !ORDER_TO_EMAIL || !FROM_EMAIL) {
-    console.error('Variabili d\'ambiente mancanti: servono RESEND_API_KEY, ORDER_TO_EMAIL e FROM_EMAIL');
+  const contatore = (process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL) &&
+    (process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN);
+  if (!RESEND_API_KEY || !ORDER_TO_EMAIL || !FROM_EMAIL || !contatore) {
+    console.error('Variabili d\'ambiente mancanti: servono RESEND_API_KEY, ORDER_TO_EMAIL, FROM_EMAIL e il contatore Upstash (KV_REST_API_URL e KV_REST_API_TOKEN)');
     return res.status(500).json({ ok: false, error: 'Configurazione del server incompleta' });
   }
+
+  try {
+    o.codice = await prossimoCodice();
+  } catch (err) {
+    console.error('Errore del contatore ordini:', err);
+    return res.status(502).json({ ok: false, error: 'Numerazione degli ordini non disponibile' });
+  }
+  if (!o.codice) {
+    console.error(`Numerazione esaurita: superati i ${MAX_ORDINI} ordini dell'anno`);
+    return res.status(409).json({ ok: false, error: 'Numerazione degli ordini esaurita' });
+  }
+  o.causale = causale(o.codice, o.azienda);
 
   try {
     const inviata = await inviaEmail({
@@ -181,12 +217,11 @@ module.exports = async function handler(req, res) {
       reply_to: o.email,
       subject: `Nuovo ordine ${o.codice} – ${o.azienda} ha ordinato ${o.viaggi} viaggi – ${o.totale} €`,
       html: emailInterna(o),
-      attachments: [{ filename: `Lollo23_${o.codice}.pdf`, content: o.pdf }],
     });
     if (!inviata) {
       return res.status(502).json({ ok: false, error: 'Invio dell\'ordine non riuscito' });
     }
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, codice: o.codice });
   } catch (err) {
     console.error('Errore di rete verso Resend:', err);
     return res.status(502).json({ ok: false, error: 'Invio dell\'ordine non riuscito' });

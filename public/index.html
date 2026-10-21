@@ -54,8 +54,7 @@
   .hero .top img{width:56px}
   .hero .top div{text-align:left;font-size:13px;line-height:1.4;color:#cfd9e8}
   .hero .top b{display:block;font-family:'Fredoka',sans-serif;font-weight:600;color:#fff;font-size:17px}
-  .tag{display:inline-block;background:var(--rosso);color:#fff;font-weight:700;font-size:13px;letter-spacing:4px;padding:7px 16px;border-radius:8px;margin:26px 0 14px}
-  .hero h1{color:var(--giallo);font-size:clamp(30px,8vw,48px);margin:0 auto 14px;max-width:640px}
+  .hero h1{color:var(--giallo);font-size:clamp(30px,8vw,48px);margin:30px auto 14px;max-width:640px}
   .hero p.sub{max-width:560px;margin:0 auto 6px;color:#e8eef7;font-size:16px}
   /* la strada della foto è trasparente e qui sotto c'è quella in CSS, che continua ai lati sugli schermi larghi.
      Misure in proporzione alla foto (1200×349): strada da y 254 a 345, trattini 28px ogni 52px a y 297-301 */
@@ -109,11 +108,28 @@
   input:focus,textarea:focus{border-color:var(--azzurro)}
   textarea{min-height:90px;resize:vertical}
   .err-campo{border-color:var(--rosso)!important}
-  .custom-row{display:flex;align-items:flex-end;gap:8px;margin-bottom:10px}
-  .custom-row .campo{flex:1}
-  .custom-row .per{padding-bottom:12px;font-weight:700;color:var(--navy)}
-  .rimuovi{flex:0 0 44px;height:48px;border:2px solid var(--bordo);background:#fff;border-radius:12px;font-size:20px;color:var(--rosso);cursor:pointer}
+  /* doni su misura: si scrive solo il numero di viaggi, si conferma e finisce nell'elenco */
+  .custom-titolo{margin:20px 0 8px;font-weight:600;color:var(--navy);font-size:15px}
+  .custom-list{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px}
+  .custom-list li{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:12px;padding:8px 8px 8px 14px}
+  .custom-list .cl-testo{flex:1;font-weight:600;color:var(--navy)}
+  .custom-list .cl-prezzo{font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px;color:var(--navy)}
+  .rimuovi{flex:0 0 36px;height:36px;border:2px solid var(--bordo);background:#fff;border-radius:10px;font-size:18px;line-height:1;color:var(--rosso);cursor:pointer}
+  .custom-editor{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px}
+  .ce-riga{display:flex;align-items:flex-end;gap:12px}
+  .ce-riga .campo{flex:1}
+  .ce-prezzo{font-family:'Fredoka',sans-serif;font-weight:600;font-size:22px;color:var(--navy);padding-bottom:10px;white-space:nowrap}
+  .ce-azioni{display:flex;align-items:center;gap:14px;margin-top:12px}
+  .btn.piccolo{font-size:16px;padding:10px 24px}
+  .ce-errore{margin:8px 0 0;color:#8a0b20;font-size:14px;font-weight:600}
+  .subtotale{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;padding:14px 18px;border-radius:14px;background:var(--celeste);color:var(--navy)}
+  .subtotale span{font-weight:600;font-size:15px}
+  .subtotale b{font-family:'Fredoka',sans-serif;font-weight:600;font-size:26px;white-space:nowrap}
   .radio{display:flex;gap:10px;flex-wrap:wrap}
+  .domanda{margin:0 0 10px;font-weight:600;color:var(--navy);font-size:15px}
+  .scelta-tipo label{flex:1 1 140px;justify-content:center;padding:14px}
+  .scelta-tipo.err-campo label{border-color:var(--rosso)}
+  .sottotitolo{margin:22px 0 10px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:17px;color:var(--navy)}
   .radio label{display:flex;align-items:center;gap:8px;border:2px solid var(--bordo);border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:600}
   .radio input{width:20px;height:20px;accent-color:var(--navy)}
   .check{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--testo);font-size:15px}
@@ -146,7 +162,7 @@
   .grazie.vis{opacity:1}
   .grazie .in{max-width:560px;margin:0 auto;padding:18px 20px 30px;position:relative}
   .grazie .logo{width:64px;margin:6px auto 0}
-  .grazie .kicker{color:var(--giallo);margin-top:16px}
+  .grazie h2:focus{outline:none;box-shadow:none}
   .grazie h2{color:var(--giallo);font-size:clamp(30px,8vw,40px);margin:4px 0 12px}
   .grazie p{margin:0 0 12px;color:#e8eef7}
   .grazie strong{color:var(--giallo)}
@@ -216,7 +232,6 @@
     <span class="stella" style="top:34px;left:6%" aria-hidden="true">✦</span>
     <span class="stella" style="top:14px;right:8%;font-size:26px" aria-hidden="true">✦</span>
     <span class="puntino" style="top:62px;right:20%" aria-hidden="true"></span>
-    <div class="tag">VIAGGI MAGICI</div>
     <h1>Ordinate i vostri doni solidali</h1>
     <p class="sub">Scegliete i “viaggi magici” che volete regalare e inserite i vostri dati e le indicazioni per riceverli. Al termine potrete scaricare la conferma con le indicazioni per il pagamento.</p>
   </div>
@@ -256,19 +271,45 @@
             </div>
           </div>
         </div>
-        <p style="margin:20px 0 8px;font-weight:600;color:var(--navy);font-size:15px">Doni solidali su misura <span class="facolt">(facoltativo, <span data-prezzo="1">5</span> € a viaggio)</span></p>
-        <div id="custom-list"></div>
-        <button type="button" class="btn ghost" id="aggiungi">+ aggiungi</button>
+        <p class="custom-titolo">Doni solidali su misura <span class="facolt">(facoltativo, <span data-prezzo="1">5</span> € a viaggio)</span></p>
+        <ul id="custom-list" class="custom-list"></ul>
+        <div id="custom-editor" class="custom-editor" hidden>
+          <div class="ce-riga">
+            <div class="campo"><label for="custom-viaggi">Numero di viaggi</label><input type="number" id="custom-viaggi" min="1" max="100" step="1" inputmode="numeric"></div>
+            <div class="ce-prezzo" id="ce-prezzo" aria-live="polite">– €</div>
+          </div>
+          <p class="ce-errore" id="ce-errore" hidden>Indicate un numero di viaggi da 1 a 100.</p>
+          <div class="ce-azioni">
+            <button type="button" class="btn piccolo" id="custom-ok">Conferma</button>
+            <button type="button" class="linkbtn" id="custom-annulla">Annulla</button>
+          </div>
+        </div>
+        <button type="button" class="btn ghost" id="aggiungi">+ aggiungi un dono su misura</button>
+        <div class="subtotale" aria-live="polite"><span>Totale dei vostri doni · <span id="st-viaggi">0</span> viaggi</span><b id="st-totale">0 €</b></div>
       </fieldset>
 
       <fieldset>
         <legend>2. I vostri dati</legend>
-        <div class="grid2">
-          <div class="campo" style="grid-column:1/-1"><label for="azienda">Nome azienda *</label><input type="text" id="azienda" name="azienda" required maxlength="120" autocomplete="organization"></div>
-          <div class="campo"><label for="nome">Nome referente *</label><input type="text" id="nome" name="nome" required maxlength="60" autocomplete="given-name"></div>
-          <div class="campo"><label for="cognome">Cognome referente *</label><input type="text" id="cognome" name="cognome" required maxlength="60" autocomplete="family-name"></div>
-          <div class="campo"><label for="email">Email *</label><input type="email" id="email" name="email" required maxlength="160" autocomplete="email" inputmode="email"></div>
-          <div class="campo"><label for="telefono">Telefono <span class="facolt">(facoltativo)</span></label><input type="tel" id="telefono" name="telefono" maxlength="40" autocomplete="tel"></div>
+        <p class="domanda" id="tipo-domanda">Siete un'azienda o un privato? *</p>
+        <div class="radio scelta-tipo" id="scelta-tipo" role="radiogroup" aria-labelledby="tipo-domanda" tabindex="-1">
+          <label><input type="radio" name="tipo" value="azienda"> Azienda</label>
+          <label><input type="radio" name="tipo" value="privato"> Privato</label>
+        </div>
+        <div id="blocco-azienda" hidden>
+          <p class="sottotitolo">Dati della società</p>
+          <div class="grid2">
+            <div class="campo" style="grid-column:1/-1"><label for="azienda">Ragione sociale *</label><input type="text" id="azienda" name="azienda" maxlength="120" autocomplete="organization"></div>
+            <div class="campo" style="grid-column:1/-1"><label for="sede">Sede legale *</label><input type="text" id="sede" name="sede" maxlength="300" placeholder="Via, numero civico, CAP, città, provincia"></div>
+          </div>
+        </div>
+        <div id="blocco-persona" hidden>
+          <p class="sottotitolo" id="titolo-persona">Chi compila l'ordine</p>
+          <div class="grid2">
+            <div class="campo"><label for="nome">Nome *</label><input type="text" id="nome" name="nome" maxlength="60" autocomplete="given-name"></div>
+            <div class="campo"><label for="cognome">Cognome *</label><input type="text" id="cognome" name="cognome" maxlength="60" autocomplete="family-name"></div>
+            <div class="campo"><label for="email">Email *</label><input type="email" id="email" name="email" maxlength="160" autocomplete="email" inputmode="email"></div>
+            <div class="campo"><label for="telefono">Telefono <span class="facolt">(facoltativo)</span></label><input type="tel" id="telefono" name="telefono" maxlength="40" autocomplete="tel"></div>
+          </div>
         </div>
       </fieldset>
 
@@ -350,7 +391,6 @@
   <div class="lucine" aria-hidden="true"></div>
   <div class="in">
     <img class="logo" src="img/logo.png" alt="" width="64" height="60">
-    <p class="kicker">Grazie di cuore</p>
     <h2 id="grazie-titolo" tabindex="-1">Grazie per il vostro dono solidale</h2>
     <div class="codice-g" id="g-codice"></div>
     <p id="g-testo"></p>
@@ -450,25 +490,56 @@
     if (dlg.close) dlg.close(); else dlg.removeAttribute('open');
   });
 
-  // ---- pacchetti su misura ----
-  var nCustom = 0;
-  function aggiungiRiga() {
-    nCustom++;
-    var row = document.createElement('div');
-    row.className = 'custom-row';
-    row.innerHTML =
-      '<div class="campo"><label for="cp' + nCustom + '">N. doni</label>' +
-      '<input type="number" id="cp' + nCustom + '" class="c-pacchetti" min="1" max="1000" step="1" inputmode="numeric"></div>' +
-      '<span class="per" aria-hidden="true">×</span>' +
-      '<div class="campo"><label for="cv' + nCustom + '">N. viaggi</label>' +
-      '<input type="number" id="cv' + nCustom + '" class="c-viaggi" min="1" max="100" step="1" inputmode="numeric"></div>' +
-      '<button type="button" class="rimuovi" aria-label="Rimuovi questa riga">×</button>';
-    row.querySelector('.rimuovi').addEventListener('click', function () { row.remove(); aggiorna(); });
-    $('custom-list').appendChild(row);
-    row.querySelector('input').focus();
+  // ---- doni su misura: solo il numero di viaggi; con "Conferma" il dono entra nell'elenco ----
+  var doniMisura = [];   // [{ viaggi, pacchetti }]: stesso numero di viaggi = stesso dono, quantità +1
+  function disegnaMisura() {
+    var ul = $('custom-list');
+    ul.innerHTML = '';
+    doniMisura.forEach(function (d, i) {
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="cl-testo">Dono su misura da ' + d.viaggi + ' viaggi' + (d.pacchetti > 1 ? ' ×' + d.pacchetti : '') + '</span>' +
+        '<span class="cl-prezzo">' + euro(d.viaggi * d.pacchetti * PREZZO) + '</span>' +
+        '<button type="button" class="rimuovi" aria-label="Togli il dono su misura da ' + d.viaggi + ' viaggi">×</button>';
+      li.querySelector('.rimuovi').addEventListener('click', function () {
+        doniMisura.splice(i, 1); disegnaMisura(); aggiorna(); aggiornaViaggio();
+      });
+      ul.appendChild(li);
+    });
   }
-  $('aggiungi').addEventListener('click', aggiungiRiga);
-
+  function prezzoEditor() {
+    var v = intero($('custom-viaggi').value);
+    $('ce-prezzo').textContent = v >= 1 && v <= 100 ? euro(v * PREZZO) : '– €';
+  }
+  function apriEditor() {
+    $('custom-editor').hidden = false; $('aggiungi').hidden = true;
+    $('custom-viaggi').value = ''; $('ce-errore').hidden = true; prezzoEditor();
+    $('custom-viaggi').focus();
+  }
+  function chiudiEditor() {
+    $('custom-editor').hidden = true; $('aggiungi').hidden = false;
+    $('custom-viaggi').value = ''; $('custom-viaggi').classList.remove('err-campo'); $('custom-viaggi').removeAttribute('aria-invalid');
+    $('ce-errore').hidden = true;
+  }
+  function confermaMisura() {
+    var v = intero($('custom-viaggi').value);
+    if (!(v >= 1 && v <= 100)) {
+      $('custom-viaggi').classList.add('err-campo'); $('custom-viaggi').setAttribute('aria-invalid', 'true');
+      $('ce-errore').hidden = false; $('custom-viaggi').focus();
+      return;
+    }
+    var stesso = doniMisura.filter(function (d) { return d.viaggi === v; })[0];
+    if (stesso) stesso.pacchetti++; else doniMisura.push({ viaggi: v, pacchetti: 1 });
+    chiudiEditor(); disegnaMisura(); aggiorna(); aggiornaViaggio();
+    $('aggiungi').focus();
+  }
+  $('aggiungi').addEventListener('click', apriEditor);
+  $('custom-ok').addEventListener('click', confermaMisura);
+  $('custom-annulla').addEventListener('click', function () { chiudiEditor(); $('aggiungi').focus(); });
+  $('custom-viaggi').addEventListener('input', prezzoEditor);
+  $('custom-viaggi').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); confermaMisura(); }
+    if (e.key === 'Escape') { chiudiEditor(); $('aggiungi').focus(); }
+  });
   // ---- bottoni − / + sui pacchetti ----
   document.querySelectorAll('[data-step]').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -487,16 +558,27 @@
   });
   function valoreConsegna() { return document.querySelector('input[name=consegna]:checked').value; }
 
+  // ---- azienda o privato: campi diversi a seconda della scelta ----
+  function valoreTipo() { var r = document.querySelector('input[name=tipo]:checked'); return r ? r.value : ''; }
+  document.querySelectorAll('input[name=tipo]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      var azienda = valoreTipo() === 'azienda';
+      $('blocco-azienda').hidden = !azienda;
+      $('blocco-persona').hidden = false;
+      $('titolo-persona').hidden = !azienda;   // per i privati bastano nome, cognome e contatti
+      $('scelta-tipo').classList.remove('err-campo');
+    });
+  });
+  // nome da mostrare in causale, ringraziamento e PDF: la ragione sociale o "Nome Cognome"
+  function nomeOrdine() {
+    return valoreTipo() === 'azienda' ? $('azienda').value.trim() : ($('nome').value.trim() + ' ' + $('cognome').value.trim()).trim();
+  }
+
   // ---- calcolo ----
   function intero(v) { var n = Number(v); return Number.isInteger(n) ? n : NaN; }
   function leggiOrdine() {
     var q5 = intero($('q5').value || 0), q10 = intero($('q10').value || 0);
-    var custom = [];
-    document.querySelectorAll('.custom-row').forEach(function (row) {
-      var p = row.querySelector('.c-pacchetti').value, v = row.querySelector('.c-viaggi').value;
-      if (p === '' && v === '') return;
-      custom.push({ pacchetti: intero(p), viaggi: intero(v) });
-    });
+    var custom = doniMisura.map(function (d) { return { pacchetti: d.pacchetti, viaggi: d.viaggi }; });
     var pacchetti = (q5 || 0) + (q10 || 0), viaggi = (q5 || 0) * 5 + (q10 || 0) * 10;
     custom.forEach(function (c) {
       if (c.pacchetti > 0 && c.viaggi > 0) { pacchetti += c.pacchetti; viaggi += c.pacchetti * c.viaggi; }
@@ -508,47 +590,49 @@
     $('r-pacchetti').textContent = o.pacchetti.toLocaleString('it-IT');
     $('r-viaggi').textContent = o.viaggi.toLocaleString('it-IT');
     $('r-totale').textContent = euro(o.totale);
+    $('st-viaggi').textContent = o.viaggi.toLocaleString('it-IT');
+    $('st-totale').textContent = euro(o.totale);
   }
   $('form-ordine').addEventListener('input', aggiorna);
+  // il bordo rosso di un campo sbagliato sparisce appena lo si corregge
+  $('form-ordine').addEventListener('input', function (e) {
+    if (e.target.classList.contains('err-campo')) { e.target.classList.remove('err-campo'); e.target.removeAttribute('aria-invalid'); }
+  });
 
   // ---- validazione ----
   function valida(o) {
     var err = [];
     document.querySelectorAll('.err-campo').forEach(function (el) { el.classList.remove('err-campo'); el.removeAttribute('aria-invalid'); });
     function segna(id, msg) { var el = typeof id === 'string' ? $(id) : id; el.classList.add('err-campo'); el.setAttribute('aria-invalid', 'true'); err.push({ el: el, msg: msg }); }
-    if (!$('azienda').value.trim()) segna('azienda', 'Inserite il nome dell\'azienda.');
-    if (!$('nome').value.trim()) segna('nome', 'Inserite il nome del referente.');
-    if (!$('cognome').value.trim()) segna('cognome', 'Inserite il cognome del referente.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim())) segna('email', 'Inserite un indirizzo email valido.');
     if (!(o.q5 >= 0 && o.q5 <= 1000)) segna('q5', 'Il numero di doni solidali da 5 viaggi deve essere un numero intero da 0 a 1000.');
     if (!(o.q10 >= 0 && o.q10 <= 1000)) segna('q10', 'Il numero di doni solidali da 10 viaggi deve essere un numero intero da 0 a 1000.');
-    document.querySelectorAll('.custom-row').forEach(function (row) {
-      var p = row.querySelector('.c-pacchetti'), v = row.querySelector('.c-viaggi');
-      if (p.value === '' && v.value === '') return;
-      var pn = intero(p.value), vn = intero(v.value);
-      if (!(pn >= 1 && pn <= 1000)) segna(p, 'Doni solidali su misura: indicate quanti doni (da 1 a 1000).');
-      if (!(vn >= 1 && vn <= 100)) segna(v, 'Doni solidali su misura: indicate quanti viaggi per ogni dono (da 1 a 100).');
-    });
+    if (!$('custom-editor').hidden && $('custom-viaggi').value !== '') segna('custom-viaggi', 'Confermate o annullate il dono su misura che state aggiungendo.');
     if (!err.length && o.pacchetti < 1) segna('q5', 'Scegliete almeno un dono solidale.');
+    var tipo = valoreTipo();
+    if (!tipo) segna('scelta-tipo', 'Indicate se siete un\'azienda o un privato.');
+    if (tipo === 'azienda') {
+      if (!$('azienda').value.trim()) segna('azienda', 'Inserite la ragione sociale.');
+      if (!$('sede').value.trim()) segna('sede', 'Inserite la sede legale.');
+    }
+    if (tipo) {
+      if (!$('nome').value.trim()) segna('nome', 'Inserite il nome.');
+      if (!$('cognome').value.trim()) segna('cognome', 'Inserite il cognome.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim())) segna('email', 'Inserite un indirizzo email valido.');
+    }
     if (valoreConsegna() === 'spedizione' && !$('indirizzo').value.trim()) segna('indirizzo', 'Inserite l\'indirizzo di spedizione.');
     if (!$('privacy').checked) segna('privacy', 'Confermate di aver letto l\'informativa privacy.');
     return err;
   }
-  function mostraErrori(err) {
+  function mostraErrori(err, soloMessaggio) {
     var box = $('errori');
     if (!err.length) { box.hidden = true; box.innerHTML = ''; return; }
-    box.innerHTML = 'Controllate questi campi:<ul>' + err.map(function (e) { return '<li>' + e.msg + '</li>'; }).join('') + '</ul>';
+    box.innerHTML = soloMessaggio ? err[0].msg :
+      'Controllate questi campi:<ul>' + err.map(function (e) { return '<li>' + e.msg + '</li>'; }).join('') + '</ul>';
     box.hidden = false;
     err[0].el.focus();
   }
 
   // ---- codice ordine ----
-  function codiceOrdine() {
-    var d = new Date(), ch = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', s = '';
-    var buf = new Uint32Array(4); crypto.getRandomValues(buf);
-    for (var i = 0; i < 4; i++) s += ch[buf[i] % ch.length];
-    return 'L23-' + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '-' + s;
-  }
   function causale(codice, azienda) {
     var c = B.causale_prefisso + ' – ' + codice + ' – ' + azienda;
     return c.length > 140 ? c.slice(0, 139) + '…' : c;
@@ -576,8 +660,8 @@
     }
     if (logo) doc.addImage(logo, 'PNG', M, 13, 26, 24.3);
     doc.setTextColor.apply(doc, GIALLO); doc.setFont('helvetica', 'bold'); doc.setFontSize(17);
-    doc.text('Dati per il bonifico –', M + 32, 23);
-    doc.text('Viaggi magici Lollo 23', M + 32, 31);
+    doc.setFontSize(20);
+    doc.text('Doni solidali Lollo23', M + 32, 28);
     doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
     doc.text('Associazione Amici di Lollo ODV · Natale 2026', M + 32, 38);
 
@@ -592,14 +676,17 @@
     y = 78;
     doc.setTextColor.apply(doc, NAVY); doc.setFontSize(12); doc.text('Dati dell\'ordine', M, y);
     doc.setFontSize(10);
-    var righe = [['Azienda', dati.azienda], ['Referente', dati.nome + ' ' + dati.cognome], ['Email', dati.email]];
+    var righe = dati.tipo === 'azienda'
+      ? [['Ragione sociale', dati.azienda], ['Sede legale', dati.sede], ['Referente', dati.nome + ' ' + dati.cognome], ['Email', dati.email]]
+      : [['Nome', dati.nome + ' ' + dati.cognome], ['Email', dati.email]];
     if (dati.telefono) righe.push(['Telefono', dati.telefono]);
-    righe.push(['Consegna', dati.consegna === 'spedizione' ? 'Spedizione: ' + dati.indirizzo.replace(/\s*\n\s*/g, ', ') : 'A mano']);
+    righe.push(['Consegna', dati.consegna === 'spedizione' ? 'Spedizione' : 'A mano']);
+    if (dati.indirizzo) righe.push(['Indirizzo', dati.indirizzo.replace(/\s*\n\s*/g, ', ')]);
     y += 7;
     righe.forEach(function (r) {
       doc.setFont('helvetica', 'bold'); doc.setTextColor.apply(doc, GRIGIO); doc.text(r[0], M, y);
       doc.setFont('helvetica', 'normal'); doc.setTextColor.apply(doc, TESTO);
-      var t = doc.splitTextToSize(r[1], W - M * 2 - 30); doc.text(t, M + 30, y); y += 5.5 * t.length;
+      var t = doc.splitTextToSize(r[1], W - M * 2 - 36); doc.text(t, M + 36, y); y += 5.5 * t.length;
     });
 
     // tabella pacchetti
@@ -627,7 +714,6 @@
     doc.text(String(dati.viaggi), cx[2], y + 5.5); doc.text(euro(dati.totale), cx[3] - 3, y + 5.5, { align: 'right' });
     y += 9;
     doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor.apply(doc, GRIGIO);
-    doc.text('1 viaggio = ' + euro(PREZZO), M, y + 2);
 
     // box bonifico
     y += 8;
@@ -655,9 +741,9 @@
 
     // nota e contatti
     doc.setTextColor.apply(doc, TESTO); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
-    doc.text('Riceverete la ricevuta della donazione da Amici di Lollo dopo l\'accredito.', M, y);
+    doc.text('La ricevuta vi verrà inviata all\'indirizzo email indicato.', M, y);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
-    doc.text(doc.splitTextToSize('Indicate sempre il codice ordine nella causale: ci serve per abbinare il bonifico al vostro ordine. Dopo l\'accredito prepariamo le confezioni regalo e ve le consegniamo.', W - M * 2), M, y + 6);
+    doc.text(doc.splitTextToSize('Indicate sempre il codice ordine nella causale: ci è utile per abbinare il bonifico al vostro ordine. Una volta ricevuto l\'accredito prepareremo le confezioni regalo e ci accorderemo per la consegna.', W - M * 2), M, y + 6);
 
     doc.setFillColor.apply(doc, NAVY); doc.rect(0, 272, W, 25, 'F');
     doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
@@ -701,8 +787,9 @@
   function progressoDati() {
     if (!$('form-ordine')) return 1;
     var o = leggiOrdine();
-    var fatti = [o.pacchetti >= 1, !!$('azienda').value.trim(), !!$('nome').value.trim(), !!$('cognome').value.trim(),
+    var fatti = [o.pacchetti >= 1, !!valoreTipo(), !!$('nome').value.trim(), !!$('cognome').value.trim(),
       /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim()), $('privacy').checked];
+    if (valoreTipo() === 'azienda') fatti.push(!!$('azienda').value.trim(), !!$('sede').value.trim());
     if (valoreConsegna() === 'spedizione') fatti.push(!!$('indirizzo').value.trim());
     return fatti.filter(Boolean).length / fatti.length;
   }
@@ -783,6 +870,8 @@
         });
       }
       var t0 = performance.now(), pieno = false;
+      // se il browser mette in pausa l'animazione (scheda in background), il ringraziamento compare lo stesso
+      setTimeout(function () { if (!pieno) { pieno = true; quandoPieno(); } }, 3000);
       function frame(now) {
         var t = (now - t0) / 1000, vivi = 0;
         ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H);
@@ -844,58 +933,53 @@
     btn.disabled = true; btn.textContent = 'Invio in corso…';
     var arrivo = guidaAlTraguardo();
 
-    Promise.all([bonificoPronto, caricaLogo()]).then(function (res) {
-      if (!B || !window.jspdf) throw new Error('setup');
-      var logo = res[1];
-      var codice = codiceOrdine();
-      var dati = {
-        codice: codice,
-        dataIt: new Date().toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-        azienda: $('azienda').value.trim(), nome: $('nome').value.trim(), cognome: $('cognome').value.trim(),
-        email: $('email').value.trim(), telefono: $('telefono').value.trim(),
-        q5: o.q5 || 0, q10: o.q10 || 0,
-        custom: o.custom.filter(function (c) { return c.pacchetti > 0 && c.viaggi > 0; }),
-        pacchetti: o.pacchetti, viaggi: o.viaggi, totale: o.totale,
-        consegna: valoreConsegna(), indirizzo: $('indirizzo').value.trim(), note: $('note').value.trim()
-      };
-      dati.causale = causale(codice, dati.azienda);
-      var doc = creaPdf(dati, logo);
-      var nome = 'Lollo23_' + codice + '.pdf';
-      ultimoPdf = { blob: doc.output('blob'), nome: nome };
+    var dati = {
+      dataIt: new Date().toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+      tipo: valoreTipo(), azienda: nomeOrdine(), sede: valoreTipo() === 'azienda' ? $('sede').value.trim() : '',
+      nome: $('nome').value.trim(), cognome: $('cognome').value.trim(),
+      email: $('email').value.trim(), telefono: $('telefono').value.trim(),
+      q5: o.q5 || 0, q10: o.q10 || 0,
+      custom: o.custom.filter(function (c) { return c.pacchetti > 0 && c.viaggi > 0; }),
+      pacchetti: o.pacchetti, viaggi: o.viaggi, totale: o.totale,
+      consegna: valoreConsegna(), indirizzo: $('indirizzo').value.trim(), note: $('note').value.trim()
+    };
+    var payload = {
+      tipo: dati.tipo, azienda: dati.tipo === 'azienda' ? dati.azienda : '', sede: dati.sede,
+      nome: dati.nome, cognome: dati.cognome, email: dati.email,
+      telefono: dati.telefono, q5: dati.q5, q10: dati.q10, custom: dati.custom, consegna: dati.consegna,
+      indirizzo: dati.consegna === 'spedizione' ? dati.indirizzo : '', note: dati.note,
+      privacy: $('privacy').checked, sito_web: $('sito_web').value
+    };
 
-      var pdfBase64 = doc.output('datauristring').split(',')[1];
-      var payload = {
-        codice: codice, azienda: dati.azienda, nome: dati.nome, cognome: dati.cognome, email: dati.email,
-        telefono: dati.telefono, q5: dati.q5, q10: dati.q10, custom: dati.custom, consegna: dati.consegna,
-        indirizzo: dati.consegna === 'spedizione' ? dati.indirizzo : '', note: dati.note,
-        privacy: $('privacy').checked, sito_web: $('sito_web').value, pdf: pdfBase64
-      };
+    // 1. il server registra l'ordine e assegna il numero progressivo (Lollo23-26001…)
+    var invio = fetch('/api/ordine', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+      .then(function (j) { if (!j.ok || !j.codice) throw new Error('api'); return j.codice; });
+
+    // 2. con il codice si prepara il PDF per il bonifico (si scarica dal bottone nel ringraziamento)
+    Promise.all([invio, bonificoPronto, caricaLogo()]).then(function (res) {
+      var codice = res[0], logo = res[2];
+      dati.codice = codice;
+      dati.causale = causale(codice, dati.azienda);
+      try {
+        if (B && window.jspdf) ultimoPdf = { blob: creaPdf(dati, logo).output('blob'), nome: codice + '.pdf' };
+      } catch (e) { /* senza PDF restano comunque i dati del bonifico a schermo */ }
       var c = esc(codice);
-      return fetch('/api/ordine', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-        .then(function (r) { return r.json().catch(function () { return { ok: false }; }).then(function (j) { return { status: r.status, j: j }; }); })
-        .then(function (r) {
-          if (!r.j.ok) throw new Error('api');
-          function rivela() {
-            mostraEsito('ok', '<h3>Grazie! Ordine <span class="codice">' + c + '</span> inviato.</h3>' +
-              '<p>Abbiamo ricevuto il vostro ordine. Scaricate il PDF con l\'importo esatto e i dati per il bonifico: ricordatevi di inserire il codice ordine in causale.</p>');
-            mostraGrazie(dati, riduciMovimento ? 0 : 1200);
-          }
-          // l'auto è al sole: il sole esplode in coriandoli, sotto compare il ringraziamento e i coriandoli cadono scoprendolo
-          return arrivo.then(function () {
-            if (riduciMovimento) { rivela(); return; }
-            return esplosione(rivela);
-          });
-        }, function () { throw new Error('api'); })
-        .catch(function () {
-          tornaIndietro();
-          mostraEsito('ko', '<h3>L\'ordine non è stato inviato</h3>' +
-            '<p>Il nostro sistema non ha ricevuto l\'ordine. ' +
-            'Scriveteci a <a href="mailto:info@amicidilollo.it?subject=' + encodeURIComponent('Ordine ' + codice) + '">info@amicidilollo.it</a> citando il codice <span class="codice">' + c + '</span>.</p>');
-        });
+      function rivela() {
+        mostraEsito('ok', '<h3>Grazie! Ordine <span class="codice">' + c + '</span> inviato.</h3>' +
+          '<p>Abbiamo ricevuto il vostro ordine. Scaricate il PDF con l\'importo esatto e i dati per il bonifico: ricordatevi di inserire il codice ordine in causale.</p>');
+        mostraGrazie(dati, riduciMovimento ? 0 : 1200);
+      }
+      // l'auto è al sole: il sole esplode in coriandoli, sotto compare il ringraziamento e i coriandoli cadono scoprendolo
+      return arrivo.then(function () {
+        if (riduciMovimento) { rivela(); return; }
+        return esplosione(rivela);
+      });
     }).catch(function () {
+      // ordine non registrato: il form resta compilato e si può riprovare
       tornaIndietro();
       btn.disabled = false; btn.textContent = 'Invia l\'ordine';
-      mostraErrori([{ el: btn, msg: 'Non riusciamo a preparare il PDF. Ricaricate la pagina o scriveteci a info@amicidilollo.it.' }]);
+      mostraErrori([{ el: btn, msg: 'L\'ordine non è stato inviato. Riprovate tra qualche minuto; se il problema continua scriveteci a info@amicidilollo.it.' }], true);
     });
   });
 

@@ -17,7 +17,9 @@ scripts/
 vercel.json
 ```
 
-Flusso: l'azienda compila il form, il browser genera il PDF `Lollo23_<codice>.pdf` con i dati per il bonifico e lo scarica, poi lo manda a `/api/ordine`. La funzione ricalcola il totale e invia **una sola email, a voi** (`ORDER_TO_EMAIL`): "Nuovo ordine … – Azienda X ha ordinato N viaggi – Z €", con tutti i dati e il PDF allegato. Rispondendo a quella email scrivete direttamente al referente dell'azienda.
+Flusso: l'azienda compila il form e la pagina manda i dati a `/api/ordine`. La funzione ricalcola il totale, assegna il **numero d'ordine progressivo** (`Lollo23-26001`, `Lollo23-26002`… fino a `Lollo23-26999`; le prime due cifre sono l'anno) con il contatore su Upstash Redis e invia **una sola email, a voi** (`ORDER_TO_EMAIL`): "Nuovo ordine … – Azienda X ha ordinato N viaggi – Z €", con tutti i dati e la causale attesa. Rispondendo a quella email scrivete direttamente al referente dell'azienda. Poi la pagina crea il PDF `Lollo23-26xxx.pdf` con i dati per il bonifico, che l'azienda scarica dal bottone nella schermata di ringraziamento.
+
+Il numero si consuma solo per ordini validi; se l'invio dell'email fallisce dopo aver preso il numero, quel numero resta saltato (mai doppioni). Ogni anno la numerazione riparte da 001.
 
 All'azienda non arriva nessuna email automatica: i dati per il bonifico sono nel PDF, che può riscaricare dalla pagina.
 
@@ -35,7 +37,11 @@ Crea un file `.env.local` (non va su git):
 RESEND_API_KEY=re_xxxxxxxxx
 ORDER_TO_EMAIL=la-tua-email@esempio.it
 FROM_EMAIL=Amici di Lollo <onboarding@resend.dev>
+KV_REST_API_URL=https://xxxx.upstash.io
+KV_REST_API_TOKEN=xxxxxxxx
 ```
+
+(Le ultime due si copiano dal database Upstash, vedi sotto.)
 
 Poi:
 
@@ -56,8 +62,13 @@ Vercel → progetto → **Settings → Environment Variables**, per l'ambiente *
 | `RESEND_API_KEY` | la chiave API di Resend (resend.com → API Keys) |
 | `ORDER_TO_EMAIL` | dove arrivano gli ordini: l'email del vostro account Resend |
 | `FROM_EMAIL` | `Amici di Lollo <onboarding@resend.dev>` |
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | le aggiunge Vercel da solo quando collegate il contatore Upstash (vedi sotto) |
 
 Dopo aver cambiato le variabili serve un nuovo deploy.
+
+### Contatore dei numeri d'ordine (Upstash Redis)
+
+Vercel → progetto → **Storage → Create Database → Upstash for Redis** (piano gratuito) → collegatelo al progetto. Vercel aggiunge da solo `KV_REST_API_URL` e `KV_REST_API_TOKEN` (vanno bene anche `UPSTASH_REDIS_REST_URL` e `UPSTASH_REDIS_REST_TOKEN`). Il contatore è la chiave `lollo23:ordini:26`: per ripartire da 001 basta cancellarla dalla console di Upstash. Senza contatore la funzione non accetta ordini.
 
 ### Se volete ricevere gli ordini su più indirizzi
 
