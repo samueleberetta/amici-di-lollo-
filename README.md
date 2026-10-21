@@ -73,7 +73,7 @@ vercel --prod
 
 Oppure collegate la cartella a un repository GitHub e importatelo su Vercel: ogni push fa il deploy da solo. Non c'è nessun build step.
 
-Il bottone della mail di proposta (`mail_regali_aziendali_lollo23.html`) punta a `https://lollo23-viaggi-magici.vercel.app/#ordina`. Se il progetto Vercel ha un altro nome o usate un dominio vostro, aggiornate quel link e il meta `og:image` in `public/index.html`.
+Il bottone della mail di proposta (`mail_regali_aziendali_lollo23.html`) punta a `https://amici-di-lollo.vercel.app/#ordina`. Se il progetto Vercel ha un altro nome o usate un dominio vostro, aggiornate quel link e il meta `og:image` in `public/index.html`.
 
 ## Cambiare IBAN e prezzi
 
