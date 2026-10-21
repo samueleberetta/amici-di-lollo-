@@ -193,11 +193,15 @@ module.exports = async function handler(req, res) {
   const { RESEND_API_KEY, ORDER_TO_EMAIL } = process.env;
   // mittente di prova di Resend finché non si verifica il dominio amicidilollo.it
   const FROM_EMAIL = process.env.FROM_EMAIL || 'Amici di Lollo <onboarding@resend.dev>';
-  const contatore = (process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL) &&
-    (process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN);
-  if (!RESEND_API_KEY || !ORDER_TO_EMAIL || !contatore) {
-    console.error('Variabili d\'ambiente mancanti: servono RESEND_API_KEY, ORDER_TO_EMAIL e il contatore Upstash (KV_REST_API_URL e KV_REST_API_TOKEN)');
-    return res.status(500).json({ ok: false, error: 'Configurazione del server incompleta' });
+  // solo i nomi delle variabili mancanti, mai i valori
+  const mancanti = [];
+  if (!RESEND_API_KEY) mancanti.push('RESEND_API_KEY');
+  if (!ORDER_TO_EMAIL) mancanti.push('ORDER_TO_EMAIL');
+  if (!process.env.KV_REST_API_URL && !process.env.UPSTASH_REDIS_REST_URL) mancanti.push('KV_REST_API_URL');
+  if (!process.env.KV_REST_API_TOKEN && !process.env.UPSTASH_REDIS_REST_TOKEN) mancanti.push('KV_REST_API_TOKEN');
+  if (mancanti.length) {
+    console.error('Variabili d\'ambiente mancanti:', mancanti.join(', '));
+    return res.status(500).json({ ok: false, error: 'Configurazione del server incompleta: manca ' + mancanti.join(', ') });
   }
 
   try {
