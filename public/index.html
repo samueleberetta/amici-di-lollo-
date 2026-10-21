@@ -54,7 +54,7 @@
   .hero .top img{width:56px}
   .hero .top div{text-align:left;font-size:13px;line-height:1.4;color:#cfd9e8}
   .hero .top b{display:block;font-family:'Fredoka',sans-serif;font-weight:600;color:#fff;font-size:17px}
-  .hero h1{color:var(--giallo);font-size:clamp(30px,8vw,48px);margin:30px auto 14px;max-width:640px}
+  .hero h1{color:var(--giallo);font-size:clamp(30px,8vw,48px);margin:0 auto 14px;max-width:640px}
   .hero p.sub{max-width:560px;margin:0 auto 6px;color:#e8eef7;font-size:16px}
   /* la strada della foto è trasparente e qui sotto c'è quella in CSS, che continua ai lati sugli schermi larghi.
      Misure in proporzione alla foto (1200×349): strada da y 254 a 345, trattini 28px ogni 52px a y 297-301 */
@@ -109,6 +109,11 @@
   textarea{min-height:90px;resize:vertical}
   .err-campo{border-color:var(--rosso)!important}
   /* doni su misura: si scrive solo il numero di viaggi, si conferma e finisce nell'elenco */
+  .come-fare{background:var(--card);border-radius:18px;padding:20px 20px 12px;margin-bottom:28px}
+  .come-fare h2{font-size:22px;margin:0 0 10px}
+  .come-fare ol{list-style:none;margin:0;padding:0}
+  .come-fare li{display:flex;gap:12px;align-items:flex-start;padding:7px 0;color:var(--testo)}
+  .cf-num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--giallo);color:var(--navy);font-family:'Fredoka',sans-serif;font-weight:600;display:grid;place-items:center}
   .custom-titolo{margin:20px 0 8px;font-weight:600;color:var(--navy);font-size:15px}
   .custom-list{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px}
   .custom-list li{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:12px;padding:8px 8px 8px 14px}
@@ -228,10 +233,10 @@
     <img src="img/logo.png" alt="Logo Amici di Lollo" width="56" height="52">
     <div><b>Associazione Amici di Lollo ODV</b>Natale 2026</div>
   </div>
-  <div class="wrap" style="position:relative">
-    <span class="stella" style="top:34px;left:6%" aria-hidden="true">✦</span>
-    <span class="stella" style="top:14px;right:8%;font-size:26px" aria-hidden="true">✦</span>
-    <span class="puntino" style="top:62px;right:20%" aria-hidden="true"></span>
+  <div class="wrap" style="position:relative;padding-top:34px">
+    <span class="stella" style="top:2px;left:6%" aria-hidden="true">✦</span>
+    <span class="stella" style="top:-4px;right:8%;font-size:26px" aria-hidden="true">✦</span>
+    <span class="puntino" style="top:10px;right:22%" aria-hidden="true"></span>
     <h1>Ordinate i vostri doni solidali</h1>
     <p class="sub">Scegliete i “viaggi magici” che volete regalare e inserite i vostri dati e le indicazioni per riceverli. Al termine potrete scaricare la conferma con le indicazioni per il pagamento.</p>
   </div>
@@ -245,6 +250,14 @@
 <!-- FORM -->
 <section id="ordina">
   <div class="wrap">
+    <div class="come-fare">
+      <h2>Come fare</h2>
+      <ol>
+        <li><span class="cf-num" aria-hidden="true">1</span><span>Scegliete quanti viaggi donare: 5, 10 oppure indicate voi quanti potete donarne.</span></li>
+        <li><span class="cf-num" aria-hidden="true">2</span><span>Inserite i vostri dati e le indicazioni per riceverli.</span></li>
+        <li><span class="cf-num" aria-hidden="true">3</span><span>Cliccate su “Conferma i tuoi doni”: riceverete una conferma con le istruzioni per la donazione.</span></li>
+      </ol>
+    </div>
     <div id="area-form">
     <form id="form-ordine" novalidate>
       <fieldset>
@@ -271,7 +284,7 @@
             </div>
           </div>
         </div>
-        <p class="custom-titolo">Doni solidali su misura <span class="facolt">(facoltativo, <span data-prezzo="1">5</span> € a viaggio)</span></p>
+        <p class="custom-titolo">Doni solidali su misura</p>
         <ul id="custom-list" class="custom-list"></ul>
         <div id="custom-editor" class="custom-editor" hidden>
           <div class="ce-riga">
@@ -292,18 +305,19 @@
         <legend>2. I vostri dati</legend>
         <p class="domanda" id="tipo-domanda">Siete un'azienda o un privato? *</p>
         <div class="radio scelta-tipo" id="scelta-tipo" role="radiogroup" aria-labelledby="tipo-domanda" tabindex="-1">
+          <label><input type="radio" name="tipo" value="privato" checked> Privato</label>
           <label><input type="radio" name="tipo" value="azienda"> Azienda</label>
-          <label><input type="radio" name="tipo" value="privato"> Privato</label>
         </div>
         <div id="blocco-azienda" hidden>
           <p class="sottotitolo">Dati della società</p>
           <div class="grid2">
             <div class="campo" style="grid-column:1/-1"><label for="azienda">Ragione sociale *</label><input type="text" id="azienda" name="azienda" maxlength="120" autocomplete="organization"></div>
+            <div class="campo" style="grid-column:1/-1"><label for="piva">Partita IVA *</label><input type="text" id="piva" name="piva" maxlength="16" inputmode="numeric" autocomplete="off" placeholder="11 cifre"></div>
             <div class="campo" style="grid-column:1/-1"><label for="sede">Sede legale *</label><input type="text" id="sede" name="sede" maxlength="300" placeholder="Via, numero civico, CAP, città, provincia"></div>
           </div>
         </div>
-        <div id="blocco-persona" hidden>
-          <p class="sottotitolo" id="titolo-persona">Chi compila l'ordine</p>
+        <div id="blocco-persona">
+          <p class="sottotitolo" id="titolo-persona" hidden>Chi compila l'ordine</p>
           <div class="grid2">
             <div class="campo"><label for="nome">Nome *</label><input type="text" id="nome" name="nome" maxlength="60" autocomplete="given-name"></div>
             <div class="campo"><label for="cognome">Cognome *</label><input type="text" id="cognome" name="cognome" maxlength="60" autocomplete="family-name"></div>
@@ -319,8 +333,8 @@
           <label><input type="radio" name="consegna" value="mano" checked> A mano</label>
           <label><input type="radio" name="consegna" value="spedizione"> Spedizione</label>
         </div>
-        <div class="campo" id="campo-indirizzo" hidden style="margin-top:12px">
-          <label for="indirizzo">Indirizzo di spedizione *</label>
+        <div class="campo" id="campo-indirizzo" style="margin-top:12px">
+          <label for="indirizzo">Indirizzo di consegna *</label>
           <textarea id="indirizzo" name="indirizzo" maxlength="300" autocomplete="street-address" placeholder="Via, numero civico, CAP, città, provincia"></textarea>
         </div>
       </fieldset>
@@ -340,7 +354,7 @@
 
       <div class="errori" id="errori" role="alert" hidden></div>
 
-      <button type="submit" class="btn" id="invia">Invia l'ordine</button>
+      <button type="submit" class="btn" id="invia">Conferma i tuoi doni</button>
       <p style="margin:0;font-size:13px;color:var(--grigio);text-align:center">* campi obbligatori</p>
     </form>
     </div>
@@ -553,7 +567,6 @@
   // ---- consegna ----
   document.querySelectorAll('input[name=consegna]').forEach(function (r) {
     r.addEventListener('change', function () {
-      $('campo-indirizzo').hidden = valoreConsegna() !== 'spedizione';
     });
   });
   function valoreConsegna() { return document.querySelector('input[name=consegna]:checked').value; }
@@ -569,6 +582,9 @@
       $('scelta-tipo').classList.remove('err-campo');
     });
   });
+  // partita IVA italiana: 11 cifre, accettando spazi e il prefisso IT
+  function pivaPulita() { return $('piva').value.replace(/\s+/g, '').replace(/^IT/i, ''); }
+  function pivaValida() { return /^\d{11}$/.test(pivaPulita()); }
   // nome da mostrare in causale, ringraziamento e PDF: la ragione sociale o "Nome Cognome"
   function nomeOrdine() {
     return valoreTipo() === 'azienda' ? $('azienda').value.trim() : ($('nome').value.trim() + ' ' + $('cognome').value.trim()).trim();
@@ -612,6 +628,7 @@
     if (!tipo) segna('scelta-tipo', 'Indicate se siete un\'azienda o un privato.');
     if (tipo === 'azienda') {
       if (!$('azienda').value.trim()) segna('azienda', 'Inserite la ragione sociale.');
+      if (!pivaValida()) segna('piva', 'Inserite una partita IVA valida (11 cifre).');
       if (!$('sede').value.trim()) segna('sede', 'Inserite la sede legale.');
     }
     if (tipo) {
@@ -619,7 +636,7 @@
       if (!$('cognome').value.trim()) segna('cognome', 'Inserite il cognome.');
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim())) segna('email', 'Inserite un indirizzo email valido.');
     }
-    if (valoreConsegna() === 'spedizione' && !$('indirizzo').value.trim()) segna('indirizzo', 'Inserite l\'indirizzo di spedizione.');
+    if (!$('indirizzo').value.trim()) segna('indirizzo', 'Inserite l\'indirizzo di consegna.');
     if (!$('privacy').checked) segna('privacy', 'Confermate di aver letto l\'informativa privacy.');
     return err;
   }
@@ -677,7 +694,7 @@
     doc.setTextColor.apply(doc, NAVY); doc.setFontSize(12); doc.text('Dati dell\'ordine', M, y);
     doc.setFontSize(10);
     var righe = dati.tipo === 'azienda'
-      ? [['Ragione sociale', dati.azienda], ['Sede legale', dati.sede], ['Referente', dati.nome + ' ' + dati.cognome], ['Email', dati.email]]
+      ? [['Ragione sociale', dati.azienda], ['Partita IVA', dati.piva], ['Sede legale', dati.sede], ['Referente', dati.nome + ' ' + dati.cognome], ['Email', dati.email]]
       : [['Nome', dati.nome + ' ' + dati.cognome], ['Email', dati.email]];
     if (dati.telefono) righe.push(['Telefono', dati.telefono]);
     righe.push(['Consegna', dati.consegna === 'spedizione' ? 'Spedizione' : 'A mano']);
@@ -789,8 +806,8 @@
     var o = leggiOrdine();
     var fatti = [o.pacchetti >= 1, !!valoreTipo(), !!$('nome').value.trim(), !!$('cognome').value.trim(),
       /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim()), $('privacy').checked];
-    if (valoreTipo() === 'azienda') fatti.push(!!$('azienda').value.trim(), !!$('sede').value.trim());
-    if (valoreConsegna() === 'spedizione') fatti.push(!!$('indirizzo').value.trim());
+    if (valoreTipo() === 'azienda') fatti.push(!!$('azienda').value.trim(), pivaValida(), !!$('sede').value.trim());
+    fatti.push(!!$('indirizzo').value.trim());
     return fatti.filter(Boolean).length / fatti.length;
   }
   function posizionaAuto(p, durata) {
@@ -901,7 +918,7 @@
   // ---- schermata di ringraziamento ----
   function mostraGrazie(dati, dissolvenza) {
     $('g-codice').textContent = 'Ordine ' + dati.codice;
-    $('g-testo').innerHTML = 'Grazie a <strong>' + esc(dati.azienda) + '</strong>: con i vostri <strong>' + dati.viaggi +
+    $('g-testo').innerHTML = 'Grazie <strong>' + esc(dati.azienda) + '</strong>: con i vostri <strong>' + dati.viaggi +
       ' viaggi magici</strong> i bambini di Lollo 23 potranno raggiungere i luoghi delle loro cure.';
     $('g-importo').textContent = euro(dati.totale);
     $('g-iban').textContent = B.iban;
@@ -936,6 +953,7 @@
     var dati = {
       dataIt: new Date().toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
       tipo: valoreTipo(), azienda: nomeOrdine(), sede: valoreTipo() === 'azienda' ? $('sede').value.trim() : '',
+      piva: valoreTipo() === 'azienda' ? pivaPulita() : '',
       nome: $('nome').value.trim(), cognome: $('cognome').value.trim(),
       email: $('email').value.trim(), telefono: $('telefono').value.trim(),
       q5: o.q5 || 0, q10: o.q10 || 0,
@@ -944,10 +962,10 @@
       consegna: valoreConsegna(), indirizzo: $('indirizzo').value.trim(), note: $('note').value.trim()
     };
     var payload = {
-      tipo: dati.tipo, azienda: dati.tipo === 'azienda' ? dati.azienda : '', sede: dati.sede,
+      tipo: dati.tipo, azienda: dati.tipo === 'azienda' ? dati.azienda : '', sede: dati.sede, piva: dati.piva,
       nome: dati.nome, cognome: dati.cognome, email: dati.email,
       telefono: dati.telefono, q5: dati.q5, q10: dati.q10, custom: dati.custom, consegna: dati.consegna,
-      indirizzo: dati.consegna === 'spedizione' ? dati.indirizzo : '', note: dati.note,
+      indirizzo: dati.indirizzo, note: dati.note,
       privacy: $('privacy').checked, sito_web: $('sito_web').value
     };
 
@@ -978,7 +996,7 @@
     }).catch(function () {
       // ordine non registrato: il form resta compilato e si può riprovare
       tornaIndietro();
-      btn.disabled = false; btn.textContent = 'Invia l\'ordine';
+      btn.disabled = false; btn.textContent = 'Conferma i tuoi doni';
       mostraErrori([{ el: btn, msg: 'L\'ordine non è stato inviato. Riprovate tra qualche minuto; se il problema continua scriveteci a info@amicidilollo.it.' }], true);
     });
   });

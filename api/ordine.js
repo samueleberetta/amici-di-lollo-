@@ -40,6 +40,7 @@ function valida(b) {
     tipo,
     azienda: testo(tipo === 'azienda' ? b.azienda : '', 120, tipo === 'azienda', 'Ragione sociale', e),
     sede: testo(tipo === 'azienda' ? b.sede : '', 300, tipo === 'azienda', 'Sede legale', e),
+    piva: tipo === 'azienda' && typeof b.piva === 'string' ? b.piva.replace(/\s+/g, '').replace(/^IT/i, '') : '',
     nome: testo(b.nome, 60, true, 'Nome', e),
     cognome: testo(b.cognome, 60, true, 'Cognome', e),
     email: testo(b.email, 160, true, 'Email', e),
@@ -48,11 +49,11 @@ function valida(b) {
     indirizzo: testo(b.indirizzo, 300, false, 'Indirizzo', e),
     note: testo(b.note, 1000, false, 'Note', e),
   };
+  if (tipo === 'azienda' && !/^\d{11}$/.test(o.piva)) e.push('Partita IVA non valida');
   // per i privati il nome dell'ordine (causale, oggetto dell'email) è "Nome Cognome"
   if (tipo === 'privato') o.azienda = `${o.nome} ${o.cognome}`.trim();
   if (o.email && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/.test(o.email)) e.push('Email non valida');
-  if (o.consegna === 'spedizione' && !o.indirizzo) e.push('Indirizzo di spedizione mancante');
-  if (o.consegna === 'mano') o.indirizzo = '';
+  if (!o.indirizzo) e.push('Indirizzo di consegna mancante');
   if (b.privacy !== true) e.push('Consenso privacy mancante');
 
   o.q5 = intero(b.q5 || 0, 0, 1000);
@@ -136,14 +137,15 @@ function emailInterna(o) {
 <tr><td><table role="presentation" cellpadding="0" cellspacing="0">
 ${riga('Codice', `<strong style="color:${C.rosso};">${esc(o.codice)}</strong>`)}
 ${o.tipo === 'azienda'
-    ? riga('Cliente', 'Azienda') + riga('Ragione sociale', esc(o.azienda)) + riga('Sede legale', br(o.sede)) + riga('Referente', esc(o.nome + ' ' + o.cognome))
+    ? riga('Cliente', 'Azienda') + riga('Ragione sociale', esc(o.azienda)) + riga('Partita IVA', esc(o.piva)) + riga('Sede legale', br(o.sede)) + riga('Referente', esc(o.nome + ' ' + o.cognome))
     : riga('Cliente', 'Privato') + riga('Nome', esc(o.nome + ' ' + o.cognome))}
 ${riga('Email', `<a href="mailto:${esc(o.email)}">${esc(o.email)}</a>`)}
 ${riga('Telefono', o.telefono ? esc(o.telefono) : '—')}
 ${riga('Doni solidali', String(o.pacchetti))}
 ${riga('Viaggi', String(o.viaggi))}
 ${riga('Totale', `<strong>${euro(o.totale)}</strong>`)}
-${riga('Consegna', o.consegna === 'spedizione' ? 'Spedizione<br>' + br(o.indirizzo) : 'A mano')}
+${riga('Consegna', o.consegna === 'spedizione' ? 'Spedizione' : 'A mano')}
+${riga('Indirizzo di consegna', br(o.indirizzo))}
 ${riga('Note', o.note ? br(o.note) : '—')}
 ${riga('Causale attesa', esc(o.causale))}
 </table></td></tr>
