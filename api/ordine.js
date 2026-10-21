@@ -52,16 +52,16 @@ function valida(b) {
 
   o.q5 = intero(b.q5 || 0, 0, 1000);
   o.q10 = intero(b.q10 || 0, 0, 1000);
-  if (o.q5 === null) e.push('Quantità pacchetti da 5 non valida');
-  if (o.q10 === null) e.push('Quantità pacchetti da 10 non valida');
+  if (o.q5 === null) e.push('Quantità doni solidali da 5 non valida');
+  if (o.q10 === null) e.push('Quantità doni solidali da 10 non valida');
 
   o.custom = [];
   const custom = Array.isArray(b.custom) ? b.custom : [];
-  if (custom.length > 20) e.push('Troppi pacchetti su misura');
+  if (custom.length > 20) e.push('Troppi doni solidali su misura');
   custom.slice(0, 20).forEach((c) => {
     const p = intero(c && c.pacchetti, 1, 1000);
     const v = intero(c && c.viaggi, 1, 100);
-    if (p === null || v === null) e.push('Pacchetto su misura non valido');
+    if (p === null || v === null) e.push('Dono solidale su misura non valido');
     else o.custom.push({ pacchetti: p, viaggi: v });
   });
 
@@ -69,7 +69,7 @@ function valida(b) {
   o.pacchetti = (o.q5 || 0) + (o.q10 || 0) + o.custom.reduce((s, c) => s + c.pacchetti, 0);
   o.viaggi = (o.q5 || 0) * 5 + (o.q10 || 0) * 10 + o.custom.reduce((s, c) => s + c.pacchetti * c.viaggi, 0);
   o.totale = o.viaggi * PREZZO;
-  if (o.pacchetti < 1) e.push('Serve almeno un pacchetto');
+  if (o.pacchetti < 1) e.push('Serve almeno un dono solidale');
 
   o.pdf = typeof b.pdf === 'string' ? b.pdf.replace(/\s/g, '') : '';
   if (!o.pdf || !/^[A-Za-z0-9+/]+=*$/.test(o.pdf)) e.push('PDF mancante');
@@ -83,9 +83,9 @@ function valida(b) {
 
 function righePacchetti(o) {
   const r = [];
-  if (o.q5) r.push({ nome: 'Pacchetto da 5 viaggi magici', qta: o.q5, viaggi: o.q5 * 5 });
-  if (o.q10) r.push({ nome: 'Pacchetto da 10 viaggi magici', qta: o.q10, viaggi: o.q10 * 10 });
-  o.custom.forEach((c) => r.push({ nome: `Pacchetto su misura da ${c.viaggi} viaggi`, qta: c.pacchetti, viaggi: c.pacchetti * c.viaggi }));
+  if (o.q5) r.push({ nome: 'Dono solidale da 5 viaggi magici', qta: o.q5, viaggi: o.q5 * 5 });
+  if (o.q10) r.push({ nome: 'Dono solidale da 10 viaggi magici', qta: o.q10, viaggi: o.q10 * 10 });
+  o.custom.forEach((c) => r.push({ nome: `Dono solidale su misura da ${c.viaggi} viaggi`, qta: c.pacchetti, viaggi: c.pacchetti * c.viaggi }));
   return r;
 }
 
@@ -95,7 +95,7 @@ function tabellaPacchetti(o) {
   const righe = righePacchetti(o).map((r) => `<tr><td ${td}>${esc(r.nome)}</td><td ${td} align="center">${r.qta}</td><td ${td} align="center">${r.viaggi}</td><td ${td} align="right">${euro(r.viaggi * PREZZO)}</td></tr>`).join('');
   const tot = `style="padding:11px 10px;font-family:${FONT};font-size:15px;font-weight:700;color:${C.navy};"`;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-<tr><th ${th('left')}>PACCHETTO</th><th ${th('center')}>QTÀ</th><th ${th('center')}>VIAGGI</th><th ${th('right')}>IMPORTO</th></tr>
+<tr><th ${th('left')}>DONO SOLIDALE</th><th ${th('center')}>QTÀ</th><th ${th('center')}>VIAGGI</th><th ${th('right')}>IMPORTO</th></tr>
 ${righe}
 <tr><td ${tot}>Totale</td><td ${tot} align="center">${o.pacchetti}</td><td ${tot} align="center">${o.viaggi}</td><td ${tot} align="right">${euro(o.totale)}</td></tr>
 </table>`;
@@ -111,14 +111,14 @@ function emailInterna(o) {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:640px;">
 <tr><td style="font-family:${FONT_H};font-size:22px;color:${C.navy};font-weight:600;padding-bottom:4px;">Nuovo ordine ${esc(o.codice)}</td></tr>
 <tr><td style="font-family:${FONT};font-size:13px;color:${C.grigio};padding-bottom:12px;">${esc(dataOraItaliana())}</td></tr>
-<tr><td style="font-family:${FONT};font-size:16px;color:${C.testo};padding-bottom:16px;"><strong>${esc(o.azienda)}</strong> ha ordinato <strong>${o.pacchetti} ${o.pacchetti === 1 ? 'pacchetto' : 'pacchetti'}</strong> per un totale di <strong>${o.viaggi} viaggi</strong>, cioè <strong>${euro(o.totale)}</strong> da ricevere con bonifico.</td></tr>
+<tr><td style="font-family:${FONT};font-size:16px;color:${C.testo};padding-bottom:16px;"><strong>${esc(o.azienda)}</strong> ha ordinato <strong>${o.pacchetti} ${o.pacchetti === 1 ? 'dono solidale' : 'doni solidali'}</strong> per un totale di <strong>${o.viaggi} viaggi</strong>, cioè <strong>${euro(o.totale)}</strong> da ricevere con bonifico.</td></tr>
 <tr><td><table role="presentation" cellpadding="0" cellspacing="0">
 ${riga('Codice', `<strong style="color:${C.rosso};">${esc(o.codice)}</strong>`)}
 ${riga('Azienda', esc(o.azienda))}
 ${riga('Referente', esc(o.nome + ' ' + o.cognome))}
 ${riga('Email', `<a href="mailto:${esc(o.email)}">${esc(o.email)}</a>`)}
 ${riga('Telefono', o.telefono ? esc(o.telefono) : '—')}
-${riga('Pacchetti', String(o.pacchetti))}
+${riga('Doni solidali', String(o.pacchetti))}
 ${riga('Viaggi', String(o.viaggi))}
 ${riga('Totale', `<strong>${euro(o.totale)}</strong>`)}
 ${riga('Consegna', o.consegna === 'spedizione' ? 'Spedizione<br>' + br(o.indirizzo) : 'A mano')}

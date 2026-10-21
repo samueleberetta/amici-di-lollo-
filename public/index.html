@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Viaggi magici – Amici di Lollo</title>
-<meta name="description" content="Questo Natale sostenete il servizio Lollo 23 regalando viaggi magici: ogni pacchetto accompagna i bambini da casa all'ospedale per le loro terapie.">
+<meta name="description" content="Questo Natale sostenete il servizio Lollo 23 regalando viaggi magici: ogni dono solidale accompagna i bambini da casa all'ospedale per le loro terapie.">
 <meta name="theme-color" content="#13284a">
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="apple-touch-icon" href="img/logo.png">
@@ -12,7 +12,7 @@
 <meta property="og:locale" content="it_IT">
 <meta property="og:site_name" content="Amici di Lollo">
 <meta property="og:title" content="Viaggi magici – Amici di Lollo">
-<meta property="og:description" content="Questo Natale regalate viaggi magici: ogni pacchetto accompagna i bambini alle loro terapie con il servizio Lollo 23.">
+<meta property="og:description" content="Questo Natale regalate viaggi magici: ogni dono solidale accompagna i bambini alle loro terapie con il servizio Lollo 23.">
 <meta property="og:image" content="https://amici-di-lollo.vercel.app/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -160,6 +160,10 @@
   .grazie .passo p{color:var(--testo);font-size:14px}
   .grazie .passo .btn{width:100%;font-size:16px}
   .grazie .auto{width:100%;margin-top:22px;border-radius:12px}
+  .grazie .social{display:flex;justify-content:center;gap:14px;margin:4px 0 6px}
+  .grazie .social a{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:#fff;color:var(--navy);transition:background .2s,transform .2s}
+  .grazie .social a:hover{background:var(--giallo);transform:translateY(-2px)}
+  .grazie .social svg{width:24px;height:24px}
   .grazie .chiudi{margin-top:18px;background:transparent;border:2px solid #fff;color:#fff;font-size:16px;padding:10px 26px}
   .grazie .chiudi:hover{background:#ffffff1f}
 
@@ -206,15 +210,15 @@
   <div class="lucine" aria-hidden="true"></div>
   <div class="top">
     <img src="img/logo.png" alt="Logo Amici di Lollo" width="56" height="52">
-    <div><b>Associazione Amici di Lollo ODV</b>Lissone (MB) · Natale 2026</div>
+    <div><b>Associazione Amici di Lollo ODV</b>Natale 2026</div>
   </div>
   <div class="wrap" style="position:relative">
     <span class="stella" style="top:34px;left:6%" aria-hidden="true">✦</span>
     <span class="stella" style="top:14px;right:8%;font-size:26px" aria-hidden="true">✦</span>
     <span class="puntino" style="top:62px;right:20%" aria-hidden="true"></span>
     <div class="tag">VIAGGI MAGICI</div>
-    <h1>Ordinate i vostri pacchetti</h1>
-    <p class="sub">Scegliete i pacchetti e inviate l'ordine: scaricherete subito un PDF con l'importo esatto e il codice da inserire nella causale del bonifico.</p>
+    <h1>Ordinate i vostri doni solidali</h1>
+    <p class="sub">Scegliete i “viaggi magici” che volete regalare e inserite i vostri dati e le indicazioni per riceverli. Al termine potrete scaricare la conferma con le indicazioni per il pagamento.</p>
   </div>
   <div class="scena" aria-hidden="true">
     <div class="strada"></div>
@@ -229,16 +233,16 @@
     <div id="area-form">
     <form id="form-ordine" novalidate>
       <fieldset>
-        <legend>1. Scegliete i pacchetti</legend>
+        <legend>1. Scegliete i doni solidali</legend>
         <div class="pacchetti">
           <div class="pacc">
             <div class="cuori" aria-hidden="true">♥♥♥♥♥</div>
             <label for="q5" class="nome">5 viaggi magici</label>
             <div class="prezzo"><span data-prezzo="5">25</span> €</div>
             <div class="stepper">
-              <button type="button" data-step="q5" data-d="-1" aria-label="Un pacchetto da 5 viaggi in meno">−</button>
+              <button type="button" data-step="q5" data-d="-1" aria-label="Un dono solidale da 5 viaggi in meno">−</button>
               <input type="number" id="q5" name="q5" min="0" max="1000" step="1" value="0" inputmode="numeric">
-              <button type="button" data-step="q5" data-d="1" aria-label="Un pacchetto da 5 viaggi in più">+</button>
+              <button type="button" data-step="q5" data-d="1" aria-label="Un dono solidale da 5 viaggi in più">+</button>
             </div>
           </div>
           <div class="pacc">
@@ -246,13 +250,13 @@
             <label for="q10" class="nome">10 viaggi magici</label>
             <div class="prezzo"><span data-prezzo="10">50</span> €</div>
             <div class="stepper">
-              <button type="button" data-step="q10" data-d="-1" aria-label="Un pacchetto da 10 viaggi in meno">−</button>
+              <button type="button" data-step="q10" data-d="-1" aria-label="Un dono solidale da 10 viaggi in meno">−</button>
               <input type="number" id="q10" name="q10" min="0" max="1000" step="1" value="0" inputmode="numeric">
-              <button type="button" data-step="q10" data-d="1" aria-label="Un pacchetto da 10 viaggi in più">+</button>
+              <button type="button" data-step="q10" data-d="1" aria-label="Un dono solidale da 10 viaggi in più">+</button>
             </div>
           </div>
         </div>
-        <p style="margin:20px 0 8px;font-weight:600;color:var(--navy);font-size:15px">Pacchetti su misura <span class="facolt">(facoltativo, <span data-prezzo="1">5</span> € a viaggio)</span></p>
+        <p style="margin:20px 0 8px;font-weight:600;color:var(--navy);font-size:15px">Doni solidali su misura <span class="facolt">(facoltativo, <span data-prezzo="1">5</span> € a viaggio)</span></p>
         <div id="custom-list"></div>
         <button type="button" class="btn ghost" id="aggiungi">+ aggiungi</button>
       </fieldset>
@@ -288,14 +292,14 @@
         <span>Ho letto l'<button type="button" class="linkbtn" id="apri-privacy">informativa privacy</button> e acconsento al trattamento dei dati per la gestione dell'ordine. *</span></label>
 
       <div class="riepilogo" aria-live="polite">
-        <div><span>Pacchetti</span><b id="r-pacchetti">0</b></div>
+        <div><span>Doni</span><b id="r-pacchetti">0</b></div>
         <div><span>Viaggi</span><b id="r-viaggi">0</b></div>
         <div class="tot"><span>Totale</span><b id="r-totale">0 €</b></div>
       </div>
 
       <div class="errori" id="errori" role="alert" hidden></div>
 
-      <button type="submit" class="btn" id="invia">Invia l'ordine e scarica i dati per il bonifico</button>
+      <button type="submit" class="btn" id="invia">Invia l'ordine</button>
       <p style="margin:0;font-size:13px;color:var(--grigio);text-align:center">* campi obbligatori</p>
     </form>
     </div>
@@ -319,7 +323,7 @@
           <div id="b-bic-row" hidden><dt>BIC</dt><dd id="b-bic"></dd></div>
           <div><dt>Causale suggerita</dt><dd><span id="b-causale">Dono solidale Lollo 23</span> – [codice ordine] – [nome azienda]</dd></div>
         </dl>
-        <p class="nota">Il codice ordine e l'importo esatto li trovate nel PDF che scaricate inviando l'ordine.</p>
+        <p class="nota">Il codice ordine e l'importo esatto li trovate dopo aver inviato l'ordine, insieme al PDF con tutti i dati da scaricare.</p>
       </div>
     </div>
   </div>
@@ -336,7 +340,7 @@
         <div class="h">Associazione Amici di Lollo ODV</div>
         Via Nazario Sauro 1, 20851 Lissone (MB) · C.F. 94625800159<br>
         <a href="mailto:info@amicidilollo.it">info@amicidilollo.it</a> · <a href="https://www.amicidilollo.it">www.amicidilollo.it</a><br>
-        <a href="https://www.instagram.com/amici_di_lollo/">Instagram @amici_di_lollo</a> · <a href="https://www.facebook.com/search/top?q=Associazione%20Amici%20di%20Lollo">Facebook Associazione Amici di Lollo</a>
+        <a href="https://www.instagram.com/amici_di_lollo/">Instagram @amici_di_lollo</a> · <a href="https://www.facebook.com/AssociazioneAmicidiLolloOnlus">Facebook Associazione Amici di Lollo</a>
       </div>
     </div>
   </div>
@@ -357,11 +361,19 @@
         <div><dt>IBAN</dt><dd id="g-iban"></dd></div>
         <div><dt>Causale</dt><dd id="g-causale"></dd></div>
       </dl>
-      <p>Trovate tutti i dati nel PDF appena scaricato. Dopo l'accredito vi mandiamo la ricevuta della donazione e prepariamo le confezioni regalo.</p>
-      <button type="button" class="btn" id="g-pdf">Scarica di nuovo il PDF</button>
+      <p>Scaricate il PDF con tutti i dati per fare il bonifico. Dopo l'accredito vi mandiamo la ricevuta della donazione e prepariamo le confezioni regalo.</p>
+      <button type="button" class="btn" id="g-pdf">Scarica i dati per il bonifico</button>
     </div>
     <img class="auto" src="img/auto-fiocco.jpg" alt="" width="1200" height="349">
     <p style="margin-top:16px">Se vi fa piacere, raccontatelo sui social taggando <strong>@amici_di_lollo</strong>.</p>
+    <div class="social">
+      <a href="https://www.instagram.com/amici_di_lollo/" target="_blank" rel="noopener" aria-label="Amici di Lollo su Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></svg>
+      </a>
+      <a href="https://www.facebook.com/AssociazioneAmicidiLolloOnlus" target="_blank" rel="noopener" aria-label="Amici di Lollo su Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.6 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.9v3h2.6V21z" fill="currentColor"/></svg>
+      </a>
+    </div>
     <button type="button" class="btn chiudi" id="g-chiudi">Chiudi</button>
   </div>
 </div>
@@ -389,7 +401,7 @@
 (function () {
   var B = null;          // dati bonifico da bonifico.js
   var PREZZO = 5;        // € a viaggio (sovrascritto da bonifico.js)
-  var ultimoPdf = null;  // { blob, nome } per "Scarica di nuovo"
+  var ultimoPdf = null;  // { blob, nome } per i bottoni "Scarica i dati per il bonifico"
   var $ = function (id) { return document.getElementById(id); };
   var euro = function (n) { return n.toLocaleString('it-IT') + ' €'; };
 
@@ -445,7 +457,7 @@
     var row = document.createElement('div');
     row.className = 'custom-row';
     row.innerHTML =
-      '<div class="campo"><label for="cp' + nCustom + '">N. pacchetti</label>' +
+      '<div class="campo"><label for="cp' + nCustom + '">N. doni</label>' +
       '<input type="number" id="cp' + nCustom + '" class="c-pacchetti" min="1" max="1000" step="1" inputmode="numeric"></div>' +
       '<span class="per" aria-hidden="true">×</span>' +
       '<div class="campo"><label for="cv' + nCustom + '">N. viaggi</label>' +
@@ -508,16 +520,16 @@
     if (!$('nome').value.trim()) segna('nome', 'Inserite il nome del referente.');
     if (!$('cognome').value.trim()) segna('cognome', 'Inserite il cognome del referente.');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim())) segna('email', 'Inserite un indirizzo email valido.');
-    if (!(o.q5 >= 0 && o.q5 <= 1000)) segna('q5', 'Il numero di pacchetti da 5 viaggi deve essere un numero intero da 0 a 1000.');
-    if (!(o.q10 >= 0 && o.q10 <= 1000)) segna('q10', 'Il numero di pacchetti da 10 viaggi deve essere un numero intero da 0 a 1000.');
+    if (!(o.q5 >= 0 && o.q5 <= 1000)) segna('q5', 'Il numero di doni solidali da 5 viaggi deve essere un numero intero da 0 a 1000.');
+    if (!(o.q10 >= 0 && o.q10 <= 1000)) segna('q10', 'Il numero di doni solidali da 10 viaggi deve essere un numero intero da 0 a 1000.');
     document.querySelectorAll('.custom-row').forEach(function (row) {
       var p = row.querySelector('.c-pacchetti'), v = row.querySelector('.c-viaggi');
       if (p.value === '' && v.value === '') return;
       var pn = intero(p.value), vn = intero(v.value);
-      if (!(pn >= 1 && pn <= 1000)) segna(p, 'Pacchetti su misura: indicate quanti pacchetti (da 1 a 1000).');
-      if (!(vn >= 1 && vn <= 100)) segna(v, 'Pacchetti su misura: indicate quanti viaggi per pacchetto (da 1 a 100).');
+      if (!(pn >= 1 && pn <= 1000)) segna(p, 'Doni solidali su misura: indicate quanti doni (da 1 a 1000).');
+      if (!(vn >= 1 && vn <= 100)) segna(v, 'Doni solidali su misura: indicate quanti viaggi per ogni dono (da 1 a 100).');
     });
-    if (!err.length && o.pacchetti < 1) segna('q5', 'Scegliete almeno 1 pacchetto.');
+    if (!err.length && o.pacchetti < 1) segna('q5', 'Scegliete almeno un dono solidale.');
     if (valoreConsegna() === 'spedizione' && !$('indirizzo').value.trim()) segna('indirizzo', 'Inserite l\'indirizzo di spedizione.');
     if (!$('privacy').checked) segna('privacy', 'Confermate di aver letto l\'informativa privacy.');
     return err;
@@ -595,14 +607,14 @@
     var cx = [M, 112, 140, W - M];
     doc.setFillColor.apply(doc, NAVY); doc.rect(M, y, W - M * 2, 8, 'F');
     doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5);
-    doc.text('Pacchetto', cx[0] + 3, y + 5.5); doc.text('Quantità', cx[1], y + 5.5);
+    doc.text('Dono solidale', cx[0] + 3, y + 5.5); doc.text('Quantità', cx[1], y + 5.5);
     doc.text('Viaggi', cx[2], y + 5.5); doc.text('Importo', cx[3] - 3, y + 5.5, { align: 'right' });
     y += 8;
     doc.setFont('helvetica', 'normal'); doc.setTextColor.apply(doc, TESTO);
     var tab = [];
-    if (dati.q5) tab.push(['Pacchetto da 5 viaggi magici', dati.q5, dati.q5 * 5]);
-    if (dati.q10) tab.push(['Pacchetto da 10 viaggi magici', dati.q10, dati.q10 * 10]);
-    dati.custom.forEach(function (c) { tab.push(['Pacchetto su misura da ' + c.viaggi + ' viaggi', c.pacchetti, c.pacchetti * c.viaggi]); });
+    if (dati.q5) tab.push(['Dono solidale da 5 viaggi magici', dati.q5, dati.q5 * 5]);
+    if (dati.q10) tab.push(['Dono solidale da 10 viaggi magici', dati.q10, dati.q10 * 10]);
+    dati.custom.forEach(function (c) { tab.push(['Dono solidale su misura da ' + c.viaggi + ' viaggi', c.pacchetti, c.pacchetti * c.viaggi]); });
     tab.forEach(function (r, k) {
       if (k % 2) { doc.setFillColor.apply(doc, CARD); doc.rect(M, y, W - M * 2, 7, 'F'); }
       doc.text(r[0], cx[0] + 3, y + 4.8); doc.text(String(r[1]), cx[1], y + 4.8);
@@ -669,7 +681,7 @@
 
   function mostraEsito(tipo, html) {
     $('area-form').innerHTML = '<div class="esito ' + tipo + '" role="status" tabindex="-1">' + html +
-      '<br><button type="button" class="btn" id="riscarica">Scarica di nuovo il PDF</button></div>';
+      '<br><button type="button" class="btn" id="riscarica">Scarica i dati per il bonifico</button></div>';
     $('riscarica').addEventListener('click', scaricaPdf);
     var box = $('area-form').firstChild;
     box.scrollIntoView({ behavior: 'smooth', block: 'center' }); box.focus({ preventScroll: true });
@@ -850,7 +862,6 @@
       var doc = creaPdf(dati, logo);
       var nome = 'Lollo23_' + codice + '.pdf';
       ultimoPdf = { blob: doc.output('blob'), nome: nome };
-      scaricaPdf();
 
       var pdfBase64 = doc.output('datauristring').split(',')[1];
       var payload = {
@@ -866,7 +877,7 @@
           if (!r.j.ok) throw new Error('api');
           function rivela() {
             mostraEsito('ok', '<h3>Grazie! Ordine <span class="codice">' + c + '</span> inviato.</h3>' +
-              '<p>Abbiamo ricevuto il vostro ordine. Nel PDF appena scaricato trovate l\'importo esatto e i dati per il bonifico: ricordatevi di inserire il codice ordine in causale.</p>');
+              '<p>Abbiamo ricevuto il vostro ordine. Scaricate il PDF con l\'importo esatto e i dati per il bonifico: ricordatevi di inserire il codice ordine in causale.</p>');
             mostraGrazie(dati, riduciMovimento ? 0 : 1200);
           }
           // l'auto è al sole: il sole esplode in coriandoli, sotto compare il ringraziamento e i coriandoli cadono scoprendolo
@@ -878,12 +889,12 @@
         .catch(function () {
           tornaIndietro();
           mostraEsito('ko', '<h3>L\'ordine non è stato inviato</h3>' +
-            '<p>Il PDF con i dati per il bonifico è stato scaricato, ma il nostro sistema non ha ricevuto l\'ordine. ' +
+            '<p>Il nostro sistema non ha ricevuto l\'ordine. ' +
             'Scriveteci a <a href="mailto:info@amicidilollo.it?subject=' + encodeURIComponent('Ordine ' + codice) + '">info@amicidilollo.it</a> citando il codice <span class="codice">' + c + '</span>.</p>');
         });
     }).catch(function () {
       tornaIndietro();
-      btn.disabled = false; btn.textContent = 'Invia l\'ordine e scarica i dati per il bonifico';
+      btn.disabled = false; btn.textContent = 'Invia l\'ordine';
       mostraErrori([{ el: btn, msg: 'Non riusciamo a preparare il PDF. Ricaricate la pagina o scriveteci a info@amicidilollo.it.' }]);
     });
   });
