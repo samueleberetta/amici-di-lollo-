@@ -56,24 +56,16 @@ function valida(b) {
   if (!o.indirizzo) e.push('Indirizzo di consegna mancante');
   if (b.privacy !== true) e.push('Consenso privacy mancante');
 
+  o.q2 = intero(b.q2 || 0, 0, 1000);
   o.q5 = intero(b.q5 || 0, 0, 1000);
   o.q10 = intero(b.q10 || 0, 0, 1000);
+  if (o.q2 === null) e.push('Quantità doni solidali da 2 non valida');
   if (o.q5 === null) e.push('Quantità doni solidali da 5 non valida');
   if (o.q10 === null) e.push('Quantità doni solidali da 10 non valida');
 
-  o.custom = [];
-  const custom = Array.isArray(b.custom) ? b.custom : [];
-  if (custom.length > 20) e.push('Troppi doni solidali su misura');
-  custom.slice(0, 20).forEach((c) => {
-    const p = intero(c && c.pacchetti, 1, 1000);
-    const v = intero(c && c.viaggi, 1, 100);
-    if (p === null || v === null) e.push('Dono solidale su misura non valido');
-    else o.custom.push({ pacchetti: p, viaggi: v });
-  });
-
   // Il totale si ricalcola sempre qui, mai dal client
-  o.pacchetti = (o.q5 || 0) + (o.q10 || 0) + o.custom.reduce((s, c) => s + c.pacchetti, 0);
-  o.viaggi = (o.q5 || 0) * 5 + (o.q10 || 0) * 10 + o.custom.reduce((s, c) => s + c.pacchetti * c.viaggi, 0);
+  o.pacchetti = (o.q2 || 0) + (o.q5 || 0) + (o.q10 || 0);
+  o.viaggi = (o.q2 || 0) * 2 + (o.q5 || 0) * 5 + (o.q10 || 0) * 10;
   o.totale = o.viaggi * PREZZO;
   if (o.pacchetti < 1) e.push('Serve almeno un dono solidale');
 
@@ -105,9 +97,9 @@ async function prossimoCodice() {
 
 function righePacchetti(o) {
   const r = [];
+  if (o.q2) r.push({ nome: 'Dono solidale da 2 viaggi magici', qta: o.q2, viaggi: o.q2 * 2 });
   if (o.q5) r.push({ nome: 'Dono solidale da 5 viaggi magici', qta: o.q5, viaggi: o.q5 * 5 });
   if (o.q10) r.push({ nome: 'Dono solidale da 10 viaggi magici', qta: o.q10, viaggi: o.q10 * 10 });
-  o.custom.forEach((c) => r.push({ nome: `Dono solidale su misura da ${c.viaggi} viaggi`, qta: c.pacchetti, viaggi: c.pacchetti * c.viaggi }));
   return r;
 }
 

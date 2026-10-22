@@ -75,7 +75,7 @@
   .btn.ghost{background:transparent;color:var(--navy);border:2px solid var(--navy);font-size:16px;padding:10px 20px}
 
   /* PACCHETTI */
-  .pacchetti{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+  .pacchetti{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
   .pacc{background:var(--navy);border-radius:18px;padding:28px 12px;text-align:center;color:#fff}
   .cuori{color:var(--rosso2);font-size:16px;letter-spacing:2px;line-height:1.3;word-break:break-all}
   .pacc .nome{display:block;font-family:'Fredoka',sans-serif;font-weight:600;color:var(--giallo);font-size:26px;margin-top:4px}
@@ -108,25 +108,11 @@
   input:focus,textarea:focus{border-color:var(--azzurro)}
   textarea{min-height:90px;resize:vertical}
   .err-campo{border-color:var(--rosso)!important}
-  /* doni su misura: si scrive solo il numero di viaggi, si conferma e finisce nell'elenco */
   .come-fare{background:var(--card);border-radius:18px;padding:20px 20px 12px;margin-bottom:28px}
   .come-fare h2{font-size:22px;margin:0 0 10px}
   .come-fare ol{list-style:none;margin:0;padding:0}
   .come-fare li{display:flex;gap:12px;align-items:flex-start;padding:7px 0;color:var(--testo)}
   .cf-num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--giallo);color:var(--navy);font-family:'Fredoka',sans-serif;font-weight:600;display:grid;place-items:center}
-  .custom-titolo{margin:20px 0 8px;font-weight:600;color:var(--navy);font-size:15px}
-  .custom-list{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px}
-  .custom-list li{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:12px;padding:8px 8px 8px 14px}
-  .custom-list .cl-testo{flex:1;font-weight:600;color:var(--navy)}
-  .custom-list .cl-prezzo{font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px;color:var(--navy)}
-  .rimuovi{flex:0 0 36px;height:36px;border:2px solid var(--bordo);background:#fff;border-radius:10px;font-size:18px;line-height:1;color:var(--rosso);cursor:pointer}
-  .custom-editor{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px}
-  .ce-riga{display:flex;align-items:flex-end;gap:12px}
-  .ce-riga .campo{flex:1}
-  .ce-prezzo{font-family:'Fredoka',sans-serif;font-weight:600;font-size:22px;color:var(--navy);padding-bottom:10px;white-space:nowrap}
-  .ce-azioni{display:flex;align-items:center;gap:14px;margin-top:12px}
-  .btn.piccolo{font-size:16px;padding:10px 24px}
-  .ce-errore{margin:8px 0 0;color:#8a0b20;font-size:14px;font-weight:600}
   .subtotale{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;padding:14px 18px;border-radius:14px;background:var(--celeste);color:var(--navy)}
   .subtotale span{font-weight:600;font-size:15px}
   .subtotale b{font-family:'Fredoka',sans-serif;font-weight:600;font-size:26px;white-space:nowrap}
@@ -134,6 +120,7 @@
   .domanda{margin:0 0 10px;font-weight:600;color:var(--navy);font-size:15px}
   .scelta-tipo label{flex:1 1 140px;justify-content:center;padding:14px}
   .scelta-tipo.err-campo label{border-color:var(--rosso)}
+  #blocco-persona{margin-top:14px}
   .sottotitolo{margin:22px 0 10px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:17px;color:var(--navy)}
   .radio label{display:flex;align-items:center;gap:8px;border:2px solid var(--bordo);border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:600}
   .radio input{width:20px;height:20px;accent-color:var(--navy)}
@@ -210,14 +197,14 @@
   @media (max-width:560px){
     section{padding:40px 0}
     .grid2{grid-template-columns:1fr}
-    .pacchetti{gap:10px}
-    .pacc{padding:22px 6px}
-    .pacc .nome{font-size:20px}
-    .pacc .prezzo{font-size:20px}
-    .stepper{gap:4px}
+    .pacchetti{grid-template-columns:1fr;gap:10px}
+    .pacc{display:grid;grid-template-columns:1fr auto;grid-template-areas:"cuori stepper" "nome stepper" "prezzo stepper";align-items:center;column-gap:10px;text-align:left;padding:14px 14px 14px 18px}
+    .pacc .cuori{grid-area:cuori;font-size:12px;letter-spacing:1px}
+    .pacc .nome{grid-area:nome;font-size:21px;margin:2px 0 0}
+    .pacc .prezzo{grid-area:prezzo;font-size:19px}
+    .pacc .stepper{grid-area:stepper;margin:0;gap:4px}
     .stepper button{flex-basis:38px;height:38px}
-    .stepper input[type=number]{width:56px;font-size:20px}
-    .cuori{font-size:13px;letter-spacing:1px}
+    .stepper input[type=number]{width:52px;font-size:20px}
     .riepilogo b{font-size:21px}
     footer .row{align-items:flex-start}
   }
@@ -253,7 +240,7 @@
     <div class="come-fare">
       <h2>Come fare</h2>
       <ol>
-        <li><span class="cf-num" aria-hidden="true">1</span><span>Scegli quanti viaggi donare: 5, 10 oppure indica tu quanti puoi donarne.</span></li>
+        <li><span class="cf-num" aria-hidden="true">1</span><span>Scegli quanti viaggi donare: 2, 5 o 10, anche più di un dono.</span></li>
         <li><span class="cf-num" aria-hidden="true">2</span><span>Inserisci i tuoi dati e le indicazioni per riceverli.</span></li>
         <li><span class="cf-num" aria-hidden="true">3</span><span>Clicca su “Conferma i tuoi doni”: riceverai una conferma con le istruzioni per la donazione.</span></li>
       </ol>
@@ -263,6 +250,16 @@
       <fieldset>
         <legend>1. Scegli i doni solidali</legend>
         <div class="pacchetti">
+          <div class="pacc">
+            <div class="cuori" aria-hidden="true">♥♥</div>
+            <label for="q2" class="nome">2 viaggi magici</label>
+            <div class="prezzo"><span data-prezzo="2">10</span> €</div>
+            <div class="stepper">
+              <button type="button" data-step="q2" data-d="-1" aria-label="Un dono solidale da 2 viaggi in meno">−</button>
+              <input type="number" id="q2" name="q2" min="0" max="1000" step="1" value="0" inputmode="numeric">
+              <button type="button" data-step="q2" data-d="1" aria-label="Un dono solidale da 2 viaggi in più">+</button>
+            </div>
+          </div>
           <div class="pacc">
             <div class="cuori" aria-hidden="true">♥♥♥♥♥</div>
             <label for="q5" class="nome">5 viaggi magici</label>
@@ -284,20 +281,6 @@
             </div>
           </div>
         </div>
-        <p class="custom-titolo">Doni solidali su misura</p>
-        <ul id="custom-list" class="custom-list"></ul>
-        <div id="custom-editor" class="custom-editor" hidden>
-          <div class="ce-riga">
-            <div class="campo"><label for="custom-viaggi">Numero di viaggi</label><input type="number" id="custom-viaggi" min="1" max="100" step="1" inputmode="numeric"></div>
-            <div class="ce-prezzo" id="ce-prezzo" aria-live="polite">– €</div>
-          </div>
-          <p class="ce-errore" id="ce-errore" hidden>Indica un numero di viaggi da 1 a 100.</p>
-          <div class="ce-azioni">
-            <button type="button" class="btn piccolo" id="custom-ok">Conferma</button>
-            <button type="button" class="linkbtn" id="custom-annulla">Annulla</button>
-          </div>
-        </div>
-        <button type="button" class="btn ghost" id="aggiungi">+ aggiungi un dono su misura</button>
         <div class="subtotale" aria-live="polite"><span>Totale dei tuoi doni · <span id="st-viaggi">0</span> viaggi</span><b id="st-totale">0 €</b></div>
       </fieldset>
 
@@ -504,56 +487,6 @@
     if (dlg.close) dlg.close(); else dlg.removeAttribute('open');
   });
 
-  // ---- doni su misura: solo il numero di viaggi; con "Conferma" il dono entra nell'elenco ----
-  var doniMisura = [];   // [{ viaggi, pacchetti }]: stesso numero di viaggi = stesso dono, quantità +1
-  function disegnaMisura() {
-    var ul = $('custom-list');
-    ul.innerHTML = '';
-    doniMisura.forEach(function (d, i) {
-      var li = document.createElement('li');
-      li.innerHTML = '<span class="cl-testo">Dono su misura da ' + d.viaggi + ' viaggi' + (d.pacchetti > 1 ? ' ×' + d.pacchetti : '') + '</span>' +
-        '<span class="cl-prezzo">' + euro(d.viaggi * d.pacchetti * PREZZO) + '</span>' +
-        '<button type="button" class="rimuovi" aria-label="Togli il dono su misura da ' + d.viaggi + ' viaggi">×</button>';
-      li.querySelector('.rimuovi').addEventListener('click', function () {
-        doniMisura.splice(i, 1); disegnaMisura(); aggiorna(); aggiornaViaggio();
-      });
-      ul.appendChild(li);
-    });
-  }
-  function prezzoEditor() {
-    var v = intero($('custom-viaggi').value);
-    $('ce-prezzo').textContent = v >= 1 && v <= 100 ? euro(v * PREZZO) : '– €';
-  }
-  function apriEditor() {
-    $('custom-editor').hidden = false; $('aggiungi').hidden = true;
-    $('custom-viaggi').value = ''; $('ce-errore').hidden = true; prezzoEditor();
-    $('custom-viaggi').focus();
-  }
-  function chiudiEditor() {
-    $('custom-editor').hidden = true; $('aggiungi').hidden = false;
-    $('custom-viaggi').value = ''; $('custom-viaggi').classList.remove('err-campo'); $('custom-viaggi').removeAttribute('aria-invalid');
-    $('ce-errore').hidden = true;
-  }
-  function confermaMisura() {
-    var v = intero($('custom-viaggi').value);
-    if (!(v >= 1 && v <= 100)) {
-      $('custom-viaggi').classList.add('err-campo'); $('custom-viaggi').setAttribute('aria-invalid', 'true');
-      $('ce-errore').hidden = false; $('custom-viaggi').focus();
-      return;
-    }
-    var stesso = doniMisura.filter(function (d) { return d.viaggi === v; })[0];
-    if (stesso) stesso.pacchetti++; else doniMisura.push({ viaggi: v, pacchetti: 1 });
-    chiudiEditor(); disegnaMisura(); aggiorna(); aggiornaViaggio();
-    $('aggiungi').focus();
-  }
-  $('aggiungi').addEventListener('click', apriEditor);
-  $('custom-ok').addEventListener('click', confermaMisura);
-  $('custom-annulla').addEventListener('click', function () { chiudiEditor(); $('aggiungi').focus(); });
-  $('custom-viaggi').addEventListener('input', prezzoEditor);
-  $('custom-viaggi').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') { e.preventDefault(); confermaMisura(); }
-    if (e.key === 'Escape') { chiudiEditor(); $('aggiungi').focus(); }
-  });
   // ---- bottoni − / + sui pacchetti ----
   document.querySelectorAll('[data-step]').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -593,13 +526,9 @@
   // ---- calcolo ----
   function intero(v) { var n = Number(v); return Number.isInteger(n) ? n : NaN; }
   function leggiOrdine() {
-    var q5 = intero($('q5').value || 0), q10 = intero($('q10').value || 0);
-    var custom = doniMisura.map(function (d) { return { pacchetti: d.pacchetti, viaggi: d.viaggi }; });
-    var pacchetti = (q5 || 0) + (q10 || 0), viaggi = (q5 || 0) * 5 + (q10 || 0) * 10;
-    custom.forEach(function (c) {
-      if (c.pacchetti > 0 && c.viaggi > 0) { pacchetti += c.pacchetti; viaggi += c.pacchetti * c.viaggi; }
-    });
-    return { q5: q5, q10: q10, custom: custom, pacchetti: pacchetti, viaggi: viaggi, totale: viaggi * PREZZO };
+    var q2 = intero($('q2').value || 0), q5 = intero($('q5').value || 0), q10 = intero($('q10').value || 0);
+    var pacchetti = (q2 || 0) + (q5 || 0) + (q10 || 0), viaggi = (q2 || 0) * 2 + (q5 || 0) * 5 + (q10 || 0) * 10;
+    return { q2: q2, q5: q5, q10: q10, pacchetti: pacchetti, viaggi: viaggi, totale: viaggi * PREZZO };
   }
   function aggiorna() {
     var o = leggiOrdine();
@@ -621,9 +550,9 @@
     document.querySelectorAll('.err-campo').forEach(function (el) { el.classList.remove('err-campo'); el.removeAttribute('aria-invalid'); });
     function segna(id, msg) { var el = typeof id === 'string' ? $(id) : id; el.classList.add('err-campo'); el.setAttribute('aria-invalid', 'true'); err.push({ el: el, msg: msg }); }
     if (!(o.q5 >= 0 && o.q5 <= 1000)) segna('q5', 'Il numero di doni solidali da 5 viaggi deve essere un numero intero da 0 a 1000.');
+    if (!(o.q2 >= 0 && o.q2 <= 1000)) segna('q2', 'Il numero di doni solidali da 2 viaggi deve essere un numero intero da 0 a 1000.');
     if (!(o.q10 >= 0 && o.q10 <= 1000)) segna('q10', 'Il numero di doni solidali da 10 viaggi deve essere un numero intero da 0 a 1000.');
-    if (!$('custom-editor').hidden && $('custom-viaggi').value !== '') segna('custom-viaggi', 'Conferma o annulla il dono su misura che stai aggiungendo.');
-    if (!err.length && o.pacchetti < 1) segna('q5', 'Scegli almeno un dono solidale.');
+    if (!err.length && o.pacchetti < 1) segna('q2', 'Scegli almeno un dono solidale.');
     var tipo = valoreTipo();
     if (!tipo) segna('scelta-tipo', 'Indica se sei un privato o un\'azienda.');
     if (tipo === 'azienda') {
@@ -716,9 +645,9 @@
     y += 8;
     doc.setFont('helvetica', 'normal'); doc.setTextColor.apply(doc, TESTO);
     var tab = [];
+    if (dati.q2) tab.push(['Dono solidale da 2 viaggi magici', dati.q2, dati.q2 * 2]);
     if (dati.q5) tab.push(['Dono solidale da 5 viaggi magici', dati.q5, dati.q5 * 5]);
     if (dati.q10) tab.push(['Dono solidale da 10 viaggi magici', dati.q10, dati.q10 * 10]);
-    dati.custom.forEach(function (c) { tab.push(['Dono solidale su misura da ' + c.viaggi + ' viaggi', c.pacchetti, c.pacchetti * c.viaggi]); });
     tab.forEach(function (r, k) {
       if (k % 2) { doc.setFillColor.apply(doc, CARD); doc.rect(M, y, W - M * 2, 7, 'F'); }
       doc.text(r[0], cx[0] + 3, y + 4.8); doc.text(String(r[1]), cx[1], y + 4.8);
@@ -957,15 +886,14 @@
       piva: valoreTipo() === 'azienda' ? pivaPulita() : '',
       nome: $('nome').value.trim(), cognome: $('cognome').value.trim(),
       email: $('email').value.trim(), telefono: $('telefono').value.trim(),
-      q5: o.q5 || 0, q10: o.q10 || 0,
-      custom: o.custom.filter(function (c) { return c.pacchetti > 0 && c.viaggi > 0; }),
+      q2: o.q2 || 0, q5: o.q5 || 0, q10: o.q10 || 0,
       pacchetti: o.pacchetti, viaggi: o.viaggi, totale: o.totale,
       consegna: valoreConsegna(), indirizzo: $('indirizzo').value.trim(), note: $('note').value.trim()
     };
     var payload = {
       tipo: dati.tipo, azienda: dati.tipo === 'azienda' ? dati.azienda : '', sede: dati.sede, piva: dati.piva,
       nome: dati.nome, cognome: dati.cognome, email: dati.email,
-      telefono: dati.telefono, q5: dati.q5, q10: dati.q10, custom: dati.custom, consegna: dati.consegna,
+      telefono: dati.telefono, q2: dati.q2, q5: dati.q5, q10: dati.q10, consegna: dati.consegna,
       indirizzo: dati.indirizzo, note: dati.note,
       privacy: $('privacy').checked, sito_web: $('sito_web').value
     };
