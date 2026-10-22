@@ -41,15 +41,16 @@ function valida(b) {
     azienda: testo(tipo === 'azienda' ? b.azienda : '', 120, tipo === 'azienda', 'Ragione sociale', e),
     sede: testo(tipo === 'azienda' ? b.sede : '', 300, tipo === 'azienda', 'Sede legale', e),
     piva: tipo === 'azienda' && typeof b.piva === 'string' ? b.piva.replace(/\s+/g, '').replace(/^IT/i, '') : '',
+    cf: tipo === 'privato' && typeof b.cf === 'string' ? b.cf.replace(/\s+/g, '').toUpperCase() : '',
     nome: testo(b.nome, 60, true, 'Nome', e),
     cognome: testo(b.cognome, 60, true, 'Cognome', e),
     email: testo(b.email, 160, true, 'Email', e),
     telefono: testo(b.telefono, 40, false, 'Telefono', e),
-    consegna: b.consegna === 'spedizione' ? 'spedizione' : 'mano',
     indirizzo: testo(b.indirizzo, 300, false, 'Indirizzo', e),
     note: testo(b.note, 1000, false, 'Note', e),
   };
   if (tipo === 'azienda' && !/^\d{11}$/.test(o.piva)) e.push('Partita IVA non valida');
+  if (tipo === 'privato' && !/^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$/.test(o.cf)) e.push('Codice fiscale non valido');
   // per i privati il nome dell'ordine (causale, oggetto dell'email) è "Nome Cognome"
   if (tipo === 'privato') o.azienda = `${o.nome} ${o.cognome}`.trim();
   if (o.email && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/.test(o.email)) e.push('Email non valida');
@@ -130,13 +131,12 @@ function emailInterna(o) {
 ${riga('Codice', `<strong style="color:${C.rosso};">${esc(o.codice)}</strong>`)}
 ${o.tipo === 'azienda'
     ? riga('Cliente', 'Azienda') + riga('Ragione sociale', esc(o.azienda)) + riga('Partita IVA', esc(o.piva)) + riga('Sede legale', br(o.sede)) + riga('Referente', esc(o.nome + ' ' + o.cognome))
-    : riga('Cliente', 'Privato') + riga('Nome', esc(o.nome + ' ' + o.cognome))}
+    : riga('Cliente', 'Privato') + riga('Nome', esc(o.nome + ' ' + o.cognome)) + riga('Codice fiscale', esc(o.cf))}
 ${riga('Email', `<a href="mailto:${esc(o.email)}">${esc(o.email)}</a>`)}
 ${riga('Telefono', o.telefono ? esc(o.telefono) : '—')}
 ${riga('Doni solidali', String(o.pacchetti))}
 ${riga('Viaggi', String(o.viaggi))}
 ${riga('Totale', `<strong>${euro(o.totale)}</strong>`)}
-${riga('Consegna', o.consegna === 'spedizione' ? 'Spedizione' : 'A mano')}
 ${riga('Indirizzo di consegna', br(o.indirizzo))}
 ${riga('Note', o.note ? br(o.note) : '—')}
 ${riga('Causale attesa', esc(o.causale))}

@@ -225,7 +225,7 @@
     <span class="stella" style="top:-4px;right:8%;font-size:26px" aria-hidden="true">✦</span>
     <span class="puntino" style="top:10px;right:22%" aria-hidden="true"></span>
     <h1>Ordina i tuoi doni solidali</h1>
-    <p class="sub">Scegli i “viaggi magici” che vuoi regalare e inserisci i tuoi dati e le indicazioni per riceverli. Al termine potrai scaricare la conferma con le indicazioni per il pagamento.</p>
+    <p class="sub">Scegliere di donare viaggi magici ci aiuta a continuare a offrire un servizio gratuito ai bimbi che devono affrontare le terapie e alle loro famiglie.</p>
   </div>
   <div class="scena" aria-hidden="true">
     <div class="strada"></div>
@@ -304,6 +304,7 @@
           <div class="grid2">
             <div class="campo"><label for="nome">Nome *</label><input type="text" id="nome" name="nome" maxlength="60" autocomplete="given-name"></div>
             <div class="campo"><label for="cognome">Cognome *</label><input type="text" id="cognome" name="cognome" maxlength="60" autocomplete="family-name"></div>
+            <div class="campo" id="campo-cf" style="grid-column:1/-1"><label for="cf">Codice fiscale *</label><input type="text" id="cf" name="cf" maxlength="16" autocomplete="off" style="text-transform:uppercase"></div>
             <div class="campo"><label for="email">Email *</label><input type="email" id="email" name="email" maxlength="160" autocomplete="email" inputmode="email"></div>
             <div class="campo"><label for="telefono">Telefono <span class="facolt">(facoltativo)</span></label><input type="tel" id="telefono" name="telefono" maxlength="40" autocomplete="tel"></div>
           </div>
@@ -312,11 +313,7 @@
 
       <fieldset>
         <legend>3. Consegna</legend>
-        <div class="radio" role="radiogroup">
-          <label><input type="radio" name="consegna" value="mano" checked> A mano</label>
-          <label><input type="radio" name="consegna" value="spedizione"> Spedizione</label>
-        </div>
-        <div class="campo" id="campo-indirizzo" style="margin-top:12px">
+        <div class="campo" id="campo-indirizzo">
           <label for="indirizzo">Indirizzo di consegna *</label>
           <textarea id="indirizzo" name="indirizzo" maxlength="300" autocomplete="street-address" placeholder="Via, numero civico, CAP, città, provincia"></textarea>
         </div>
@@ -425,7 +422,7 @@
   <div class="in">
     <h3 id="privacy-titolo">Informativa privacy</h3>
     <p><strong>Titolare del trattamento:</strong> Associazione Amici di Lollo ODV, Via Nazario Sauro 1, 20851 Lissone (MB), C.F. 94625800159, <a href="mailto:info@amicidilollo.it">info@amicidilollo.it</a>.</p>
-    <p><strong>Dati e finalità:</strong> i dati inseriti nel form (azienda, referente, email, telefono, indirizzo e note) sono usati solo per gestire il tuo ordine: ricontattarti se serve, abbinare il bonifico, preparare e consegnare le confezioni, emettere la ricevuta della donazione.</p>
+    <p><strong>Dati e finalità:</strong> i dati inseriti nel form (nome e dati fiscali, referente, email, telefono, indirizzo e note) sono usati solo per gestire il tuo ordine: ricontattarti se serve, abbinare il bonifico, preparare e consegnare le confezioni, emettere la ricevuta della donazione.</p>
     <p><strong>Base giuridica e conservazione:</strong> esecuzione della tua richiesta e obblighi di legge. I dati non sono ceduti a terzi né usati per altre comunicazioni, e sono conservati per il tempo necessario a questi scopi e agli obblighi contabili.</p>
     <p><strong>I tuoi diritti:</strong> puoi chiedere accesso, rettifica o cancellazione dei dati scrivendo a info@amicidilollo.it.</p>
     <button type="button" class="btn" id="chiudi-privacy" style="margin-top:6px">Ho capito</button>
@@ -497,12 +494,6 @@
     });
   });
 
-  // ---- consegna ----
-  document.querySelectorAll('input[name=consegna]').forEach(function (r) {
-    r.addEventListener('change', function () {
-    });
-  });
-  function valoreConsegna() { return document.querySelector('input[name=consegna]:checked').value; }
 
   // ---- azienda o privato: campi diversi a seconda della scelta ----
   function valoreTipo() { var r = document.querySelector('input[name=tipo]:checked'); return r ? r.value : ''; }
@@ -511,13 +502,17 @@
       var azienda = valoreTipo() === 'azienda';
       $('blocco-azienda').hidden = !azienda;
       $('blocco-persona').hidden = false;
-      $('titolo-persona').hidden = !azienda;   // per i privati bastano nome, cognome e contatti
+      $('titolo-persona').hidden = !azienda;   // per i privati bastano nome, cognome, codice fiscale e contatti
+      $('campo-cf').hidden = azienda;          // le aziende hanno già la partita IVA
       $('scelta-tipo').classList.remove('err-campo');
     });
   });
   // partita IVA italiana: 11 cifre, accettando spazi e il prefisso IT
   function pivaPulita() { return $('piva').value.replace(/\s+/g, '').replace(/^IT/i, ''); }
   function pivaValida() { return /^\d{11}$/.test(pivaPulita()); }
+  // codice fiscale: 16 caratteri nel formato ufficiale (con le lettere al posto delle cifre in caso di omocodia)
+  function cfPulito() { return $('cf').value.replace(/\s+/g, '').toUpperCase(); }
+  function cfValido() { return /^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$/.test(cfPulito()); }
   // nome da mostrare in causale, ringraziamento e PDF: la ragione sociale o "Nome Cognome"
   function nomeOrdine() {
     return valoreTipo() === 'azienda' ? $('azienda').value.trim() : ($('nome').value.trim() + ' ' + $('cognome').value.trim()).trim();
@@ -563,6 +558,7 @@
     if (tipo) {
       if (!$('nome').value.trim()) segna('nome', 'Inserisci il nome.');
       if (!$('cognome').value.trim()) segna('cognome', 'Inserisci il cognome.');
+      if (tipo === 'privato' && !cfValido()) segna('cf', 'Inserisci un codice fiscale valido (16 caratteri).');
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim())) segna('email', 'Inserisci un indirizzo email valido.');
     }
     if (!$('indirizzo').value.trim()) segna('indirizzo', 'Inserisci l\'indirizzo di consegna.');
@@ -624,10 +620,9 @@
     doc.setFontSize(10);
     var righe = dati.tipo === 'azienda'
       ? [['Ragione sociale', dati.azienda], ['Partita IVA', dati.piva], ['Sede legale', dati.sede], ['Referente', dati.nome + ' ' + dati.cognome], ['Email', dati.email]]
-      : [['Nome', dati.nome + ' ' + dati.cognome], ['Email', dati.email]];
+      : [['Nome', dati.nome + ' ' + dati.cognome], ['Codice fiscale', dati.cf], ['Email', dati.email]];
     if (dati.telefono) righe.push(['Telefono', dati.telefono]);
-    righe.push(['Consegna', dati.consegna === 'spedizione' ? 'Spedizione' : 'A mano']);
-    if (dati.indirizzo) righe.push(['Indirizzo', dati.indirizzo.replace(/\s*\n\s*/g, ', ')]);
+    righe.push(['Consegna', dati.indirizzo.replace(/\s*\n\s*/g, ', ')]);
     y += 7;
     righe.forEach(function (r) {
       doc.setFont('helvetica', 'bold'); doc.setTextColor.apply(doc, GRIGIO); doc.text(r[0], M, y);
@@ -736,6 +731,7 @@
     var fatti = [o.pacchetti >= 1, !!valoreTipo(), !!$('nome').value.trim(), !!$('cognome').value.trim(),
       /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim()), $('privacy').checked];
     if (valoreTipo() === 'azienda') fatti.push(!!$('azienda').value.trim(), pivaValida(), !!$('sede').value.trim());
+    else fatti.push(cfValido());
     fatti.push(!!$('indirizzo').value.trim());
     return fatti.filter(Boolean).length / fatti.length;
   }
@@ -884,16 +880,17 @@
       dataIt: new Date().toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }),
       tipo: valoreTipo(), azienda: nomeOrdine(), sede: valoreTipo() === 'azienda' ? $('sede').value.trim() : '',
       piva: valoreTipo() === 'azienda' ? pivaPulita() : '',
+      cf: valoreTipo() === 'privato' ? cfPulito() : '',
       nome: $('nome').value.trim(), cognome: $('cognome').value.trim(),
       email: $('email').value.trim(), telefono: $('telefono').value.trim(),
       q2: o.q2 || 0, q5: o.q5 || 0, q10: o.q10 || 0,
       pacchetti: o.pacchetti, viaggi: o.viaggi, totale: o.totale,
-      consegna: valoreConsegna(), indirizzo: $('indirizzo').value.trim(), note: $('note').value.trim()
+      indirizzo: $('indirizzo').value.trim(), note: $('note').value.trim()
     };
     var payload = {
-      tipo: dati.tipo, azienda: dati.tipo === 'azienda' ? dati.azienda : '', sede: dati.sede, piva: dati.piva,
+      tipo: dati.tipo, azienda: dati.tipo === 'azienda' ? dati.azienda : '', sede: dati.sede, piva: dati.piva, cf: dati.cf,
       nome: dati.nome, cognome: dati.cognome, email: dati.email,
-      telefono: dati.telefono, q2: dati.q2, q5: dati.q5, q10: dati.q10, consegna: dati.consegna,
+      telefono: dati.telefono, q2: dati.q2, q5: dati.q5, q10: dati.q10,
       indirizzo: dati.indirizzo, note: dati.note,
       privacy: $('privacy').checked, sito_web: $('sito_web').value
     };
