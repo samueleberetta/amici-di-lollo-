@@ -392,11 +392,13 @@
       <h3>Ultimo passo: il bonifico</h3>
       <dl>
         <div><dt>Importo</dt><dd class="imp" id="g-importo"></dd></div>
+        <div><dt>Intestatario</dt><dd id="g-intestatario"></dd></div>
         <div><dt>IBAN</dt><dd id="g-iban"></dd></div>
+        <div><dt>Banca</dt><dd id="g-banca"></dd></div>
         <div><dt>Causale</dt><dd id="g-causale"></dd></div>
       </dl>
       <p>Scarica il PDF con tutti i dati per fare il bonifico. Dopo l'accredito ti mandiamo la ricevuta della donazione e prepariamo le confezioni regalo.</p>
-      <button type="button" class="btn" id="g-pdf">Scarica i dati per il bonifico</button>
+      <button type="button" class="btn" id="g-pdf">Scarica il riepilogo dell'ordine</button>
     </div>
     <img class="auto" src="img/auto-fiocco.jpg" alt="" width="1200" height="349">
     <p style="margin-top:16px">Se ti fa piacere, raccontalo sui social taggando <strong>@amici_di_lollo</strong>.</p>
@@ -435,7 +437,7 @@
 (function () {
   var B = null;          // dati bonifico da bonifico.js
   var PREZZO = 5;        // € a viaggio (sovrascritto da bonifico.js)
-  var ultimoPdf = null;  // { blob, nome } per i bottoni "Scarica i dati per il bonifico"
+  var ultimoPdf = null;  // { blob, nome } per i bottoni "Scarica il riepilogo dell'ordine"
   var $ = function (id) { return document.getElementById(id); };
   var euro = function (n) { return n.toLocaleString('it-IT') + ' €'; };
 
@@ -708,7 +710,7 @@
 
   function mostraEsito(tipo, html) {
     $('area-form').innerHTML = '<div class="esito ' + tipo + '" role="status" tabindex="-1">' + html +
-      '<br><button type="button" class="btn" id="riscarica">Scarica i dati per il bonifico</button></div>';
+      '<br><button type="button" class="btn" id="riscarica">Scarica il riepilogo dell\'ordine</button></div>';
     $('riscarica').addEventListener('click', scaricaPdf);
     var box = $('area-form').firstChild;
     box.scrollIntoView({ behavior: 'smooth', block: 'center' }); box.focus({ preventScroll: true });
@@ -847,7 +849,9 @@
       '<strong>“viaggio magico”</strong> ci aiuta a continuare a offrire un servizio gratuito ai bimbi che devono affrontare ' +
       'le terapie e alle loro famiglie.';
     $('g-importo').textContent = euro(dati.totale);
+    $('g-intestatario').textContent = B.intestatario;
     $('g-iban').textContent = B.iban;
+    $('g-banca').textContent = B.banca;
     $('g-causale').textContent = dati.causale;
     var g = $('grazie');
     g.hidden = false; document.body.style.overflow = 'hidden';
