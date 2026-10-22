@@ -224,7 +224,7 @@
     <span class="stella" style="top:2px;left:6%" aria-hidden="true">✦</span>
     <span class="stella" style="top:-4px;right:8%;font-size:26px" aria-hidden="true">✦</span>
     <span class="puntino" style="top:10px;right:22%" aria-hidden="true"></span>
-    <h1>Ordina i tuoi doni solidali</h1>
+    <h1>Fai il tuo dono solidale</h1>
     <p class="sub">Scegliere di donare viaggi magici ci aiuta a continuare a offrire un servizio gratuito ai bimbi che devono affrontare le terapie e alle loro famiglie.</p>
   </div>
   <div class="scena" aria-hidden="true">
@@ -300,7 +300,7 @@
           </div>
         </div>
         <div id="blocco-persona">
-          <p class="sottotitolo" id="titolo-persona" hidden>Chi compila l'ordine</p>
+          <p class="sottotitolo" id="titolo-persona" hidden>Chi effettua il dono</p>
           <div class="grid2">
             <div class="campo"><label for="nome">Nome *</label><input type="text" id="nome" name="nome" maxlength="60" autocomplete="given-name"></div>
             <div class="campo"><label for="cognome">Cognome *</label><input type="text" id="cognome" name="cognome" maxlength="60" autocomplete="family-name"></div>
@@ -324,7 +324,7 @@
       <div class="hp" aria-hidden="true"><label for="sito_web">Lascia vuoto questo campo</label><input type="text" id="sito_web" name="sito_web" tabindex="-1" autocomplete="off"></div>
 
       <label class="check"><input type="checkbox" id="privacy" name="privacy" required>
-        <span>Ho letto l'<button type="button" class="linkbtn" id="apri-privacy">informativa privacy</button> e acconsento al trattamento dei dati per la gestione dell'ordine. *</span></label>
+        <span>Ho letto l'<button type="button" class="linkbtn" id="apri-privacy">informativa privacy</button> e acconsento al trattamento dei dati per la gestione del dono. *</span></label>
 
       <div class="riepilogo" aria-live="polite">
         <div><span>Doni</span><b id="r-pacchetti">0</b></div>
@@ -356,9 +356,9 @@
             <span id="copia-esito" role="status" style="margin-left:8px;font-size:14px"></span></dd></div>
           <div><dt>Banca</dt><dd id="b-banca">…</dd></div>
           <div id="b-bic-row" hidden><dt>BIC</dt><dd id="b-bic"></dd></div>
-          <div><dt>Causale suggerita</dt><dd><span id="b-causale">Dono solidale Lollo 23</span> – [codice ordine] – [nome azienda]</dd></div>
+          <div><dt>Causale suggerita</dt><dd><span id="b-causale">Dono solidale Lollo 23</span> – [codice dono] – [nome azienda]</dd></div>
         </dl>
-        <p class="nota">Il codice del tuo dono lo troverai non appena invierai l'ordine.</p>
+        <p class="nota">Il codice del tuo dono lo troverai non appena confermerai il dono.</p>
       </div>
     </div>
   </div>
@@ -398,7 +398,7 @@
         <div><dt>Causale</dt><dd id="g-causale"></dd></div>
       </dl>
       <p>Scarica il PDF con tutti i dati per fare il bonifico. Dopo l'accredito ti mandiamo la ricevuta della donazione e prepariamo le confezioni regalo.</p>
-      <button type="button" class="btn" id="g-pdf">Scarica il riepilogo dell'ordine</button>
+      <button type="button" class="btn" id="g-pdf">Scarica il riepilogo del dono</button>
     </div>
     <img class="auto" src="img/auto-fiocco.jpg" alt="" width="1200" height="349">
     <p style="margin-top:16px">Se ti fa piacere, raccontalo sui social taggando <strong>@amici_di_lollo</strong>.</p>
@@ -414,7 +414,7 @@
   </div>
 </div>
 
-<div class="viaggio" id="viaggio" role="progressbar" aria-label="Avanzamento del tuo ordine" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+<div class="viaggio" id="viaggio" role="progressbar" aria-label="Avanzamento del tuo dono" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
   <div class="v-strada"></div>
   <img class="v-traguardo" src="img/logo.png" alt="" width="40" height="37" aria-hidden="true">
   <img class="v-auto" id="v-auto" src="img/auto-mini.webp" alt="" width="200" height="104" aria-hidden="true">
@@ -424,7 +424,7 @@
   <div class="in">
     <h3 id="privacy-titolo">Informativa privacy</h3>
     <p><strong>Titolare del trattamento:</strong> Associazione Amici di Lollo ODV, Via Nazario Sauro 1, 20851 Lissone (MB), C.F. 94625800159, <a href="mailto:info@amicidilollo.it">info@amicidilollo.it</a>.</p>
-    <p><strong>Dati e finalità:</strong> i dati inseriti nel form (nome e dati fiscali, referente, email, telefono, indirizzo e note) sono usati solo per gestire il tuo ordine: ricontattarti se serve, abbinare il bonifico, preparare e consegnare le confezioni, emettere la ricevuta della donazione.</p>
+    <p><strong>Dati e finalità:</strong> i dati inseriti nel form (nome e dati fiscali, referente, email, telefono, indirizzo e note) sono usati solo per gestire il tuo dono: ricontattarti se serve, abbinare il bonifico, preparare e consegnare le confezioni, emettere la ricevuta della donazione.</p>
     <p><strong>Base giuridica e conservazione:</strong> esecuzione della tua richiesta e obblighi di legge. I dati non sono ceduti a terzi né usati per altre comunicazioni, e sono conservati per il tempo necessario a questi scopi e agli obblighi contabili.</p>
     <p><strong>I tuoi diritti:</strong> puoi chiedere accesso, rettifica o cancellazione dei dati scrivendo a info@amicidilollo.it.</p>
     <button type="button" class="btn" id="chiudi-privacy" style="margin-top:6px">Ho capito</button>
@@ -437,7 +437,7 @@
 (function () {
   var B = null;          // dati bonifico da bonifico.js
   var PREZZO = 5;        // € a viaggio (sovrascritto da bonifico.js)
-  var ultimoPdf = null;  // { blob, nome } per i bottoni "Scarica il riepilogo dell'ordine"
+  var ultimoPdf = null;  // { blob, nome } per i bottoni "Scarica il riepilogo del dono"
   var $ = function (id) { return document.getElementById(id); };
   var euro = function (n) { return n.toLocaleString('it-IT') + ' €'; };
 
@@ -611,14 +611,14 @@
 
     // codice e data
     y = 56;
-    doc.setTextColor.apply(doc, GRIGIO); doc.setFontSize(9); doc.text('CODICE ORDINE', M, y);
+    doc.setTextColor.apply(doc, GRIGIO); doc.setFontSize(9); doc.text('CODICE DONO', M, y);
     doc.text('DATA', 130, y);
     doc.setTextColor.apply(doc, ROSSO); doc.setFont('helvetica', 'bold'); doc.setFontSize(18); doc.text(dati.codice, M, y + 8);
     doc.setTextColor.apply(doc, TESTO); doc.setFontSize(12); doc.text(dati.dataIt, 130, y + 8);
 
     // dati azienda
     y = 78;
-    doc.setTextColor.apply(doc, NAVY); doc.setFontSize(12); doc.text('Dati dell\'ordine', M, y);
+    doc.setTextColor.apply(doc, NAVY); doc.setFontSize(12); doc.text('Dati del dono', M, y);
     doc.setFontSize(10);
     var righe = dati.tipo === 'azienda'
       ? [['Ragione sociale', dati.azienda], ['Partita IVA', dati.piva], ['Sede legale', dati.sede], ['Referente', dati.nome + ' ' + dati.cognome], ['Email', dati.email]]
@@ -686,7 +686,7 @@
     doc.setTextColor.apply(doc, TESTO); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
     doc.text('La ricevuta ti verrà inviata all\'indirizzo email indicato.', M, y);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
-    doc.text(doc.splitTextToSize('Indica sempre il codice ordine nella causale: ci è utile per abbinare il bonifico al tuo ordine. Una volta ricevuto l\'accredito prepareremo le confezioni regalo e ci accorderemo per la consegna.', W - M * 2), M, y + 6);
+    doc.text(doc.splitTextToSize('Indica sempre il codice del dono nella causale: ci è utile per abbinare il bonifico al tuo dono. Una volta ricevuto l\'accredito prepareremo le confezioni regalo e ci accorderemo per la consegna.', W - M * 2), M, y + 6);
 
     doc.setFillColor.apply(doc, NAVY); doc.rect(0, 272, W, 25, 'F');
     doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
@@ -710,7 +710,7 @@
 
   function mostraEsito(tipo, html) {
     $('area-form').innerHTML = '<div class="esito ' + tipo + '" role="status" tabindex="-1">' + html +
-      '<br><button type="button" class="btn" id="riscarica">Scarica il riepilogo dell\'ordine</button></div>';
+      '<br><button type="button" class="btn" id="riscarica">Scarica il riepilogo del dono</button></div>';
     $('riscarica').addEventListener('click', scaricaPdf);
     var box = $('area-form').firstChild;
     box.scrollIntoView({ behavior: 'smooth', block: 'center' }); box.focus({ preventScroll: true });
@@ -844,7 +844,7 @@
 
   // ---- schermata di ringraziamento ----
   function mostraGrazie(dati, dissolvenza) {
-    $('g-codice').textContent = 'Ordine ' + dati.codice;
+    $('g-codice').textContent = 'Dono ' + dati.codice;
     $('g-testo').innerHTML = 'Grazie <strong>' + esc(dati.azienda) + '</strong>! Scegliere di donare anche un solo ' +
       '<strong>“viaggio magico”</strong> ci aiuta a continuare a offrire un servizio gratuito ai bimbi che devono affrontare ' +
       'le terapie e alle loro famiglie.';
@@ -914,8 +914,8 @@
       } catch (e) { /* senza PDF restano comunque i dati del bonifico a schermo */ }
       var c = esc(codice);
       function rivela() {
-        mostraEsito('ok', '<h3>Grazie! Ordine <span class="codice">' + c + '</span> inviato.</h3>' +
-          '<p>Abbiamo ricevuto il tuo ordine. Scarica il PDF con l\'importo esatto e i dati per il bonifico: ricordati di inserire il codice ordine in causale.</p>');
+        mostraEsito('ok', '<h3>Grazie! Il tuo dono <span class="codice">' + c + '</span> è stato inviato.</h3>' +
+          '<p>Abbiamo ricevuto il tuo dono. Scarica il PDF con l\'importo esatto e i dati per il bonifico: ricordati di inserire il codice del dono in causale.</p>');
         mostraGrazie(dati, riduciMovimento ? 0 : 1200);
       }
       // l'auto è al sole: il sole esplode in coriandoli, sotto compare il ringraziamento e i coriandoli cadono scoprendolo
@@ -927,7 +927,7 @@
       // ordine non registrato: il form resta compilato e si può riprovare
       tornaIndietro();
       btn.disabled = false; btn.textContent = 'Conferma i tuoi doni';
-      mostraErrori([{ el: btn, msg: 'L\'ordine non è stato inviato. Riprova tra qualche minuto; se il problema continua scrivici a info@amicidilollo.it.' }], true);
+      mostraErrori([{ el: btn, msg: 'Il dono non è stato inviato. Riprova tra qualche minuto; se il problema continua scrivici a info@amicidilollo.it.' }], true);
     });
   });
 

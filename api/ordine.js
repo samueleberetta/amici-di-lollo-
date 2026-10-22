@@ -124,9 +124,9 @@ function emailInterna(o) {
   const riga = (k, v) => `<tr><td style="padding:7px 12px 7px 0;font-family:${FONT};font-size:13px;color:${C.grigio};font-weight:700;vertical-align:top;white-space:nowrap;">${k}</td><td style="padding:7px 0;font-family:${FONT};font-size:14px;color:${C.testo};">${v}</td></tr>`;
   return `<!DOCTYPE html><html lang="it"><body style="margin:0;padding:20px;background:#ffffff;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:640px;">
-<tr><td style="font-family:${FONT_H};font-size:22px;color:${C.navy};font-weight:600;padding-bottom:4px;">Nuovo ordine ${esc(o.codice)}</td></tr>
+<tr><td style="font-family:${FONT_H};font-size:22px;color:${C.navy};font-weight:600;padding-bottom:4px;">Nuovo dono ${esc(o.codice)}</td></tr>
 <tr><td style="font-family:${FONT};font-size:13px;color:${C.grigio};padding-bottom:12px;">${esc(dataOraItaliana())}</td></tr>
-<tr><td style="font-family:${FONT};font-size:16px;color:${C.testo};padding-bottom:16px;"><strong>${esc(o.azienda)}</strong> ha ordinato <strong>${o.pacchetti} ${o.pacchetti === 1 ? 'dono solidale' : 'doni solidali'}</strong> per un totale di <strong>${o.viaggi} viaggi</strong>, cioè <strong>${euro(o.totale)}</strong> da ricevere con bonifico.</td></tr>
+<tr><td style="font-family:${FONT};font-size:16px;color:${C.testo};padding-bottom:16px;"><strong>${esc(o.azienda)}</strong> ha donato <strong>${o.pacchetti} ${o.pacchetti === 1 ? 'dono solidale' : 'doni solidali'}</strong> per un totale di <strong>${o.viaggi} viaggi</strong>, cioè <strong>${euro(o.totale)}</strong> da ricevere con bonifico.</td></tr>
 <tr><td><table role="presentation" cellpadding="0" cellspacing="0">
 ${riga('Codice', `<strong style="color:${C.rosso};">${esc(o.codice)}</strong>`)}
 ${o.tipo === 'azienda'
@@ -202,11 +202,11 @@ module.exports = async function handler(req, res) {
     o.codice = await prossimoCodice();
   } catch (err) {
     console.error('Errore del contatore ordini:', err);
-    return res.status(502).json({ ok: false, error: 'Numerazione degli ordini non disponibile' });
+    return res.status(502).json({ ok: false, error: 'Numerazione dei doni non disponibile' });
   }
   if (!o.codice) {
     console.error(`Numerazione esaurita: superati i ${MAX_ORDINI} ordini dell'anno`);
-    return res.status(409).json({ ok: false, error: 'Numerazione degli ordini esaurita' });
+    return res.status(409).json({ ok: false, error: 'Numerazione dei doni esaurita' });
   }
   o.causale = causale(o.codice, o.azienda);
 
@@ -215,15 +215,15 @@ module.exports = async function handler(req, res) {
       from: FROM_EMAIL,
       to: ORDER_TO_EMAIL.split(',').map((s) => s.trim()).filter(Boolean),
       reply_to: o.email,
-      subject: `Nuovo ordine ${o.codice} – ${o.azienda} ha ordinato ${o.viaggi} viaggi – ${o.totale} €`,
+      subject: `Nuovo dono ${o.codice} – ${o.azienda} ha donato ${o.viaggi} viaggi – ${o.totale} €`,
       html: emailInterna(o),
     });
     if (!inviata) {
-      return res.status(502).json({ ok: false, error: 'Invio dell\'ordine non riuscito' });
+      return res.status(502).json({ ok: false, error: 'Invio del dono non riuscito' });
     }
     return res.status(200).json({ ok: true, codice: o.codice });
   } catch (err) {
     console.error('Errore di rete verso Resend:', err);
-    return res.status(502).json({ ok: false, error: 'Invio dell\'ordine non riuscito' });
+    return res.status(502).json({ ok: false, error: 'Invio del dono non riuscito' });
   }
 };
