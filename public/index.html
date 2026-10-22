@@ -397,7 +397,7 @@
         <div><dt>Banca</dt><dd id="g-banca"></dd></div>
         <div><dt>Causale</dt><dd id="g-causale"></dd></div>
       </dl>
-      <p>Scarica il PDF con tutti i dati per fare il bonifico. Dopo l'accredito ti mandiamo la ricevuta della donazione e prepariamo le confezioni regalo.</p>
+      <p>Scarica il PDF con tutti i dati per fare il bonifico. Dopo l'accredito ti mandiamo la ricevuta di erogazione liberale e prepariamo le confezioni regalo.</p>
       <button type="button" class="btn" id="g-pdf">Scarica il riepilogo del dono</button>
     </div>
     <img class="auto" src="img/auto-fiocco.jpg" alt="" width="1200" height="349">
@@ -424,7 +424,7 @@
   <div class="in">
     <h3 id="privacy-titolo">Informativa privacy</h3>
     <p><strong>Titolare del trattamento:</strong> Associazione Amici di Lollo ODV, Via Nazario Sauro 1, 20851 Lissone (MB), C.F. 94625800159, <a href="mailto:info@amicidilollo.it">info@amicidilollo.it</a>.</p>
-    <p><strong>Dati e finalità:</strong> i dati inseriti nel form (nome e dati fiscali, referente, email, telefono, indirizzo e note) sono usati solo per gestire il tuo dono: ricontattarti se serve, abbinare il bonifico, preparare e consegnare le confezioni, emettere la ricevuta della donazione.</p>
+    <p><strong>Dati e finalità:</strong> i dati inseriti nel form (nome e dati fiscali, referente, email, telefono, indirizzo e note) sono usati solo per gestire il tuo dono: ricontattarti se serve, abbinare il bonifico, preparare e consegnare le confezioni, emettere la ricevuta di erogazione liberale.</p>
     <p><strong>Base giuridica e conservazione:</strong> esecuzione della tua richiesta e obblighi di legge. I dati non sono ceduti a terzi né usati per altre comunicazioni, e sono conservati per il tempo necessario a questi scopi e agli obblighi contabili.</p>
     <p><strong>I tuoi diritti:</strong> puoi chiedere accesso, rettifica o cancellazione dei dati scrivendo a info@amicidilollo.it.</p>
     <button type="button" class="btn" id="chiudi-privacy" style="margin-top:6px">Ho capito</button>
@@ -684,7 +684,7 @@
 
     // nota e contatti
     doc.setTextColor.apply(doc, TESTO); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
-    doc.text('La ricevuta ti verrà inviata all\'indirizzo email indicato.', M, y);
+    doc.text('La ricevuta di erogazione liberale ti verrà inviata all\'indirizzo email indicato.', M, y);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
     doc.text(doc.splitTextToSize('Indica sempre il codice del dono nella causale: ci è utile per abbinare il bonifico al tuo dono. Una volta ricevuto l\'accredito prepareremo le confezioni regalo e ci accorderemo per la consegna.', W - M * 2), M, y + 6);
 
