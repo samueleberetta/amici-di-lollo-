@@ -82,7 +82,7 @@ vercel --prod
 
 Oppure collegate la cartella a un repository GitHub e importatelo su Vercel: ogni push fa il deploy da solo. Non c'è nessun build step.
 
-Il bottone della mail di proposta (`mail_regali_aziendali_lollo23.html`) punta a `https://amici-di-lollo.vercel.app/#ordina`. Se il progetto Vercel ha un altro nome o usate un dominio vostro, aggiornate quel link e il meta `og:image` in `public/index.html`.
+La landing è pubblicata anche come pagina WordPress dell'associazione, `https://www.amicidilollo.it/donisolidali/` (pagina n. 2483, modello Elementor Canvas, un blocco HTML con un iframe a tutto schermo verso `https://amici-di-lollo.vercel.app/`). Il bottone della mail di proposta (`mail_regali_aziendali_lollo23.html`) punta a quella pagina. Se il progetto Vercel ha un altro nome o usate un dominio vostro, aggiornate quel link e il meta `og:image` in `public/index.html`.
 
 ## Cambiare IBAN e prezzi
 
